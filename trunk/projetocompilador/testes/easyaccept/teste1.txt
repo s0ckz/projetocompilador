@@ -2,6 +2,7 @@
 
 IDENT=echo 1
 NUMERO=echo 2
+CADEIA=echo 3
 
 OP_IGUAL=echo 11
 OP_SOMA=echo 12
@@ -10,75 +11,58 @@ OP_MULT=echo 14
 
 OP_MAIOR_QUE=echo 16
 
-DELIMITADOR=echo 21
-PONTUACAO=echo 22
+PARENTISADOR_ABRE_PARENTESES=echo 21
+PARENTISADOR_FECHA_PARENTESES=echo 22
+PARENTISADOR_ABRE_CHAVES=echo 23
+PARENTISADOR_FECHA_CHAVES=echo 24
 
-TIPO=echo 51
+DELIMITADOR_COMANDO=echo 40
+
+INTEGER=echo 53
+STRING=echo 52
+
+CMD_READ=echo 59
+CMD_WRITE=echo 60
+CMD_IF=echo 55
+CMD_THEN=echo 56
 
 initialize fileName="testes\\files\\in1.txt"
 
 # expect line: int media; 
-expect ${TIPO}:int proximoSimbolo
+expect ${INTEGER}:int proximoSimbolo
 expect ${IDENT}:media proximoSimbolo
-expect ${PONTUACAO}:; proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
 
 # expect line: string aprovado
-expect ${TIPO}:string proximoSimbolo
+expect ${STRING}:string proximoSimbolo
 expect ${IDENT}:aprovado proximoSimbolo
-expect ${PONTUACAO}:; proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
 
 #expect line: read media;
-expect ${IDENT}:read proximoSimbolo
+expect ${CMD_READ}:read proximoSimbolo
 expect ${IDENT}:media proximoSimbolo
-expect ${PONTUACAO}:; proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
 
 #expect line: if (media > 7) then {
-expect ${IDENT}:if proximoSimbolo
-expect ${DELIMITADOR}:( proximoSimbolo
+expect ${CMD_IF}:if proximoSimbolo
+expect ${PARENTISADOR_ABRE_PARENTESES}:( proximoSimbolo
 expect ${IDENT}:media proximoSimbolo
 expect ${OP_MAIOR_QUE}:> proximoSimbolo
 expect ${NUMERO}:7 proximoSimbolo
-expect ${DELIMITADOR}:) proximoSimbolo
-expect ${IDENT}:then proximoSimbolo
-expect ${DELIMITADOR}:{ proximoSimbolo
+expect ${PARENTISADOR_FECHA_PARENTESES}:) proximoSimbolo
+expect ${CMD_THEN}:then proximoSimbolo
+expect ${PARENTISADOR_ABRE_CHAVES}:{ proximoSimbolo
 
 #expect line: aprovado = "voce foi aprovado por media";
 expect ${IDENT}:aprovado proximoSimbolo
 expect ${OP_IGUAL}:\= proximoSimbolo
-
-
-
-
-
-
-
-
-
-
-
-
-# Eu nao sei se aqui eh um IDENT, alguem sabe?????
-expect ${IDENT}:\""voce foi aprovado por media\"" proximoSimbolo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-expect ${PONTUACAO}:; proximoSimbolo
+expect ${CADEIA}:"\"voce foi aprovado por media\"" proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
 
 #expect line: write aprovado;
-expect ${IDENT}:write proximoSimbolo
+expect ${CMD_WRITE}:write proximoSimbolo
 expect ${IDENT}:aprovado proximoSimbolo
-expect ${PONTUACAO}:; proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
 
 #expect line: }
-expect ${DELIMITADOR}:} proximoSimbolo
+expect ${PARENTISADOR_FECHA_CHAVES}:} proximoSimbolo

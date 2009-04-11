@@ -1,13 +1,33 @@
 package compilador.lexico;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
+import compilador.util.ConjuntoCodigos;
 import compilador.util.Simbolo;
 
 public class AnalisadorLexico {
 	
+	public static final int TAMANHO_MAXIMO_NUMERO = 32;
+	
+	public static final int TAMANHO_MAXIMO_IDENTIFICADOR = 64;
+
+	private static final int TAMANHO_MAXIMO_CADEIA = 512;
+	
 	private BufferedReader bufferedReader;
 	
+	private int caractereAtual;
+	
+	private boolean obteveSimbolo;
+	
+	private Simbolo simboloAtual;
+	
+	private List<String> advertencias = new LinkedList<String>();
+	
+	private boolean caractereAMaisLido = false;
+
 	public AnalisadorLexico(BufferedReader bufferedReader) {
 		this.bufferedReader = bufferedReader;
 	}
@@ -16,6 +36,151 @@ public class AnalisadorLexico {
 		if (bufferedReader == null) {
 			throw new AnalisadorLexicoException("Analisador Lexico nao foi inicializado.");
 		}
-		return new Simbolo(51,"int");
+
+		obteveSimbolo = false;
+		while ( !obteveSimbolo ) {
+			
+			if (!caractereAMaisLido)
+				proximoCaractereNaoBranco();
+			else
+				caractereAMaisLido = false;
+			
+			if (caractereAtual == -1)
+				return null;
+			
+			simboloAtual = null;
+			if (Character.isLetter(caractereAtual))
+				identificador();
+			else if (Character.isDigit(caractereAtual))
+				numero();
+			else
+				operadorParentisadorOuPontuacao();
+		}
+		
+		return simboloAtual;
+	}
+	
+	private void operadorParentisadorOuPontuacao() {
+		if (!parentisador() && !pontuacao() && !cadeia())
+			operador();
+	}
+
+	private boolean cadeia() {
+		if (caractereAtual == '"') {
+			StringBuilder cadeia = new StringBuilder();
+
+			while (proximoCaractere() != -1 && caractereAtual != '"') {
+				cadeia.append((char) caractereAtual);
+			}
+			
+			if (caractereAtual != -1) {
+				if (cadeia.length() > TAMANHO_MAXIMO_CADEIA) {
+					advertencias.add("Tamanho máximo das cadeias de caracteres deve ser " + TAMANHO_MAXIMO_CADEIA);
+					cadeia.setLength(TAMANHO_MAXIMO_CADEIA);
+				}
+				simboloAtual = new Simbolo(ConjuntoCodigos.CADEIA, '"' + cadeia.toString() + '"');
+				obteveSimbolo = true;
+			} else {
+				advertencias.add("Cadeias de caracteres devem conter aspas no final delas.");
+			}
+		}
+		return obteveSimbolo;
+	}
+
+	private boolean pontuacao() {
+		if (caractereAtual == ';') {
+			simboloAtual = new Simbolo(ConjuntoCodigos.DELIMITADOR_COMANDO, caractereAtual);
+			obteveSimbolo = true;
+		}
+		return obteveSimbolo;
+	}
+
+	private boolean parentisador() {
+		int codigo = ConjuntoCodigos.getCodigoParaParentisador((char) caractereAtual + "");
+		if (codigo != -1) {
+			simboloAtual = new Simbolo(codigo, caractereAtual);
+			obteveSimbolo = true;
+		}
+		return obteveSimbolo;
+	}
+
+	private void numero() {
+		StringBuilder cadeia = new StringBuilder();
+		while (Character.isDigit(caractereAtual)) {
+			cadeia.append((char) caractereAtual);
+			proximoCaractere();
+			atualizarCaractereAMaisLido();
+		}
+		
+		if (cadeia.length() > TAMANHO_MAXIMO_NUMERO) {
+			cadeia.setLength(TAMANHO_MAXIMO_NUMERO);
+			advertencias.add("Tamanho máximo para números é " + TAMANHO_MAXIMO_NUMERO);
+		}
+		simboloAtual = new Simbolo(ConjuntoCodigos.NUMERO, cadeia.toString());
+		obteveSimbolo = true;
+	}
+
+	private void identificador() {
+		StringBuilder cadeia = new StringBuilder();
+		while (Character.isLetterOrDigit(caractereAtual)) {
+			cadeia.append((char) caractereAtual);
+			proximoCaractere();
+			atualizarCaractereAMaisLido();
+		}
+		
+		if (cadeia.length() > TAMANHO_MAXIMO_IDENTIFICADOR) {
+			cadeia.setLength(TAMANHO_MAXIMO_IDENTIFICADOR);
+			advertencias.add("Tamanho máximo para identificador é " + TAMANHO_MAXIMO_IDENTIFICADOR);
+		}
+		simboloAtual = new Simbolo(ConjuntoCodigos.getCodigoParaIdentificador(cadeia.toString()), cadeia.toString());
+		obteveSimbolo = true;
+	}
+
+	private void operador() {
+		obteveSimbolo = true;
+		
+		int codigo = -1;
+		if (caractereAtual == '+')
+			codigo = ConjuntoCodigos.OP_SOMA;
+		else if (caractereAtual == '-')
+			codigo = ConjuntoCodigos.OP_SUBTRACAO;
+		else if (caractereAtual == '*') {
+			proximoCaractere();
+			atualizarCaractereAMaisLido();
+			if (caractereAtual == '*')
+				codigo = ConjuntoCodigos.OP_POTENCIA;
+			else
+				codigo = ConjuntoCodigos.OP_MULTIPLICACAO;
+		} else if (caractereAtual == '>')
+			codigo = ConjuntoCodigos.OP_MAIOR_QUE;
+		else if (caractereAtual == '=')
+			codigo = ConjuntoCodigos.OP_IGUAL;
+		else {
+			obteveSimbolo = false;
+			advertencias.add("Não foi possível identificar o símbolo.");
+		}
+		
+		if (obteveSimbolo)
+			simboloAtual = new Simbolo(codigo, caractereAtual);
+	}
+
+	private int proximoCaractere() {
+		try {
+			caractereAtual = bufferedReader.read();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return caractereAtual;
+	}
+
+	private void proximoCaractereNaoBranco() {
+		while (proximoCaractere() == ' '
+				|| caractereAtual == '\n'
+				|| caractereAtual == '\r'
+				|| caractereAtual == '\t');
+	}
+
+	private void atualizarCaractereAMaisLido() {
+		caractereAMaisLido = caractereAtual != ' ';
 	}
 }
