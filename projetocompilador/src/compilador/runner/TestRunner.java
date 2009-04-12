@@ -15,6 +15,10 @@ public class TestRunner {
 		LexicoEasyAcceptFacade facade = new LexicoEasyAcceptFacade();
 		List<String> files = new LinkedList<String>();
 		files.add("testes"+SEP+"easyaccept"+SEP+"teste1.txt");
+		files.add("testes"+SEP+"easyaccept"+SEP+"teste2.txt");
+		files.add("testes"+SEP+"easyaccept"+SEP+"teste3.txt");
+		files.add("testes"+SEP+"easyaccept"+SEP+"teste4.txt");
+		files.add("testes"+SEP+"easyaccept"+SEP+"teste5.txt");
 		EasyAcceptFacade eaFacade = new EasyAcceptFacade(facade,files);
 		eaFacade.executeTests();
 		System.out.println(eaFacade.getCompleteResults());
