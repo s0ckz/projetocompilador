@@ -1,0 +1,3 @@
+const int LIMITE;
+const string MENSAGEM;
+int[50] vetor;
