@@ -138,30 +138,21 @@ public class AnalisadorLexico {
 
 	private void operador() {
 		obteveSimbolo = true;
-		
-		int codigo = -1;
-		if (caractereAtual == '+')
-			codigo = ConjuntoCodigos.OP_SOMA;
-		else if (caractereAtual == '-')
-			codigo = ConjuntoCodigos.OP_SUBTRACAO;
-		else if (caractereAtual == '*') {
+		StringBuilder cadeia = new StringBuilder();
+		while (ConjuntoCodigos.isSimbolo((char) caractereAtual)) {
+			cadeia.append((char) caractereAtual);
 			proximoCaractere();
 			atualizarCaractereAMaisLido();
-			if (caractereAtual == '*')
-				codigo = ConjuntoCodigos.OP_POTENCIA;
-			else
-				codigo = ConjuntoCodigos.OP_MULTIPLICACAO;
-		} else if (caractereAtual == '>')
-			codigo = ConjuntoCodigos.OP_MAIOR_QUE;
-		else if (caractereAtual == '=')
-			codigo = ConjuntoCodigos.OP_IGUAL;
-		else {
+		}
+
+		int codigo = ConjuntoCodigos.getCodigoParaSimbolo(cadeia.toString());
+		if (codigo != -1) {
+			simboloAtual = new Simbolo(codigo, cadeia.toString());
+			obteveSimbolo = true;
+		} else {
 			obteveSimbolo = false;
 			advertencias.add("Não foi possível identificar o símbolo.");
 		}
-		
-		if (obteveSimbolo)
-			simboloAtual = new Simbolo(codigo, caractereAtual);
 	}
 
 	private int proximoCaractere() {
