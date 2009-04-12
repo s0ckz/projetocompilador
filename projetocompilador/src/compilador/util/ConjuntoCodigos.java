@@ -1,7 +1,10 @@
 package compilador.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ConjuntoCodigos {
 	
@@ -14,8 +17,9 @@ public class ConjuntoCodigos {
 	public static final int OP_SUBTRACAO = 13;
 	public static final int OP_MULTIPLICACAO = 14;
 	public static final int OP_POTENCIA = 15;
-	
+
 	public static final int OP_MAIOR_QUE = 16;
+	public static final int OP_ATRIBUICAO = 17;
 
 	public static final int PARENTISADOR_ABRE_PARENTESES = 21;
 	public static final int PARENTISADOR_FECHA_PARENTESES = 22;
@@ -44,6 +48,15 @@ public class ConjuntoCodigos {
 	
 	private static Map<String, Integer> parentisadores;
 	
+	private static Map<String, Integer> simbolos;
+	
+	private static Set<Character> conjuntoSimbolos =
+		new HashSet<Character>(
+			Arrays.asList(
+				'+', '-', '*', '/', '>', '<', '=', '!'
+			)
+		);
+	
 	static {
 		palavrasReservadas = new HashMap<String, Integer>();
 		palavrasReservadas.put("const", CONST);
@@ -67,6 +80,15 @@ public class ConjuntoCodigos {
 		parentisadores.put("]", PARENTISADOR_FECHA_COLCHETE);
 		parentisadores.put("{", PARENTISADOR_ABRE_CHAVES);
 		parentisadores.put("}", PARENTISADOR_FECHA_CHAVES);
+
+		simbolos = new HashMap<String, Integer>();
+		simbolos.put("+", OP_SOMA);
+		simbolos.put("-", OP_SUBTRACAO);
+		simbolos.put("*", OP_MULTIPLICACAO);
+		simbolos.put("=", OP_IGUAL);
+		simbolos.put("==", OP_ATRIBUICAO);
+		simbolos.put("**", OP_POTENCIA);
+		simbolos.put(">", OP_MAIOR_QUE);
 	}
 	
 	/**
@@ -91,6 +113,21 @@ public class ConjuntoCodigos {
 		if (codigo == null)
 			return -1;
 		return codigo;
+	}
+	/**
+	 * Retorna o código para um símbolo. Se não for símbolo, retorna -1.
+	 * @param cadeia Cadeia a ser verificada.
+	 * @return -1 se a cadeia enviada não for um símbolo.
+	 */
+	public static int getCodigoParaSimbolo(String cadeia) {
+		Integer codigo = simbolos.get(cadeia);
+		if (codigo == null)
+			return -1;
+		return codigo;
+	}
+
+	public static boolean isSimbolo(char caractere) {
+		return conjuntoSimbolos.contains(caractere);
 	}
 
 }
