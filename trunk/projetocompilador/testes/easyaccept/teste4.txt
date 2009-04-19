@@ -31,6 +31,8 @@ CMD_THEN=echo 56
 
 TRUE=echo 62
 
+reset
+
 initialize fileName="testes\\files\\in4.txt"
 
 # expect line: while (condicao == true) {
