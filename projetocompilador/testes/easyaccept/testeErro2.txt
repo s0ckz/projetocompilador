@@ -1,0 +1,41 @@
+# teste de erro 2: testa tamanhos máximos para identificador, numero e cadeias.
+
+DELIMITADOR_COMANDO=echo 40
+INTEGER=echo 53
+STRING=echo 52
+NUMERO=echo 2
+CADEIA=echo 3
+IDENT=echo 1
+OP_ATRIBUICAO=echo 17
+
+reset
+
+initialize fileName="testes\\files\\inErro2.txt"
+
+expect ${INTEGER}:int proximoSimbolo
+expect ${IDENT}:identificadorGrandeIdentificadorGrandeIdentificadorGrandeIdentif proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
+
+expect ${INTEGER}:int proximoSimbolo
+expect ${IDENT}:identificadorGrandeIdentificadorGrandeIdentificadorGrandeIdentif proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
+
+expect ${NUMERO}:12345678901234567890123456789012 proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
+
+expect ${NUMERO}:12345678901234567890123456789012 proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
+
+expect ${STRING}:string proximoSimbolo
+expect ${IDENT}:str proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
+
+expect ${IDENT}:str proximoSimbolo
+expect ${OP_ATRIBUICAO}:\= proximoSimbolo
+expect ${CADEIA}:"\"cadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGr\"" proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
+
+expect ${IDENT}:str proximoSimbolo
+expect ${OP_ATRIBUICAO}:\= proximoSimbolo
+expect ${CADEIA}:"\"cadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGrandeCadeiaGr\"" proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo

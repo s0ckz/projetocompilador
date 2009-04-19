@@ -19,6 +19,8 @@ public class TestRunner {
 		files.add("testes"+SEP+"easyaccept"+SEP+"teste3.txt");
 		files.add("testes"+SEP+"easyaccept"+SEP+"teste4.txt");
 		files.add("testes"+SEP+"easyaccept"+SEP+"teste5.txt");
+		files.add("testes"+SEP+"easyaccept"+SEP+"testeErro1.txt");
+		files.add("testes"+SEP+"easyaccept"+SEP+"testeErro2.txt");
 		EasyAcceptFacade eaFacade = new EasyAcceptFacade(facade,files);
 		eaFacade.executeTests();
 		System.out.println(eaFacade.getCompleteResults());

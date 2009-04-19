@@ -1,0 +1,19 @@
+# teste de erro 1: testa proximo simbolo apos ter lido todo o codigo fonte.
+
+DELIMITADOR_COMANDO=echo 40
+INTEGER=echo 53
+IDENT=echo 1
+
+reset
+
+expectError "Analisador Lexico nao foi inicializado." proximoSimbolo
+
+reset
+
+initialize fileName="testes\\files\\inErro1.txt"
+
+expect ${INTEGER}:int proximoSimbolo
+expect ${IDENT}:a proximoSimbolo
+expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
+
+expect null proximoSimbolo 

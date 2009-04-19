@@ -27,8 +27,15 @@ public class AnalisadorLexico {
 	private List<String> advertencias = new LinkedList<String>();
 	
 	private boolean caractereAMaisLido = false;
+	
+	public AnalisadorLexico() {
+	}
 
 	public AnalisadorLexico(BufferedReader bufferedReader) {
+		initialize(bufferedReader);
+	}
+
+	public void initialize(BufferedReader bufferedReader) {
 		this.bufferedReader = bufferedReader;
 	}
 

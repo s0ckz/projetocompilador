@@ -28,6 +28,8 @@ CMD_WRITE=echo 60
 CMD_IF=echo 55
 CMD_THEN=echo 56
 
+reset
+
 initialize fileName="testes\\files\\in3.txt"
 
 # expect line: def integer proc() {
