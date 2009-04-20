@@ -85,8 +85,8 @@ public class ConjuntoCodigos {
 		simbolos.put("+", OP_SOMA);
 		simbolos.put("-", OP_SUBTRACAO);
 		simbolos.put("*", OP_MULTIPLICACAO);
-		simbolos.put("=", OP_IGUAL);
-		simbolos.put("==", OP_ATRIBUICAO);
+		simbolos.put("==", OP_IGUAL);
+		simbolos.put("=", OP_ATRIBUICAO);
 		simbolos.put("**", OP_POTENCIA);
 		simbolos.put(">", OP_MAIOR_QUE);
 	}

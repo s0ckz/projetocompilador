@@ -4,7 +4,7 @@ IDENT=echo 1
 NUMERO=echo 2
 CADEIA=echo 3
 
-OP_IGUAL=echo 11
+OP_ATRIBUICAO=echo 17
 OP_SOMA=echo 12
 OP_SUB=echo 13
 OP_MULT=echo 14
@@ -57,7 +57,7 @@ expect ${PARENTISADOR_ABRE_CHAVES}:{ proximoSimbolo
 
 #expect line: aprovado = "voce foi aprovado por media";
 expect ${IDENT}:aprovado proximoSimbolo
-expect ${OP_IGUAL}:\= proximoSimbolo
+expect ${OP_ATRIBUICAO}:\= proximoSimbolo
 expect ${CADEIA}:"\"voce foi aprovado por media\"" proximoSimbolo
 expect ${DELIMITADOR_COMANDO}:; proximoSimbolo
 
