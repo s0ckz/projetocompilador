@@ -39,7 +39,7 @@ initialize fileName="testes\\files\\in4.txt"
 expect ${CMD_WHILE}:while proximoSimbolo
 expect ${PARENTISADOR_ABRE_PARENTESES}:( proximoSimbolo
 expect ${IDENT}:condicao proximoSimbolo
-expect ${OP_ATRIBUICAO}:\=\= proximoSimbolo
+expect ${OP_IGUAL}:\=\= proximoSimbolo
 expect ${TRUE}:true proximoSimbolo
 expect ${PARENTISADOR_FECHA_PARENTESES}:) proximoSimbolo
 expect ${PARENTISADOR_ABRE_CHAVES}:{ proximoSimbolo
