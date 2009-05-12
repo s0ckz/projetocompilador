@@ -35,4 +35,8 @@ public class Simbolo {
 		return codigo + ":"+cadeia;
 	}
 
+	public boolean isIdentificador() {
+		return getCodigo() == ConjuntoCodigos.IDENTIFICADOR;
+	}
+
 }

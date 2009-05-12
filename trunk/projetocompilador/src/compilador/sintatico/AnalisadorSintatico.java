@@ -10,8 +10,13 @@ public class AnalisadorSintatico {
 
 	private Simbolo simbolo;
 
-	public AnalisadorSintatico() {
-		lexico = new AnalisadorLexico();
+	public AnalisadorSintatico(AnalisadorLexico lexico) {
+		this.lexico = lexico;
+	}
+
+	public void analyse() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		lerProximoSimbolo();
+		programa();
 	}
 
 	private void programa() throws AnalisadorLexicoException,
@@ -19,48 +24,48 @@ public class AnalisadorSintatico {
 		declaracoes();
 		subprogramas();
 		bloco();
+		checarFinal();
+	}
+
+	private void checarFinal() throws AnalisadorSintaticoException {
+		if (simbolo != null)
+			throw new AnalisadorSintaticoException("'" + simbolo.getCadeia() + "' não esperado!");
 	}
 
 	private void declaracoes() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
-		if (declaracao())
-			mais_dec();
-	}
-
-	private void mais_dec() throws AnalisadorLexicoException,
-			AnalisadorSintaticoException {
-		if (optionalSymbol(";")) {
-			declaracao();
-			mais_dec();
+		if (declaracao()) {
+			requiredSymbol(";");
+			declaracoes();
 		}
 	}
 
 	private boolean declaracao() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
 		eh_const();
-		tipo();
-		eh_vetor();
-		identificador();
-		dec_resto();
-		return true;
+		if (tipo()) {
+			eh_vetor();
+			identificador();
+			dec_resto();
+			return true;
+		}
+		return false;
 	}
 
 	private void eh_const() throws AnalisadorLexicoException {
 		optionalSymbol("const");
 	}
 
-	private void dec_resto() throws AnalisadorLexicoException {
+	private void dec_resto() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (optionalSymbol(",")) {
 			identificador();
 			dec_resto();
 		}
 	}
 
-	private void tipo() throws AnalisadorLexicoException,
+	private boolean tipo() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
-		if (!optionalSymbol("int") && !optionalSymbol("string")) {
-			throw new AnalisadorSintaticoException("Tipo invalido");
-		}
+		return optionalSymbol("int") || optionalSymbol("string");
 	}
 
 	private void eh_vetor() throws AnalisadorLexicoException,
@@ -95,9 +100,10 @@ public class AnalisadorSintatico {
 
 	}
 
-	private void identificador() {
-		// TODO Auto-generated method stub
-
+	private void identificador() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (!simbolo.isIdentificador())
+			throw new AnalisadorSintaticoException("Esperava: 'IDENTIFICADOR'");
+		lerProximoSimbolo();
 	}
 
 	private void numero() {
@@ -107,8 +113,8 @@ public class AnalisadorSintatico {
 
 	private void requiredSymbol(String required)
 			throws AnalisadorLexicoException, AnalisadorSintaticoException {
-		if (simbolo.getCadeia().equals(required)) {
-			simbolo = lexico.proximoSimbolo();
+		if (simbolo != null && simbolo.getCadeia().equals(required)) {
+			lerProximoSimbolo();
 		} else {
 			throw new AnalisadorSintaticoException("Esperava: '" + required
 					+ "'");
@@ -116,11 +122,18 @@ public class AnalisadorSintatico {
 	}
 	
 	private boolean optionalSymbol(String optional) throws AnalisadorLexicoException {
+		if (simbolo == null)
+			return false;
+		
 		if (simbolo.getCadeia().equals(optional)) {
-			simbolo = lexico.proximoSimbolo();
+			lerProximoSimbolo();
 			return true;
 		}
 		return false;
+	}
+
+	private void lerProximoSimbolo() throws AnalisadorLexicoException {
+		simbolo = lexico.proximoSimbolo();
 	}
 
 }

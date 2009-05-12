@@ -1,0 +1,3 @@
+int media;
+string aprovado;
+read media;
