@@ -27,11 +27,6 @@ public class AnalisadorSintatico {
 		checarFinal();
 	}
 
-	private void checarFinal() throws AnalisadorSintaticoException {
-		if (simbolo != null)
-			throw new AnalisadorSintaticoException("'" + simbolo.getCadeia() + "' não esperado!");
-	}
-
 	private void declaracoes() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
 		if (declaracao()) {
@@ -45,10 +40,60 @@ public class AnalisadorSintatico {
 		eh_const();
 		if (tipo()) {
 			eh_vetor();
-			identificador();
+			valor_inicial();
 			dec_resto();
 			return true;
 		}
+		return false;
+	}
+
+	private void valor_inicial() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		requiredIdentificador();
+		valor_aux();
+	}
+
+	private void valor_aux() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("=")) {
+			valor();
+		}
+	}
+
+	private void valor() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (cadeia()) {
+		} else if (vetor()) {
+		} else {
+			expressao();
+		}
+	}
+
+	private boolean vetor() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("{")) {
+			valores();
+			requiredSymbol("}");
+			return true;
+		}
+		return false;
+	}
+
+	private void valores() throws AnalisadorLexicoException {
+		var_exp();
+		mais_valores();
+	}
+
+	private void mais_valores() throws AnalisadorLexicoException {
+		if (optionalSymbol(",")) {
+			var_exp();
+			mais_valores();
+		}
+	}
+
+	private void var_exp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private boolean cadeia() {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -58,7 +103,7 @@ public class AnalisadorSintatico {
 
 	private void dec_resto() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (optionalSymbol(",")) {
-			identificador();
+			requiredIdentificador();
 			dec_resto();
 		}
 	}
@@ -71,7 +116,7 @@ public class AnalisadorSintatico {
 	private void eh_vetor() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
 		if (optionalSymbol("[")) {
-			numero();
+			requiredNumero();
 			requiredSymbol("]");
 		}
 	}
@@ -80,7 +125,7 @@ public class AnalisadorSintatico {
 			AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
 			tipo_retorno();
-			identificador();
+			requiredIdentificador();
 			requiredSymbol("(");
 			requiredSymbol(")");
 			requiredSymbol("{");
@@ -93,7 +138,7 @@ public class AnalisadorSintatico {
 	private void tipo_retorno() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
 		if (!optionalSymbol("void") && !tipo())
-			throw new AnalisadorSintaticoException("Esperava: void, int ou string.");
+			lancarExcecaoEsperada("void, int ou string");
 	}
 	
 	private void expressao() throws AnalisadorLexicoException, AnalisadorSintaticoException {
@@ -130,8 +175,8 @@ public class AnalisadorSintatico {
 	}
 
 	private void pred() throws AnalisadorLexicoException, AnalisadorSintaticoException {
-		if (!numero(false) && !expressaoParentisada() && !escalar())
-			throw new AnalisadorSintaticoException("Esperado: numero, (expressão) ou identificador!");
+		if (!numero() && !expressaoParentisada() && !escalar())
+			lancarExcecaoEsperada("numero, (expressão) ou identificador");
 	}
 
 	private boolean expressaoParentisada() throws AnalisadorLexicoException, AnalisadorSintaticoException {
@@ -144,7 +189,7 @@ public class AnalisadorSintatico {
 	}
 	
 	private boolean escalar() throws AnalisadorLexicoException, AnalisadorSintaticoException {
-		if (identificador(false)) {
+		if (identificador()) {
 			eh_vetor();
 			return true;
 		}
@@ -154,46 +199,48 @@ public class AnalisadorSintatico {
 	private void bloco() {
 	}
 	
-	private void identificador() throws AnalisadorSintaticoException, AnalisadorLexicoException {
-		identificador(true);
-	}
-	
-	private void numero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
-		numero(true);
-	}
-
-	private boolean identificador(boolean lancarExcecao) throws AnalisadorSintaticoException, AnalisadorLexicoException {
+	private boolean identificador() throws AnalisadorLexicoException {
 		if (simbolo == null || !simbolo.isIdentificador()) {
-			if (lancarExcecao)
-				throw new AnalisadorSintaticoException("Esperava: 'IDENTIFICADOR'");
-			else
-				return false;
+			return false;
 		} else {
 			lerProximoSimbolo();
 			return true;
 		}
 	}
 
-	private boolean numero(boolean lancarExcecao) throws AnalisadorSintaticoException, AnalisadorLexicoException {
+	private boolean numero() throws AnalisadorLexicoException {
 		if (simbolo == null || !simbolo.isNumero()) {
-			if (lancarExcecao)
-				throw new AnalisadorSintaticoException("Esperava: 'NUMERO'");
-			else
-				return false;
+			return false;
 		} else {
 			lerProximoSimbolo();
 			return true;
 		}
 	}
+
+	private void requiredIdentificador() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (!identificador()) lancarExcecaoEsperada("IDENTIFICADOR");
+	}
+
+	private void requiredNumero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (!numero()) lancarExcecaoEsperada("NUMERO");
+	}
+
 
 	private void requiredSymbol(String required)
 			throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (simbolo != null && simbolo.getCadeia().equals(required)) {
 			lerProximoSimbolo();
 		} else {
-			throw new AnalisadorSintaticoException("Esperava: '" + required
-					+ "'");
+			lancarExcecaoEsperada(required);
 		}
+	}
+	
+	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
+		throw new AnalisadorSintaticoException("Esperava: '" + symbol + "'!");
+	}
+
+	private void lancarExcecaoNaoEsperada(String symbol) throws AnalisadorSintaticoException {
+		throw new AnalisadorSintaticoException("Não esperava: '" + symbol + "'!");
 	}
 	
 	private boolean optionalSymbol(String optional) throws AnalisadorLexicoException {
@@ -210,5 +257,11 @@ public class AnalisadorSintatico {
 	private void lerProximoSimbolo() throws AnalisadorLexicoException {
 		simbolo = lexico.proximoSimbolo();
 	}
+
+	private void checarFinal() throws AnalisadorSintaticoException {
+		if (simbolo != null) 
+			lancarExcecaoNaoEsperada(simbolo.getCadeia());
+	}
+
 
 }
