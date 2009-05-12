@@ -10,7 +10,7 @@ expectError "Analisador Lexico nao foi inicializado." proximoSimbolo
 
 reset
 
-initialize fileName="testes\\files\\inErro1.txt"
+initialize fileName="testes\\files\\lexico\\inErro1.txt"
 
 expect ${INTEGER}:int proximoSimbolo
 expect ${IDENT}:a proximoSimbolo

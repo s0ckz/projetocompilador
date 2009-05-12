@@ -1,4 +1,4 @@
-# Teste 3
+# Teste 4
 
 IDENT=echo 1
 NUMERO=echo 2
@@ -10,6 +10,7 @@ OP_SUB=echo 13
 OP_MULT=echo 14
 
 OP_MAIOR_QUE=echo 16
+OP_ATRIBUICAO=echo 17
 
 PARENTISADOR_ABRE_PARENTESES=echo 21
 PARENTISADOR_FECHA_PARENTESES=echo 22
@@ -22,21 +23,24 @@ CONST=echo 51
 INTEGER=echo 53
 STRING=echo 52
 
-CMD_DEF=echo 54
+CMD_WHILE=echo 58
 CMD_READ=echo 59
 CMD_WRITE=echo 60
 CMD_IF=echo 55
 CMD_THEN=echo 56
 
+TRUE=echo 62
+
 reset
 
-initialize fileName="testes\\files\\in3.txt"
+initialize fileName="testes\\files\\lexico\\in4.txt"
 
-# expect line: def integer proc() {
-expect ${CMD_DEF}:def proximoSimbolo
-expect ${INTEGER}:int proximoSimbolo
-expect ${IDENT}:proc proximoSimbolo
+# expect line: while (condicao == true) {
+expect ${CMD_WHILE}:while proximoSimbolo
 expect ${PARENTISADOR_ABRE_PARENTESES}:( proximoSimbolo
+expect ${IDENT}:condicao proximoSimbolo
+expect ${OP_IGUAL}:\=\= proximoSimbolo
+expect ${TRUE}:true proximoSimbolo
 expect ${PARENTISADOR_FECHA_PARENTESES}:) proximoSimbolo
 expect ${PARENTISADOR_ABRE_CHAVES}:{ proximoSimbolo
 
