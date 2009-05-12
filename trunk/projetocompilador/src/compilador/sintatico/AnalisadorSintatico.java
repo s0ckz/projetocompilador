@@ -130,8 +130,8 @@ public class AnalisadorSintatico {
 	}
 
 	private void pred() throws AnalisadorLexicoException, AnalisadorSintaticoException {
-		if (!simbolo.isNumero() && !expressaoParentisada() && !escalar())
-			throw new AnalisadorSintaticoException("'" + simbolo.getCadeia() + "' não esperado!");
+		if (!numero(false) && !expressaoParentisada() && !escalar())
+			throw new AnalisadorSintaticoException("Esperado: numero, (expressão) ou identificador!");
 	}
 
 	private boolean expressaoParentisada() throws AnalisadorLexicoException, AnalisadorSintaticoException {
@@ -144,7 +144,7 @@ public class AnalisadorSintatico {
 	}
 	
 	private boolean escalar() throws AnalisadorLexicoException, AnalisadorSintaticoException {
-		if (simbolo.isIdentificador()) {
+		if (identificador(false)) {
 			eh_vetor();
 			return true;
 		}
@@ -153,17 +153,37 @@ public class AnalisadorSintatico {
 
 	private void bloco() {
 	}
-
+	
 	private void identificador() throws AnalisadorSintaticoException, AnalisadorLexicoException {
-		if (!simbolo.isIdentificador())
-			throw new AnalisadorSintaticoException("Esperava: 'IDENTIFICADOR'");
-		lerProximoSimbolo();
+		identificador(true);
+	}
+	
+	private void numero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		numero(true);
 	}
 
-	private void numero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
-		if (!simbolo.isNumero())
-			throw new AnalisadorSintaticoException("Esperava: 'NUMERO'");
-		lerProximoSimbolo();
+	private boolean identificador(boolean lancarExcecao) throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (simbolo == null || !simbolo.isIdentificador()) {
+			if (lancarExcecao)
+				throw new AnalisadorSintaticoException("Esperava: 'IDENTIFICADOR'");
+			else
+				return false;
+		} else {
+			lerProximoSimbolo();
+			return true;
+		}
+	}
+
+	private boolean numero(boolean lancarExcecao) throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (simbolo == null || !simbolo.isNumero()) {
+			if (lancarExcecao)
+				throw new AnalisadorSintaticoException("Esperava: 'NUMERO'");
+			else
+				return false;
+		} else {
+			lerProximoSimbolo();
+			return true;
+		}
 	}
 
 	private void requiredSymbol(String required)
