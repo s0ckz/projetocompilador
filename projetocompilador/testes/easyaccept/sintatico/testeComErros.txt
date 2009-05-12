@@ -23,3 +23,7 @@ expectError "Esperava: 'IDENTIFICADOR'!" analyse  fileName="testes/files/sintati
 expectError "Esperava: '='!" analyse  fileName="testes/files/sintatico/inErro12.txt"
 
 expectError "Esperava: 'numero, (expressão) ou identificador'!" analyse  fileName="testes/files/sintatico/inErro13.txt"
+
+expectError "Esperava: 'numero, (expressão) ou identificador'!" analyse  fileName="testes/files/sintatico/inErro14.txt"
+
+expectError "Esperava: '}'!" analyse  fileName="testes/files/sintatico/inErro15.txt"
