@@ -11,3 +11,9 @@ expectError "'stringa' não esperado!" analyse  fileName="testes\\files\\sintatic
 expectError "Esperava: '}'" analyse  fileName="testes\\files\\sintatico\\inErro6.txt"
 
 expectError "Esperava: '}'" analyse  fileName="testes\\files\\sintatico\\inErro7.txt"
+
+expectError "Esperava: 'NUMERO'" analyse  fileName="testes\\files\\sintatico\\inErro8.txt"
+
+expectError "Esperava: ']'" analyse  fileName="testes\\files\\sintatico\\inErro9.txt"
+
+expectError "'int50' não esperado!" analyse  fileName="testes\\files\\sintatico\\inErro10.txt"
