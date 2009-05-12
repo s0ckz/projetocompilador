@@ -28,7 +28,7 @@ CMD_THEN=echo 56
 
 reset
 
-initialize fileName="testes\\files\\in1.txt"
+initialize fileName="testes\\files\\lexico\\in1.txt"
 
 # expect line: int media; 
 expect ${INTEGER}:int proximoSimbolo

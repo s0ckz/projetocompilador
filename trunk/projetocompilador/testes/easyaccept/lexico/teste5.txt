@@ -33,7 +33,7 @@ TRUE=echo 62
 
 reset
 
-initialize fileName="testes\\files\\in5.txt"
+initialize fileName="testes\\files\\lexico\\in5.txt"
 
 # expect line: (2 + 3) * (10 - 5) + 4**2
 expect ${PARENTISADOR_ABRE_PARENTESES}:( proximoSimbolo

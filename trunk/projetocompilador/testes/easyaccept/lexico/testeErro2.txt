@@ -10,7 +10,7 @@ OP_ATRIBUICAO=echo 17
 
 reset
 
-initialize fileName="testes\\files\\inErro2.txt"
+initialize fileName="testes\\files\\lexico\\inErro2.txt"
 
 expect ${INTEGER}:int proximoSimbolo
 expect ${IDENT}:identificadorGrandeIdentificadorGrandeIdentificadorGrandeIdentif proximoSimbolo
