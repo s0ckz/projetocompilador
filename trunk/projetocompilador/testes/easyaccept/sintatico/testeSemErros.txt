@@ -1,5 +1,3 @@
-# Teste 1
-
 reset
 
 initialize fileName="testes\\files\\sintatico\\in1.txt"
