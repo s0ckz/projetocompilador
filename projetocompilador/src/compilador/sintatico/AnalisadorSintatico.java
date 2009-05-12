@@ -92,7 +92,8 @@ public class AnalisadorSintatico {
 
 	private void tipo_retorno() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
-		if (!optionalSymbol("void")) tipo();
+		if (!optionalSymbol("void") && !tipo())
+			throw new AnalisadorSintaticoException("Esperava: void, int ou string.");
 	}
 
 	private void bloco() {

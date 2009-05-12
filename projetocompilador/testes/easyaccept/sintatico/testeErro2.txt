@@ -1,7 +1,0 @@
-# Teste 2
-
-reset
-
-initialize fileName="testes\\files\\sintatico\\inErro2.txt"
-
-expectError "'inta' não esperado!" analyse
