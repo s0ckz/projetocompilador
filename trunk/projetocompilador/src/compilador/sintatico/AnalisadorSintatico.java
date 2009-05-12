@@ -122,10 +122,6 @@ public class AnalisadorSintatico {
 		
 	}
 
-	private boolean eh_const() throws AnalisadorLexicoException {
-		return optionalSymbol("const");
-	}
-
 	private void dec_resto() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (optionalSymbol(",")) {
 			requiredIdentificador();
