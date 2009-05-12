@@ -43,4 +43,8 @@ public class Simbolo {
 		return getCodigo() == ConjuntoCodigos.NUMERO;
 	}
 
+	public boolean isCadeia() {
+		return getCodigo() == ConjuntoCodigos.CADEIA;
+	}
+
 }

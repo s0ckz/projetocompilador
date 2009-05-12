@@ -17,3 +17,9 @@ expectError "Esperava: 'NUMERO'!" analyse  fileName="testes/files/sintatico/inEr
 expectError "Esperava: ']'!" analyse  fileName="testes/files/sintatico/inErro9.txt"
 
 expectError "Não esperava: 'int50'!" analyse  fileName="testes/files/sintatico/inErro10.txt"
+
+expectError "Esperava: 'IDENTIFICADOR'!" analyse  fileName="testes/files/sintatico/inErro11.txt"
+
+expectError "Esperava: '='!" analyse  fileName="testes/files/sintatico/inErro12.txt"
+
+expectError "Esperava: 'numero, (expressão) ou identificador'!" analyse  fileName="testes/files/sintatico/inErro13.txt"
