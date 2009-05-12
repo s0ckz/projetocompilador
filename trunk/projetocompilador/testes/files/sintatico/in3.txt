@@ -1,4 +1,4 @@
-int media, media2;
+int media;
 string aprovado;
 def int proc() {
 }
