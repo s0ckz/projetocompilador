@@ -95,10 +95,50 @@ public class AnalisadorSintatico {
 		if (!optionalSymbol("void") && !tipo())
 			throw new AnalisadorSintaticoException("Esperava: void, int ou string.");
 	}
+	
+	private void expressao() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		termo();
+		expressaoLinha();
+	}
+
+	private void expressaoLinha() {
+	}
+
+	private void termo() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		fator();
+		termoLinha();
+	}
+
+	private void termoLinha() {
+	}
+
+	private void fator() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		pred();
+	}
+
+	private void pred() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (!simbolo.isNumero() && !expressaoParentisada() && !escalar())
+			throw new AnalisadorSintaticoException("'" + simbolo.getCadeia() + "' não esperado!");
+	}
+
+	private boolean expressaoParentisada() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("(")) {
+			expressao();
+			requiredSymbol(")");
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean escalar() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (simbolo.isIdentificador()) {
+			eh_vetor();
+			return true;
+		}
+		return false;
+	}
 
 	private void bloco() {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void identificador() throws AnalisadorSintaticoException, AnalisadorLexicoException {
