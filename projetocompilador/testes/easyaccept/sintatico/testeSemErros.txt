@@ -1,11 +1,5 @@
-reset
+analyse fileName="testes\\files\\sintatico\\in1.txt"
 
-initialize fileName="testes\\files\\sintatico\\in1.txt"
+analyse fileName="testes\\files\\sintatico\\in2.txt"
 
-analyse
-
-reset
-
-initialize fileName="testes\\files\\sintatico\\in2.txt"
-
-analyse
+analyse fileName="testes\\files\\sintatico\\in3.txt"

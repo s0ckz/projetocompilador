@@ -29,6 +29,7 @@ public class ConjuntoCodigos {
 	public static final int PARENTISADOR_FECHA_COLCHETE = 26;
 	
 	public static final int DELIMITADOR_COMANDO = 40;
+	public static final int DELIMITADOR_VARIAVEL = 41;
 
 	public static final int CONST = 51;
 	public static final int STRING = 52;

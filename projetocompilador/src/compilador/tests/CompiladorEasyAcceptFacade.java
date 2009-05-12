@@ -24,7 +24,9 @@ public class CompiladorEasyAcceptFacade {
 		this.analisadorLexico.initialize(new BufferedReader(new FileReader(fileName)));
 	}
 	
-	public void analyse() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+	public void analyse(String fileName) throws AnalisadorSintaticoException, AnalisadorLexicoException, FileNotFoundException {
+		reset();
+		this.analisadorLexico.initialize(new BufferedReader(new FileReader(fileName)));
 		this.analisadorSintatico.analyse();
 	}
 	

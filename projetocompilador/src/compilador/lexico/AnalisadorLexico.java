@@ -98,6 +98,9 @@ public class AnalisadorLexico {
 		if (caractereAtual == ';') {
 			simboloAtual = new Simbolo(ConjuntoCodigos.DELIMITADOR_COMANDO, caractereAtual);
 			obteveSimbolo = true;
+		} else if (caractereAtual == ',') {
+			simboloAtual = new Simbolo(ConjuntoCodigos.DELIMITADOR_VARIAVEL, caractereAtual);
+			obteveSimbolo = true;
 		}
 		return obteveSimbolo;
 	}

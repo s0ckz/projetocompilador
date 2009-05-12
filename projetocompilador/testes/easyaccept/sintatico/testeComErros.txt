@@ -1,23 +1,7 @@
-reset
+expectError "Esperava: ';'" analyse fileName="testes\\files\\sintatico\\inErro1.txt"
 
-initialize fileName="testes\\files\\sintatico\\inErro1.txt"
+expectError "'inta' não esperado!" analyse fileName="testes\\files\\sintatico\\inErro2.txt"
 
-expectError "Esperava: ';'" analyse
+expectError "Esperava: void, int ou string." analyse fileName="testes\\files\\sintatico\\inErro3.txt"
 
-reset
-
-initialize fileName="testes\\files\\sintatico\\inErro2.txt"
-
-expectError "'inta' não esperado!" analyse
-
-reset
-
-initialize fileName="testes\\files\\sintatico\\inErro3.txt"
-
-expectError "Esperava: void, int ou string." analyse
-
-reset
-
-initialize fileName="testes\\files\\sintatico\\inErro4.txt"
-
-expectError "Esperava: '('" analyse
+expectError "Esperava: '('" analyse  fileName="testes\\files\\sintatico\\inErro4.txt"
