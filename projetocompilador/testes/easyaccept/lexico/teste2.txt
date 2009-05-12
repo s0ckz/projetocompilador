@@ -31,7 +31,7 @@ CMD_THEN=echo 56
 
 reset
 
-initialize fileName="testes\\files\\lexico\\in2.txt"
+initialize fileName="testes/files/lexico/in2.txt"
 
 # expect line: const int LIMITE;
 expect ${CONST}:const proximoSimbolo
