@@ -1,0 +1,4 @@
+int media;
+stringa aprovado;
+def int proc() {
+}

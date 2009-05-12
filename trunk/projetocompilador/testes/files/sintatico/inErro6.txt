@@ -1,0 +1,9 @@
+int media;
+string aprovado;
+def int proc() {
+}
+def int proc2() {
+}
+def int proc3() {
+}
+def int proc4() {

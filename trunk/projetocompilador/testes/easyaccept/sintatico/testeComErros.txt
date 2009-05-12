@@ -5,3 +5,9 @@ expectError "'inta' não esperado!" analyse fileName="testes\\files\\sintatico\\i
 expectError "Esperava: void, int ou string." analyse fileName="testes\\files\\sintatico\\inErro3.txt"
 
 expectError "Esperava: '('" analyse  fileName="testes\\files\\sintatico\\inErro4.txt"
+
+expectError "'stringa' não esperado!" analyse  fileName="testes\\files\\sintatico\\inErro5.txt"
+
+expectError "Esperava: '}'" analyse  fileName="testes\\files\\sintatico\\inErro6.txt"
+
+expectError "Esperava: '}'" analyse  fileName="testes\\files\\sintatico\\inErro7.txt"
