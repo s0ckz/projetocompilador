@@ -1,19 +1,19 @@
-expectError "Esperava: ';'" analyse fileName="testes/files/sintatico/inErro1.txt"
+expectError "Esperava: ';'!" analyse fileName="testes/files/sintatico/inErro1.txt"
 
-expectError "'inta' não esperado!" analyse fileName="testes/files/sintatico/inErro2.txt"
+expectError "Não esperava: 'inta'!" analyse fileName="testes/files/sintatico/inErro2.txt"
 
-expectError "Esperava: void, int ou string." analyse fileName="testes/files/sintatico/inErro3.txt"
+expectError "Esperava: 'void, int ou string'!" analyse fileName="testes/files/sintatico/inErro3.txt"
 
-expectError "Esperava: '('" analyse  fileName="testes/files/sintatico/inErro4.txt"
+expectError "Esperava: '('!" analyse  fileName="testes/files/sintatico/inErro4.txt"
 
-expectError "'stringa' não esperado!" analyse  fileName="testes/files/sintatico/inErro5.txt"
+expectError "Não esperava: 'stringa'!" analyse  fileName="testes/files/sintatico/inErro5.txt"
 
-expectError "Esperava: '}'" analyse  fileName="testes/files/sintatico/inErro6.txt"
+expectError "Esperava: '}'!" analyse  fileName="testes/files/sintatico/inErro6.txt"
 
-expectError "Esperava: '}'" analyse  fileName="testes/files/sintatico/inErro7.txt"
+expectError "Esperava: '}'!" analyse  fileName="testes/files/sintatico/inErro7.txt"
 
-expectError "Esperava: 'NUMERO'" analyse  fileName="testes/files/sintatico/inErro8.txt"
+expectError "Esperava: 'NUMERO'!" analyse  fileName="testes/files/sintatico/inErro8.txt"
 
-expectError "Esperava: ']'" analyse  fileName="testes/files/sintatico/inErro9.txt"
+expectError "Esperava: ']'!" analyse  fileName="testes/files/sintatico/inErro9.txt"
 
-expectError "'int50' não esperado!" analyse  fileName="testes/files/sintatico/inErro10.txt"
+expectError "Não esperava: 'int50'!" analyse  fileName="testes/files/sintatico/inErro10.txt"
