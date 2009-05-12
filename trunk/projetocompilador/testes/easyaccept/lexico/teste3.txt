@@ -30,7 +30,7 @@ CMD_THEN=echo 56
 
 reset
 
-initialize fileName="testes\\files\\lexico\\in3.txt"
+initialize fileName="testes/files/lexico/in3.txt"
 
 # expect line: def integer proc() {
 expect ${CMD_DEF}:def proximoSimbolo

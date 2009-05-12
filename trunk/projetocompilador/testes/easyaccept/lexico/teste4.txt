@@ -33,7 +33,7 @@ TRUE=echo 62
 
 reset
 
-initialize fileName="testes\\files\\lexico\\in4.txt"
+initialize fileName="testes/files/lexico/in4.txt"
 
 # expect line: while (condicao == true) {
 expect ${CMD_WHILE}:while proximoSimbolo
