@@ -1,7 +1,0 @@
-# Teste 1
-
-reset
-
-initialize fileName="testes\\files\\sintatico\\in2.txt"
-
-analyse

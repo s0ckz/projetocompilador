@@ -5,3 +5,9 @@ reset
 initialize fileName="testes\\files\\sintatico\\in1.txt"
 
 analyse
+
+reset
+
+initialize fileName="testes\\files\\sintatico\\in2.txt"
+
+analyse
