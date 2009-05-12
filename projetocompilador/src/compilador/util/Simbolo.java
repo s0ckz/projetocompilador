@@ -39,4 +39,8 @@ public class Simbolo {
 		return getCodigo() == ConjuntoCodigos.IDENTIFICADOR;
 	}
 
+	public boolean isNumero() {
+		return getCodigo() == ConjuntoCodigos.NUMERO;
+	}
+
 }

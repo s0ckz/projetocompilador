@@ -107,9 +107,10 @@ public class AnalisadorSintatico {
 		lerProximoSimbolo();
 	}
 
-	private void numero() {
-		// TODO Auto-generated method stub
-
+	private void numero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (!simbolo.isNumero())
+			throw new AnalisadorSintaticoException("Esperava: 'NUMERO'");
+		lerProximoSimbolo();
 	}
 
 	private void requiredSymbol(String required)
