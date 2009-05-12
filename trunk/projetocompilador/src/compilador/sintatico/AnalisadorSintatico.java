@@ -37,7 +37,14 @@ public class AnalisadorSintatico {
 
 	private boolean declaracao() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
-		eh_const();
+		if (optionalSymbol("const")) {
+			dec_const();
+			return true;
+		}
+		return dec_normal();
+	}
+
+	private boolean dec_normal() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (tipo()) {
 			eh_vetor();
 			valor_inicial();
@@ -45,6 +52,28 @@ public class AnalisadorSintatico {
 			return true;
 		}
 		return false;
+	}
+
+	private void dec_const() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		requiredTipo();
+		eh_vetor();
+		valor_inicial_const();
+		dec_resto_const();
+	}
+
+	private boolean dec_resto_const() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol(",")) {
+			valor_inicial_const();
+			dec_resto_const();
+			return true;
+		}
+		return false;
+	}
+
+	private void valor_inicial_const() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		requiredIdentificador();
+		requiredSymbol("=");
+		valor();
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException, AnalisadorLexicoException {
@@ -75,30 +104,26 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void valores() throws AnalisadorLexicoException {
+	private void valores() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		var_exp();
 		mais_valores();
 	}
 
-	private void mais_valores() throws AnalisadorLexicoException {
+	private void mais_valores() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (optionalSymbol(",")) {
 			var_exp();
 			mais_valores();
 		}
 	}
 
-	private void var_exp() {
-		// TODO Auto-generated method stub
+	private void var_exp() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (!cadeia()) 
+			expressao();
 		
 	}
 
-	private boolean cadeia() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	private void eh_const() throws AnalisadorLexicoException {
-		optionalSymbol("const");
+	private boolean eh_const() throws AnalisadorLexicoException {
+		return optionalSymbol("const");
 	}
 
 	private void dec_resto() throws AnalisadorLexicoException, AnalisadorSintaticoException {
@@ -106,6 +131,11 @@ public class AnalisadorSintatico {
 			requiredIdentificador();
 			dec_resto();
 		}
+	}
+
+	private void requiredTipo() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (!tipo())
+			lancarExcecaoEsperada("TIPO");
 	}
 
 	private boolean tipo() throws AnalisadorLexicoException,
@@ -199,6 +229,15 @@ public class AnalisadorSintatico {
 	private void bloco() {
 	}
 	
+	private boolean cadeia() throws AnalisadorLexicoException {
+		if (simbolo == null || !simbolo.isCadeia()) {
+			return false;
+		} else {
+			lerProximoSimbolo();
+			return true;
+		}
+	}
+
 	private boolean identificador() throws AnalisadorLexicoException {
 		if (simbolo == null || !simbolo.isIdentificador()) {
 			return false;
