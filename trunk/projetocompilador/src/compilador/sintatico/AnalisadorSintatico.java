@@ -101,7 +101,10 @@ public class AnalisadorSintatico {
 		expressaoLinha();
 	}
 
-	private void expressaoLinha() {
+	private void expressaoLinha() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("+") || optionalSymbol("-")) {
+			expressao();
+		}
 	}
 
 	private void termo() throws AnalisadorLexicoException, AnalisadorSintaticoException {
@@ -109,11 +112,21 @@ public class AnalisadorSintatico {
 		termoLinha();
 	}
 
-	private void termoLinha() {
+	private void termoLinha() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("*") || optionalSymbol("/")) {
+			termo();
+		}
 	}
 
 	private void fator() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		pred();
+		fatorLinha();
+	}
+
+	private void fatorLinha() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("**")) {
+			fator();
+		}
 	}
 
 	private void pred() throws AnalisadorLexicoException, AnalisadorSintaticoException {
