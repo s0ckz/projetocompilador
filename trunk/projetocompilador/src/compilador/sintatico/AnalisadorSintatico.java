@@ -221,6 +221,56 @@ public class AnalisadorSintatico {
 		}
 		return false;
 	}
+	
+	private void expressaoLogica() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		termoRelacional();
+		expressaoLogicaLinha();
+	}
+
+	private void expressaoLogicaLinha() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (optionalSymbol("||")) {
+			termoRelacional();
+			expressaoLogica();
+		}
+	}
+
+	private void termoRelacional() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		fatorRelacional();
+		termoRelacionalLinha();
+	}
+
+	private void termoRelacionalLinha() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (optionalSymbol("&&")) {
+			fatorRelacional();
+			termoRelacionalLinha();
+		}
+	}
+
+	private void fatorRelacional() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+		if (!expressaoLogicaParentisada()) {
+			expressao();
+			requiredOperadorRelacional();
+			expressao();
+		}
+	}
+
+	private boolean expressaoLogicaParentisada() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("[")) {
+			expressaoLogica();
+			requiredSymbol("]");
+			return true;
+		}
+		return false;
+	}
+
+	private boolean operadorRelacional() throws AnalisadorLexicoException {
+		if (simbolo == null || !simbolo.isOperadorRelacional()) {
+			return false;
+		} else {
+			lerProximoSimbolo();
+			return true;
+		}
+	}
 
 	private void bloco() {
 	}
@@ -258,6 +308,10 @@ public class AnalisadorSintatico {
 
 	private void requiredNumero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
 		if (!numero()) lancarExcecaoEsperada("NUMERO");
+	}
+
+	private void requiredOperadorRelacional() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (!operadorRelacional()) lancarExcecaoEsperada("OPERADOR RELACIONAL");
 	}
 
 
