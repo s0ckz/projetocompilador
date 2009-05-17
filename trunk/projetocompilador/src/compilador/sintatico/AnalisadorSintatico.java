@@ -349,9 +349,9 @@ public class AnalisadorSintatico {
 		if (!identificador()) lancarExcecaoEsperada("IDENTIFICADOR");
 	}
 
-	private void requiredNumero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
-		if (!numero()) lancarExcecaoEsperada("NUMERO");
-	}
+//	private void requiredNumero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
+//		if (!numero()) lancarExcecaoEsperada("NUMERO");
+//	}
 
 	private void requiredOperadorRelacional() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (!operadorRelacional()) lancarExcecaoEsperada("OPERADOR RELACIONAL");
