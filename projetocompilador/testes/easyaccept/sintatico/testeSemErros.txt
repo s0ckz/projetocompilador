@@ -9,3 +9,9 @@ analyse fileName="testes/files/sintatico/in4.txt"
 analyse fileName="testes/files/sintatico/in5.txt"
 
 analyse fileName="testes/files/sintatico/in6.txt"
+
+analyse fileName="testes/files/sintatico/in7.txt"
+
+analyse fileName="testes/files/sintatico/in8.txt"
+
+analyse fileName="testes/files/sintatico/in9.txt"

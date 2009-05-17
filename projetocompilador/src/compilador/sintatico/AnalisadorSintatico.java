@@ -142,7 +142,10 @@ public class AnalisadorSintatico {
 	private void eh_vetor() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
 		if (optionalSymbol("[")) {
-			requiredNumero();
+			if (!numero()) {
+				identificador();
+			}
+//			requiredNumero();
 			requiredSymbol("]");
 		}
 	}
@@ -272,9 +275,52 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void bloco() {
+	private void bloco() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		comando();
+		outros_cmdos();
 	}
 	
+	private void outros_cmdos() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol(";")) {
+			comando();
+			outros_cmdos();
+		}
+	}
+
+	private void comando() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("if")) {
+			requiredSymbol("(");
+			expressaoLogica();
+			requiredSymbol(")");
+			requiredSymbol("{");
+			bloco();
+			requiredSymbol("}");
+			cmd_decisao_else();
+		} else if (optionalSymbol("while")) {
+			requiredSymbol("(");
+			expressaoLogica();
+			requiredSymbol(")");
+			requiredSymbol("{");
+			bloco();
+			requiredSymbol("}");
+		} else if (optionalSymbol("read")) {
+			escalar();
+		} else if (optionalSymbol("write")) {
+			expressao();
+		} else if (escalar()) {
+			requiredSymbol("=");
+			var_exp();
+		}
+	}
+
+	private void cmd_decisao_else() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+		if (optionalSymbol("else")) {
+			requiredSymbol("{");
+			bloco();
+			requiredSymbol("}");
+		}
+	}
+
 	private boolean cadeia() throws AnalisadorLexicoException {
 		if (simbolo == null || !simbolo.isCadeia()) {
 			return false;

@@ -1,0 +1,7 @@
+int condicao = 0;
+string saida;
+if (condicao == 1) {
+    saida = "Eh verdadeiro!";
+} else {
+	saida = "Eh falso!";
+}
