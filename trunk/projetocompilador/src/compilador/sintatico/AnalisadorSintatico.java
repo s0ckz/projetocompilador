@@ -325,11 +325,11 @@ public class AnalisadorSintatico {
 	}
 	
 	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException("Esperava: '" + symbol + "'!");
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), "Esperava: '" + symbol + "'!");
 	}
 
 	private void lancarExcecaoNaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException("Não esperava: '" + symbol + "'!");
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), "Não esperava: '" + symbol + "'!");
 	}
 	
 	private boolean optionalSymbol(String optional) throws AnalisadorLexicoException {

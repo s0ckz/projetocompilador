@@ -28,6 +28,8 @@ public class AnalisadorLexico {
 	
 	private boolean caractereAMaisLido = false;
 	
+	private int linhaAtual = 1;
+	
 	public AnalisadorLexico() {
 	}
 
@@ -65,6 +67,10 @@ public class AnalisadorLexico {
 		}
 		
 		return simboloAtual;
+	}
+	
+	public int getLinhaAtual() {
+		return linhaAtual;
 	}
 	
 	private void operadorParentisadorOuPontuacao() {
@@ -168,6 +174,8 @@ public class AnalisadorLexico {
 	private int proximoCaractere() {
 		try {
 			caractereAtual = bufferedReader.read();
+			if (caractereAtual == '\n')
+				linhaAtual++;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
