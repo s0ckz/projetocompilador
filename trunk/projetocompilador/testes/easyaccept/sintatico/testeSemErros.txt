@@ -15,3 +15,5 @@ analyse fileName="testes/files/sintatico/in7.txt"
 analyse fileName="testes/files/sintatico/in8.txt"
 
 analyse fileName="testes/files/sintatico/in9.txt"
+
+analyse fileName="testes/files/sintatico/in10.txt"

@@ -124,7 +124,7 @@ public class AnalisadorSintatico {
 
 	private void dec_resto() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (optionalSymbol(",")) {
-			requiredIdentificador();
+			valor_inicial();
 			dec_resto();
 		}
 	}
@@ -303,7 +303,7 @@ public class AnalisadorSintatico {
 		} else if (optionalSymbol("read")) {
 			escalar();
 		} else if (optionalSymbol("write")) {
-			expressao();
+			valor();
 		} else if (escalar()) {
 			requiredSymbol("=");
 			var_exp();

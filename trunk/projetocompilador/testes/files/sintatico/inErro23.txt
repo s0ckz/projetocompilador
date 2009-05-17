@@ -1,0 +1,4 @@
+int i = 50;
+while (i < (37 + 2 / 5) {
+	write "teste";
+}
