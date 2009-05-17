@@ -1,4 +1,4 @@
 int media;
-stringa aprovado;
-def int proc() {
+string aprovado;
+def int 1proc() {
 }

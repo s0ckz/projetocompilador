@@ -1,1 +1,1 @@
-inta media;
+int 1media;

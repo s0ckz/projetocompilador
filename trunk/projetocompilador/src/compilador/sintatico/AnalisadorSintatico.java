@@ -142,10 +142,7 @@ public class AnalisadorSintatico {
 	private void eh_vetor() throws AnalisadorLexicoException,
 			AnalisadorSintaticoException {
 		if (optionalSymbol("[")) {
-			if (!numero()) {
-				identificador();
-			}
-//			requiredNumero();
+			expressao();
 			requiredSymbol("]");
 		}
 	}
