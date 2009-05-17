@@ -17,16 +17,23 @@ public class ConjuntoCodigos {
 	public static final int OP_SUBTRACAO = 13;
 	public static final int OP_MULTIPLICACAO = 14;
 	public static final int OP_POTENCIA = 15;
+	public static final int OP_DIVISAO = 24;
 
 	public static final int OP_MAIOR_QUE = 16;
 	public static final int OP_ATRIBUICAO = 17;
+	public static final int OP_MENOR_QUE = 18;
+	public static final int OP_MAIOR_OU_IGUAL_A = 19;
+	public static final int OP_MENOR_OU_IGUAL_A = 20;
+	public static final int OP_DIFERENCA = 21;
+	public static final int OP_AND = 22;
+	public static final int OP_OR = 23;
 
-	public static final int PARENTISADOR_ABRE_PARENTESES = 21;
-	public static final int PARENTISADOR_FECHA_PARENTESES = 22;
-	public static final int PARENTISADOR_ABRE_CHAVES = 23;
-	public static final int PARENTISADOR_FECHA_CHAVES = 24;
-	public static final int PARENTISADOR_ABRE_COLCHETE = 25;
-	public static final int PARENTISADOR_FECHA_COLCHETE = 26;
+	public static final int PARENTISADOR_ABRE_PARENTESES = 31;
+	public static final int PARENTISADOR_FECHA_PARENTESES = 32;
+	public static final int PARENTISADOR_ABRE_CHAVES = 33;
+	public static final int PARENTISADOR_FECHA_CHAVES = 34;
+	public static final int PARENTISADOR_ABRE_COLCHETE = 35;
+	public static final int PARENTISADOR_FECHA_COLCHETE = 36;
 	
 	public static final int DELIMITADOR_COMANDO = 40;
 	public static final int DELIMITADOR_VARIAVEL = 41;
@@ -54,7 +61,7 @@ public class ConjuntoCodigos {
 	private static Set<Character> conjuntoSimbolos =
 		new HashSet<Character>(
 			Arrays.asList(
-				'+', '-', '*', '/', '>', '<', '=', '!'
+				'+', '-', '*', '/', '>', '<', '=', '!', '&', '|'
 			)
 		);
 	
@@ -82,14 +89,25 @@ public class ConjuntoCodigos {
 		parentisadores.put("{", PARENTISADOR_ABRE_CHAVES);
 		parentisadores.put("}", PARENTISADOR_FECHA_CHAVES);
 
+		
+		// se for colocar simbolos como > e >= (onde os dois começam)
+		// com >, coloque o que tiver maior tamanho primeiro, ou seja:
+		// >= depois > .
 		simbolos = new HashMap<String, Integer>();
 		simbolos.put("+", OP_SOMA);
 		simbolos.put("-", OP_SUBTRACAO);
 		simbolos.put("*", OP_MULTIPLICACAO);
+		simbolos.put("/", OP_DIVISAO);
 		simbolos.put("==", OP_IGUAL);
 		simbolos.put("=", OP_ATRIBUICAO);
 		simbolos.put("**", OP_POTENCIA);
+		simbolos.put(">=", OP_MAIOR_OU_IGUAL_A);
 		simbolos.put(">", OP_MAIOR_QUE);
+		simbolos.put("<=", OP_MENOR_OU_IGUAL_A);
+		simbolos.put("<", OP_MENOR_QUE);
+		simbolos.put("!=", OP_DIFERENCA);
+		simbolos.put("&&", OP_AND);
+		simbolos.put("||", OP_OR);
 	}
 	
 	/**
