@@ -1,0 +1,3 @@
+int condicao = 0;
+if (condicao) {
+}

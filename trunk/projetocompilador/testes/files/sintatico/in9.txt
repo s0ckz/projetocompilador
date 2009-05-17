@@ -1,0 +1,6 @@
+int[5] vetor;
+int i = 0;
+while (i < 5) {
+   vetor[i] = i;
+   i = i + 1;
+}

@@ -27,3 +27,17 @@ expectError "Linha: 1 - Esperava: 'numero, (expressão) ou identificador'!" analy
 expectError "Linha: 1 - Esperava: 'numero, (expressão) ou identificador'!" analyse  fileName="testes/files/sintatico/inErro14.txt"
 
 expectError "Linha: 1 - Esperava: '}'!" analyse  fileName="testes/files/sintatico/inErro15.txt"
+
+expectError "Linha: 2 - Esperava: '('!" analyse  fileName="testes/files/sintatico/inErro16.txt"
+
+expectError "Linha: 2 - Esperava: ')'!" analyse  fileName="testes/files/sintatico/inErro17.txt"
+
+expectError "Linha: 2 - Esperava: 'OPERADOR RELACIONAL'!" analyse  fileName="testes/files/sintatico/inErro18.txt"
+
+analyse  fileName="testes/files/sintatico/inErro19.txt"
+
+expectError "Linha: 1 - Esperava: '('!" analyse  fileName="testes/files/sintatico/inErro20.txt"
+
+expectError "Linha: 1 - Esperava: ')'!" analyse  fileName="testes/files/sintatico/inErro21.txt"
+
+analyse  fileName="testes/files/sintatico/inErro22.txt"
