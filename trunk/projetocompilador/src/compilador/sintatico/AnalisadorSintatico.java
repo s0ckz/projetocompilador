@@ -273,18 +273,11 @@ public class AnalisadorSintatico {
 	}
 
 	private void bloco() throws AnalisadorLexicoException, AnalisadorSintaticoException {
-		comando();
-		outros_cmdos();
-	}
-	
-	private void outros_cmdos() throws AnalisadorLexicoException, AnalisadorSintaticoException {
-		if (optionalSymbol(";")) {
-			comando();
-			outros_cmdos();
-		}
+		if (comando())
+			bloco();
 	}
 
-	private void comando() throws AnalisadorLexicoException, AnalisadorSintaticoException {
+	private boolean comando() throws AnalisadorLexicoException, AnalisadorSintaticoException {
 		if (optionalSymbol("if")) {
 			requiredSymbol("(");
 			expressaoLogica();
@@ -293,6 +286,8 @@ public class AnalisadorSintatico {
 			bloco();
 			requiredSymbol("}");
 			cmd_decisao_else();
+			optionalSymbol(";");
+			return true;
 		} else if (optionalSymbol("while")) {
 			requiredSymbol("(");
 			expressaoLogica();
@@ -300,14 +295,28 @@ public class AnalisadorSintatico {
 			requiredSymbol("{");
 			bloco();
 			requiredSymbol("}");
+			optionalSymbol(";");
+			return true;
 		} else if (optionalSymbol("read")) {
 			escalar();
+			requiredSymbol(";");
+			return true;
 		} else if (optionalSymbol("write")) {
 			valor();
-		} else if (escalar()) {
-			requiredSymbol("=");
-			var_exp();
+			requiredSymbol(";");
+			return true;
+		} else if (identificador()) {
+			if (optionalSymbol("(")) {
+				requiredSymbol(")");
+			} else {
+				eh_vetor();
+				requiredSymbol("=");
+				var_exp();
+			}
+			requiredSymbol(";");
+			return true;
 		}
+		return false;
 	}
 
 	private void cmd_decisao_else() throws AnalisadorLexicoException, AnalisadorSintaticoException {

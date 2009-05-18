@@ -1,0 +1,19 @@
+int c, condicao = 1;
+def int proc() {
+	if (condicao == 1) {
+		c = 1;
+	};
+	while (condicao == 2) {
+		c = 2;
+	}
+	while (condicao == 2) {
+		c = 2;
+	};
+	if (condicao == 1) {
+		c = 1;
+	}if (condicao == 2) {
+		c = 1;
+	};
+	c = (2 + 3) * (10 - 5) + 4**2;
+	proc(;
+}

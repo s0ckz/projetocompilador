@@ -17,3 +17,11 @@ analyse fileName="testes/files/sintatico/in8.txt"
 analyse fileName="testes/files/sintatico/in9.txt"
 
 analyse fileName="testes/files/sintatico/in10.txt"
+
+analyse fileName="testes/files/sintatico/in11.txt"
+
+analyse fileName="testes/files/sintatico/in12.txt"
+
+analyse fileName="testes/files/sintatico/in13.txt"
+
+analyse fileName="testes/files/sintatico/in14.txt"

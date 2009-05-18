@@ -1,0 +1,2 @@
+const int LIMITE = 100;
+const string MENSAGEM = "Hello World";
