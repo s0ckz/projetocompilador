@@ -43,3 +43,7 @@ expectError "Linha: 1 - Esperava: ')'!" analyse  fileName="testes/files/sintatic
 expectError "Linha: 1 - Esperava: ';'!" analyse  fileName="testes/files/sintatico/inErro22.txt"
 
 expectError "Linha: 2 - Esperava: ')'!" analyse  fileName="testes/files/sintatico/inErro23.txt"
+
+expectError "Linha: 3 - Esperava: '{'!" analyse  fileName="testes/files/sintatico/inErro24.txt"
+
+expectError "Linha: 18 - Esperava: ')'!" analyse  fileName="testes/files/sintatico/inErro25.txt"

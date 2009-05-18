@@ -1,12 +1,26 @@
 int i = 50;
-string a = "blah", b = "bleh";
+string a = "blah", b = "bleh", d;
 string[2] c = { "", "a" };
-while ([i < (37 + 2 / 5)] && [(50 + 2) > (30)]) {
-	if (c[1] == a) {
-		write "b";
-	} else {
+while ([i < (37 + 2 / 5)] && [(50 + 2) > (30)])
+{
+	if (c[1] == a) 			{
+		write 		"b";
+	}
+	else 
+	{
 		while (1 > 0) {
 			write a;
+			read d;
+			write d;
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
