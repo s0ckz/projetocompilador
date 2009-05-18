@@ -17,3 +17,13 @@ def int proc() {
 	c = (2 + 3) * (10 - 5) + 4**2;
 	proc();
 }
+
+def void blah() {
+
+}
+
+proc();
+while (condicao == 2) {
+	c = 2;
+};
+blah();	
