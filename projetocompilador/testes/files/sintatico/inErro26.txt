@@ -1,1 +1,3 @@
-string a = "teste", b = "a;
+string 	
+		a = "teste", 
+		b = "a;
