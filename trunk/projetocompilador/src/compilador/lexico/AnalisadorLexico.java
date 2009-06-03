@@ -25,7 +25,7 @@ public class AnalisadorLexico {
 	private Simbolo simboloAtual;
 	
 	private List<String> advertencias = new LinkedList<String>();
-	
+
 	private boolean caractereAMaisLido = false;
 	
 	private int linhaAtual = 1;
@@ -73,12 +73,12 @@ public class AnalisadorLexico {
 		return linhaAtual;
 	}
 	
-	private void operadorParentisadorOuPontuacao() {
+	private void operadorParentisadorOuPontuacao() throws AnalisadorLexicoException {
 		if (!parentisador() && !pontuacao() && !cadeia())
 			operador();
 	}
 
-	private boolean cadeia() {
+	private boolean cadeia() throws AnalisadorLexicoException {
 		if (caractereAtual == '"') {
 			StringBuilder cadeia = new StringBuilder();
 
@@ -94,7 +94,7 @@ public class AnalisadorLexico {
 				simboloAtual = new Simbolo(ConjuntoCodigos.CADEIA, '"' + cadeia.toString() + '"');
 				obteveSimbolo = true;
 			} else {
-				advertencias.add("Cadeias de caracteres devem conter aspas no final delas.");
+				throw new AnalisadorLexicoException("Cadeias de caracteres devem conter aspas no final delas.");
 			}
 		}
 		return obteveSimbolo;
@@ -191,5 +191,9 @@ public class AnalisadorLexico {
 
 	private void atualizarCaractereAMaisLido() {
 		caractereAMaisLido = caractereAtual != ' ';
+	}
+	
+	public List<String> getAdvertencias() {
+		return advertencias;
 	}
 }
