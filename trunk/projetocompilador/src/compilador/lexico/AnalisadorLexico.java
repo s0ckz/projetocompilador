@@ -94,6 +94,7 @@ public class AnalisadorLexico {
 				simboloAtual = new Simbolo(ConjuntoCodigos.CADEIA, '"' + cadeia.toString() + '"');
 				obteveSimbolo = true;
 			} else {
+				obteveSimbolo = false;
 				throw new AnalisadorLexicoException("Cadeias de caracteres devem conter aspas no final delas.");
 			}
 		}

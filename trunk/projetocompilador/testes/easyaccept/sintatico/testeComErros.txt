@@ -47,3 +47,5 @@ expectError "Linha: 2 - Esperava: ')'!" analyse  fileName="testes/files/sintatic
 expectError "Linha: 3 - Esperava: '{'!" analyse  fileName="testes/files/sintatico/inErro24.txt"
 
 expectError "Linha: 18 - Esperava: ')'!" analyse  fileName="testes/files/sintatico/inErro25.txt"
+
+expectError "Linha: 1 - Esperava: 'Cadeias de caracteres devem conter aspas no final delas.'!" analyse  fileName="testes/files/sintatico/inErro26.txt"
