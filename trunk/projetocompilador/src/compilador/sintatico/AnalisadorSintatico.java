@@ -2,13 +2,19 @@ package compilador.sintatico;
 
 import compilador.lexico.AnalisadorLexico;
 import compilador.lexico.AnalisadorLexicoException;
+import compilador.semantico.AnalisadorSemantico;
+import compilador.semantico.AnalisadorSemanticoException;
 import compilador.util.Simbolo;
 
 public class AnalisadorSintatico {
 
 	private AnalisadorLexico lexico;
+	
+	private AnalisadorSemantico semantico = new AnalisadorSemantico();
 
 	private Simbolo simbolo;
+
+	private Simbolo simboloAnterior;
 
 	public AnalisadorSintatico(AnalisadorLexico lexico) {
 		this.lexico = lexico;
@@ -43,25 +49,32 @@ public class AnalisadorSintatico {
 
 	private boolean dec_normal() throws AnalisadorSintaticoException {
 		if (tipo()) {
-			eh_vetor();
+			Simbolo tipo = simboloAnterior;
+			boolean ehVetor = eh_vetor();
+			semantico.asEmpilharTipo(tipo, ehVetor);
 			valor_inicial();
-			dec_resto();
+			dec_resto(tipo, ehVetor);
 			return true;
 		}
 		return false;
 	}
 
 	private void dec_const() throws AnalisadorSintaticoException {
+		semantico.asAtivarDeclaracaoConstantes();
 		requiredTipo();
-		eh_vetor();
+		Simbolo tipo = simboloAnterior;
+		boolean ehVetor = eh_vetor();
+		semantico.asEmpilharTipo(tipo, ehVetor);
 		valor_inicial_const();
-		dec_resto_const();
+		dec_resto_const(tipo, ehVetor);
+		semantico.asDesativarDeclaracaoConstantes();
 	}
 
-	private boolean dec_resto_const() throws AnalisadorSintaticoException {
+	private boolean dec_resto_const(Simbolo tipo, boolean ehVetor) throws AnalisadorSintaticoException {
 		if (optionalSymbol(",")) {
+			semantico.asEmpilharTipo(tipo, ehVetor);
 			valor_inicial_const();
-			dec_resto_const();
+			dec_resto_const(tipo, ehVetor);
 			return true;
 		}
 		return false;
@@ -69,12 +82,26 @@ public class AnalisadorSintatico {
 
 	private void valor_inicial_const() throws AnalisadorSintaticoException {
 		requiredIdentificador();
+		
+		try {
+			semantico.asDeclararXpto(simboloAnterior);
+		} catch (AnalisadorSemanticoException e) {
+			tratarExcecaoSemantico(e);
+		}
+		
 		requiredSymbol("=");
 		valor();
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException {
 		requiredIdentificador();
+		
+		try {
+			semantico.asDeclararXpto(simboloAnterior);
+		} catch (AnalisadorSemanticoException e) {
+			tratarExcecaoSemantico(e);
+		}
+		
 		valor_aux();
 	}
 
@@ -119,10 +146,11 @@ public class AnalisadorSintatico {
 		
 	}
 
-	private void dec_resto() throws AnalisadorSintaticoException {
+	private void dec_resto(Simbolo tipo, boolean ehVetor) throws AnalisadorSintaticoException {
 		if (optionalSymbol(",")) {
+			semantico.asEmpilharTipo(tipo, ehVetor);
 			valor_inicial();
-			dec_resto();
+			dec_resto(tipo, ehVetor);
 		}
 	}
 
@@ -135,11 +163,13 @@ public class AnalisadorSintatico {
 		return optionalSymbol("int") || optionalSymbol("string");
 	}
 
-	private void eh_vetor() throws AnalisadorSintaticoException {
+	private boolean eh_vetor() throws AnalisadorSintaticoException {
 		if (optionalSymbol("[")) {
 			expressao();
 			requiredSymbol("]");
+			return true;
 		}
+		return false;
 	}
 
 	private void subprogramas() throws AnalisadorSintaticoException {
@@ -155,6 +185,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
+	//TODO: Deve ser somente void.
 	private void tipo_retorno() throws AnalisadorSintaticoException {
 		if (!optionalSymbol("void") && !tipo())
 			lancarExcecaoEsperada("void, int ou string");
@@ -369,6 +400,10 @@ public class AnalisadorSintatico {
 			lancarExcecaoEsperada(required);
 		}
 	}
+
+	private void tratarExcecaoSemantico(AnalisadorSemanticoException e) throws AnalisadorSintaticoException {
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), e.getMessage());
+	}
 	
 	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
 		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), "Esperava: '" + symbol + "'!");
@@ -391,6 +426,7 @@ public class AnalisadorSintatico {
 
 	private void lerProximoSimbolo() throws AnalisadorSintaticoException {
 		try {
+			simboloAnterior = simbolo;
 			simbolo = lexico.proximoSimbolo();
 		} catch (AnalisadorLexicoException e) {
 			lancarExcecaoEsperada(e.getMessage());

@@ -56,5 +56,13 @@ public class Simbolo {
 				getCodigo() == ConjuntoCodigos.OP_MENOR_QUE
 			;
 	}
+	
+	public boolean equals(Object o) {
+		if (o == null || !(o instanceof Simbolo))
+			return false;
+		Simbolo outro = (Simbolo) o;
+		return getCodigo() == outro.getCodigo() &&
+				getCadeia().equals(outro.getCadeia());
+	}
 
 }
