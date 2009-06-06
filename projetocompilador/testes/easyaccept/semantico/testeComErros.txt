@@ -1,0 +1,1 @@
+expectError "Linha: 1 - Identificador 'a' já foi declarado!" analyse fileName="testes/files/semantico/inErro1.txt"
