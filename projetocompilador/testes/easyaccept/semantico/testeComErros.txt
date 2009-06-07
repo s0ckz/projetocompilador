@@ -1,1 +1,5 @@
 expectError "Linha: 1 - Identificador 'a' já foi declarado!" analyse fileName="testes/files/semantico/inErro1.txt"
+
+expectError "Linha: 2 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro2.txt"
+
+expectError "Linha: 2 - Tipos incompatíveis: int[] com int!" analyse fileName="testes/files/semantico/inErro3.txt"

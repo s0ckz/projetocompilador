@@ -37,6 +37,14 @@ public class TipoAS {
 				isVetor() == outro.isVetor();
 	}
 	
+	public boolean isNumero() {
+		return simbolo.isNumero();
+	}
+	
+	public boolean isCadeia() {
+		return simbolo.isCadeia();
+	}
+	
 	public String toString() {
 		return simbolo.getCadeia() + ((vetor) ? "[]" : "");
 	}
