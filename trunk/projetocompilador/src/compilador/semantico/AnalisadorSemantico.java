@@ -25,6 +25,12 @@ public class AnalisadorSemantico {
 		asEmpilharTipo(Simbolo.createTipoCadeia(), false);
 	}
 
+	public void asVerificarSeEhTipoConstante(Simbolo identificador) throws AnalisadorSemanticoException {
+		SimboloXptoAS simboloAS = getSimboloXptoAS(identificador.getCadeia());
+		if (simboloAS.isConstante())
+			throw new AnalisadorSemanticoException("'" + identificador.getCadeia() +"' é constante!");
+	}
+
 	public void asEmpilharTipoBaseadoEmIdentificador(Simbolo identificador, boolean ehVetor) throws AnalisadorSemanticoException {
 		SimboloXptoAS simboloAS = getSimboloXptoAS(identificador.getCadeia());
 		TipoAS tipoAS = simboloAS.getTipo();

@@ -13,6 +13,14 @@ public class SimboloXptoAS extends AbstractSimboloAS {
 		this.constante = constante;
 	}
 
+	public boolean isConstante() {
+		return constante;
+	}
+
+	public void setConstante(boolean constante) {
+		this.constante = constante;
+	}
+
 	public SimboloASEnum getSimboloASEnum() {
 		return (constante) ? SimboloASEnum.CONSTANTE : SimboloASEnum.VARIAVEL;
 	}

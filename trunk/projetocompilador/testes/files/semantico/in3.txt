@@ -1,0 +1,8 @@
+int i = 1;
+int d = 50;
+
+while (i < 10) {
+	write i;
+	i = i * 10 + (i * 30) + d;
+	d = d + 30 + i;
+}
