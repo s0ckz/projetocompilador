@@ -11,3 +11,7 @@ expectError "Linha: 5 - Tipos incompatíveis: string com int!" analyse fileName="
 expectError "Linha: 7 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro6.txt"
 
 expectError "Linha: 7 - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro7.txt"
+
+expectError "Linha: 8 - Procedimento 'teste' não declarado!" analyse fileName="testes/files/semantico/inErro8.txt"
+
+expectError "Linha: 13 - Procedimento 'blah' não declarado!" analyse fileName="testes/files/semantico/inErro9.txt"

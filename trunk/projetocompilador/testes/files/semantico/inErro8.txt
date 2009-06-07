@@ -1,0 +1,9 @@
+int a;
+int b;
+
+a = 5;
+b = 6;
+
+if (a > b) {
+	teste();
+}

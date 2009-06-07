@@ -174,6 +174,13 @@ public class AnalisadorSintatico {
 		if (optionalSymbol("def")) {
 			requiredSymbol("void");
 			requiredIdentificador();
+			
+			try {
+				semantico.asDeclararProcedimento(simboloAnterior);
+			} catch (AnalisadorSemanticoException e) {
+				tratarExcecaoSemantico(e);
+			}
+			
 			requiredSymbol("(");
 			requiredSymbol(")");
 			requiredSymbol("{");
@@ -348,8 +355,9 @@ public class AnalisadorSintatico {
 			requiredSymbol(";");
 			return true;
 		} else if (identificador()) {
+			Simbolo identificador = simboloAnterior;
 			if (optionalSymbol("(")) {
-				requiredSymbol(")");
+				chamadaProcedimento(identificador);
 			} else {
 				atribuicao();
 			}
@@ -357,6 +365,16 @@ public class AnalisadorSintatico {
 			return true;
 		}
 		return false;
+	}
+
+	private void chamadaProcedimento(Simbolo identificador)
+			throws AnalisadorSintaticoException {
+		requiredSymbol(")");
+		try {
+			semantico.asVerificarExistenciaProcedimento(identificador);
+		} catch (AnalisadorSemanticoException e) {
+			tratarExcecaoSemantico(e);
+		}
 	}
 
 	private void atribuicao() throws AnalisadorSintaticoException {
