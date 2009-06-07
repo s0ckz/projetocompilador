@@ -1,1 +1,5 @@
-stackTrace analyse  fileName="testes/files/sintatico/inErro27.txt"
+analyse fileName="testes/files/sintatico/inErro27.txt"
+
+expect "Linha: 2 - Esperava: numero, (expressão) ou identificador" getProximoErro
+
+expect "Linha: 3 - Esperava: numero, (expressão) ou identificador" getProximoErro

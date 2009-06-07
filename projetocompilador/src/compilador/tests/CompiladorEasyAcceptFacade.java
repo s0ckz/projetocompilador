@@ -34,6 +34,10 @@ public class CompiladorEasyAcceptFacade {
 		return analisadorLexico.proximoSimbolo();	
 	}
 	
+	public String getProximoErro() {
+		return analisadorSintatico.getProximoErro();
+	}
+	
 	public void reset() {
 		this.analisadorLexico  = new AnalisadorLexico();
 		this.analisadorSintatico =  new AnalisadorSintatico(analisadorLexico);

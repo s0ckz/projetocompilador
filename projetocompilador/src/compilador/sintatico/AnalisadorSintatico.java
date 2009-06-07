@@ -1,5 +1,7 @@
 package compilador.sintatico;
 
+import static compilador.sintatico.AnalisadorSintaticoException.getMensagemErro;
+
 import java.util.List;
 
 import compilador.lexico.AnalisadorLexico;
@@ -15,6 +17,8 @@ public class AnalisadorSintatico {
 	private AnalisadorLexico lexico;
 	
 	private AnalisadorSemantico semantico = new AnalisadorSemantico();
+	
+	private TratadorDeErros tratadorDeErros = new TratadorDeErros();
 
 	private Simbolo simbolo;
 
@@ -22,6 +26,10 @@ public class AnalisadorSintatico {
 
 	public AnalisadorSintatico(AnalisadorLexico lexico) {
 		this.lexico = lexico;
+	}
+	
+	public String getProximoErro() {
+		return tratadorDeErros.popErro();
 	}
 
 	public void analyse() throws AnalisadorSintaticoException {
@@ -244,26 +252,24 @@ public class AnalisadorSintatico {
 			// nao precisa fazer nada.
 		} else if (escalar()) {
 			// nao precisa fazer nada.
-		} else {
-			System.out.println("aqui");
-			if (trataErro(TabelaPrimeirosESeguidores.getPrimeiros("pred"), 
-					  TabelaPrimeirosESeguidores.getSeguidores("pred"),
-					  "Esperava: numero, (expressão) ou identificador"))
-				pred();
-//			lancarExcecaoEsperada("numero, (expressão) ou identificador");
+		} else if (tratarErro("pred", "Esperava: numero, (expressão) ou identificador")) {
+			pred();
 		}
 	}
 
 	// retorna um booleano pq se contiver o primeiro, eu posso ignorar o que veio
 	// antes e tentar de novo a mesma regra: fiz assim, mas achei estranho...
-	private boolean trataErro(List<Integer> primeiros, List<Integer> seguidores, String msgErro) throws AnalisadorSintaticoException {
+	private boolean tratarErro(String regra, String msgErro) throws AnalisadorSintaticoException {
+		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
+		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
 		if (!primeiros.contains(simbolo.getCodigo())) {
-			TratadorDeErros.getInstance().addMensagemDeErro(msgErro);
+			tratadorDeErros.addMensagemDeErro(getMensagemErro(lexico.getLinhaAtual(), msgErro));
 			while (!primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
 			}
 			return primeiros.contains(simbolo.getCodigo());
 		}
+		// acho que aqui lanca excecao de lascou foi tudo, pq nao conseguiu recuperar o erro.
 		return false;
 	}
 
