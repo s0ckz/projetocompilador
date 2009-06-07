@@ -234,7 +234,7 @@ public class AnalisadorSintatico {
 
 	private void pred() throws AnalisadorSintaticoException {
 		if (numero()) {
-			semantico.asEmpilharTipoNumero(simboloAnterior);
+			semantico.asEmpilharTipoNumero();
 		} else if (expressaoParentisada()) {
 			// nao precisa fazer nada.
 		} else if (identificador()) {
@@ -352,14 +352,27 @@ public class AnalisadorSintatico {
 			if (optionalSymbol("(")) {
 				requiredSymbol(")");
 			} else {
-				eh_vetor();
-				requiredSymbol("=");
-				var_exp();
+				atribuicao();
 			}
 			requiredSymbol(";");
 			return true;
 		}
 		return false;
+	}
+
+	private void atribuicao() throws AnalisadorSintaticoException {
+		try {
+			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
+			requiredSymbol("=");
+			if (cadeia()) {
+				semantico.asEmpilharTipoCadeia();
+			} else {
+				expressao();
+			}
+			semantico.asVerificarTipo();
+		} catch (AnalisadorSemanticoException e) {
+			tratarExcecaoSemantico(e);
+		}
 	}
 
 	private void cmd_decisao_else() throws AnalisadorSintaticoException {
