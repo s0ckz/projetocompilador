@@ -9,5 +9,9 @@ public class SimboloProcedimentoAS extends AbstractSimboloAS {
 	public SimboloASEnum getSimboloASEnum() {
 		return SimboloASEnum.PROCEDIMENTO;
 	}
+	
+	public String toString() {
+		return super.toString() + " - " + getSimboloASEnum();
+	}
 
 }

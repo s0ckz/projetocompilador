@@ -36,5 +36,9 @@ public class TipoAS {
 		return getSimbolo().equals(outro.getSimbolo()) &&
 				isVetor() == outro.isVetor();
 	}
+	
+	public String toString() {
+		return simbolo.getCadeia() + ((vetor) ? "[]" : "");
+	}
 
 }
