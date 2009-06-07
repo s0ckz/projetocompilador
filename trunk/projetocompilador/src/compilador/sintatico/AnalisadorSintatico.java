@@ -1,9 +1,13 @@
 package compilador.sintatico;
 
+import java.util.List;
+
 import compilador.lexico.AnalisadorLexico;
 import compilador.lexico.AnalisadorLexicoException;
 import compilador.semantico.AnalisadorSemantico;
 import compilador.semantico.AnalisadorSemanticoException;
+import compilador.tratamentoDeErros.TabelaPrimeirosESeguidores;
+import compilador.tratamentoDeErros.TratadorDeErros;
 import compilador.util.Simbolo;
 
 public class AnalisadorSintatico {
@@ -191,12 +195,14 @@ public class AnalisadorSintatico {
 	}
 
 	private void expressao() throws AnalisadorSintaticoException {
+		System.out.println("E");
 		termo();
 		expressaoLinha();
 	}
 
 	private void expressaoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("+") || optionalSymbol("-")) {
+			System.out.println("E'");
 			expressao();
 			try {
 				semantico.asVerificarTipo();
@@ -207,12 +213,14 @@ public class AnalisadorSintatico {
 	}
 
 	private void termo() throws AnalisadorSintaticoException {
+		System.out.println("T");
 		fator();
 		termoLinha();
 	}
 
 	private void termoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("*") || optionalSymbol("/")) {
+			System.out.println("T'");
 			termo();
 			try {
 				semantico.asVerificarTipo();
@@ -223,17 +231,20 @@ public class AnalisadorSintatico {
 	}
 
 	private void fator() throws AnalisadorSintaticoException {
+		System.out.println("F");
 		pred();
 		fatorLinha();
 	}
 
 	private void fatorLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("**")) {
+			System.out.println("F'");
 			fator();
 		}
 	}
 
 	private void pred() throws AnalisadorSintaticoException {
+		System.out.println("Pred");
 		if (numero()) {
 			semantico.asEmpilharTipoNumero();
 		} else if (expressaoParentisada()) {
@@ -241,7 +252,20 @@ public class AnalisadorSintatico {
 		} else if (escalar()) {
 			// nao precisa fazer nada.
 		} else {
-			lancarExcecaoEsperada("numero, (expressão) ou identificador");
+			trataErro(TabelaPrimeirosESeguidores.getPrimeiros("pred"), 
+					  TabelaPrimeirosESeguidores.getSeguidores("pred"),
+					  "Esperava: numero, (expressão) ou identificador");
+			pred();
+//			lancarExcecaoEsperada("numero, (expressão) ou identificador");
+		}
+	}
+
+	private void trataErro(List<Integer> primeiros, List<Integer> seguidores, String msgErro) throws AnalisadorSintaticoException {
+		if (!primeiros.contains(simbolo.getCodigo())) {
+			TratadorDeErros.getInstance().addMensagemDeErro(msgErro);
+			while (!primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
+				lerProximoSimbolo();
+			}
 		}
 	}
 
@@ -475,6 +499,7 @@ public class AnalisadorSintatico {
 	}
 
 	private void lerProximoSimbolo() throws AnalisadorSintaticoException {
+		System.out.println(simbolo);
 		try {
 			simboloAnterior = simbolo;
 			simbolo = lexico.proximoSimbolo();
