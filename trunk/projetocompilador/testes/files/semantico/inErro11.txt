@@ -1,0 +1,5 @@
+int c;
+read c;
+write "teste";
+write {"a", "b"};
+write d;
