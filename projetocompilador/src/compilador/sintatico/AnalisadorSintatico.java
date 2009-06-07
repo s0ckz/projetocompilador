@@ -16,8 +16,6 @@ public class AnalisadorSintatico {
 
 	private Simbolo simboloAnterior;
 
-	private Simbolo ultimoIdentificador;
-
 	public AnalisadorSintatico(AnalisadorLexico lexico) {
 		this.lexico = lexico;
 	}
@@ -241,7 +239,7 @@ public class AnalisadorSintatico {
 			// nao precisa fazer nada.
 		} else if (identificador()) {
 			try {
-				semantico.asEmpilharTipoBaseadoEmIdentificador(ultimoIdentificador, eh_vetor());
+				semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
 			} catch (AnalisadorSemanticoException e) {
 				tratarExcecaoSemantico(e);
 			}
@@ -385,7 +383,6 @@ public class AnalisadorSintatico {
 		if (simbolo == null || !simbolo.isIdentificador()) {
 			return false;
 		} else {
-			ultimoIdentificador = simbolo;
 			lerProximoSimbolo();
 			return true;
 		}
