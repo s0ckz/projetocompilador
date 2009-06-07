@@ -31,7 +31,7 @@ public class AnalisadorSemantico {
 		else if (!ehVetor)
 			asEmpilharTipo(tipoAS.getSimbolo(), false);
 		else // tipoAS.isVetor() && ehVetor
-			throw new AnalisadorSemanticoException(identificador.getCadeia() +" não é um vetor!");
+			throw new AnalisadorSemanticoException("'" + identificador.getCadeia() +"' não é um vetor!");
 	}
 	
 	public void asDeclararXptoConstante(Simbolo simbolo) throws AnalisadorSemanticoException {
