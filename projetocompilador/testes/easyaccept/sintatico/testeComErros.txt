@@ -2,7 +2,7 @@ expectError "Linha: 2 - Esperava: ';'!" analyse fileName="testes/files/sintatico
 
 expectError "Linha: 1 - Esperava: 'IDENTIFICADOR'!" analyse fileName="testes/files/sintatico/inErro2.txt"
 
-expectError "Linha: 3 - Esperava: 'void, int ou string'!" analyse fileName="testes/files/sintatico/inErro3.txt"
+expectError "Linha: 3 - Esperava: 'void'!" analyse fileName="testes/files/sintatico/inErro3.txt"
 
 expectError "Linha: 3 - Esperava: '('!" analyse  fileName="testes/files/sintatico/inErro4.txt"
 

@@ -1,9 +1,9 @@
 int media;
 string aprovado;
-def int proc() {
-def int proc2() {
+def void proc() {
+def void proc2() {
 }
-def int proc3() {
+def void proc3() {
 }
-def int proc4() {
+def void proc4() {
 }
