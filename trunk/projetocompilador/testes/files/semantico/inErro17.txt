@@ -1,0 +1,10 @@
+int[5] teste;
+const int[6] teste2 = {1,2,3,4,5,6};
+int i = 0;
+
+while (i < 5) {
+	teste[i] = i * 10 * (i + 30);
+	i = i + 1;
+}
+teste = teste2;
+teste2 = teste;

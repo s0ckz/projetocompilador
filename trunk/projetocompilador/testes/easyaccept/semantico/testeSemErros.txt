@@ -5,3 +5,7 @@ analyse fileName="testes/files/semantico/in2.txt"
 analyse fileName="testes/files/semantico/in3.txt"
 
 analyse fileName="testes/files/semantico/in4.txt"
+
+analyse fileName="testes/files/semantico/in5.txt"
+
+analyse fileName="testes/files/semantico/in6.txt"

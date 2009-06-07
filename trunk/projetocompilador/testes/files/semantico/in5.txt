@@ -1,0 +1,7 @@
+int[5] teste;
+int i = 0;
+
+while (i < 5) {
+	teste[i] = i * 10 * (i + 30);
+	i = i + 1;
+}

@@ -1,0 +1,9 @@
+int[5] teste;
+string[6] teste2;
+int i = 0;
+
+while (i < 5) {
+	teste[i] = i * 10 * (i + 30);
+	i = i + 1;
+}
+teste2 = teste;
