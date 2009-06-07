@@ -16,6 +16,8 @@ public class AnalisadorSintatico {
 
 	private Simbolo simboloAnterior;
 
+	private Simbolo ultimoIdentificador;
+
 	public AnalisadorSintatico(AnalisadorLexico lexico) {
 		this.lexico = lexico;
 	}
@@ -60,14 +62,12 @@ public class AnalisadorSintatico {
 	}
 
 	private void dec_const() throws AnalisadorSintaticoException {
-		semantico.asAtivarDeclaracaoConstantes();
 		requiredTipo();
 		Simbolo tipo = simboloAnterior;
 		boolean ehVetor = eh_vetor();
 		semantico.asEmpilharTipo(tipo, ehVetor);
 		valor_inicial_const();
 		dec_resto_const(tipo, ehVetor);
-		semantico.asDesativarDeclaracaoConstantes();
 	}
 
 	private boolean dec_resto_const(Simbolo tipo, boolean ehVetor) throws AnalisadorSintaticoException {
@@ -84,7 +84,7 @@ public class AnalisadorSintatico {
 		requiredIdentificador();
 		
 		try {
-			semantico.asDeclararXpto(simboloAnterior);
+			semantico.asDeclararXptoConstante(simboloAnterior);
 		} catch (AnalisadorSemanticoException e) {
 			tratarExcecaoSemantico(e);
 		}
@@ -97,7 +97,7 @@ public class AnalisadorSintatico {
 		requiredIdentificador();
 		
 		try {
-			semantico.asDeclararXpto(simboloAnterior);
+			semantico.asDeclararXptoVariavel(simboloAnterior);
 		} catch (AnalisadorSemanticoException e) {
 			tratarExcecaoSemantico(e);
 		}
@@ -225,8 +225,21 @@ public class AnalisadorSintatico {
 	}
 
 	private void pred() throws AnalisadorSintaticoException {
-		if (!numero() && !expressaoParentisada() && !escalar())
+		if (numero()) {
+			semantico.asEmpilharTipo(simboloAnterior, false);
+		} else if (expressaoParentisada()) {
+			// nao precisa fazer nada.
+		} else if (escalar()) {
+			
+			try {
+				semantico.asEmpilharTipoBaseadoEmIdentificador(ultimoIdentificador);
+			} catch (AnalisadorSemanticoException e) {
+				tratarExcecaoSemantico(e);
+			}
+			
+		} else {
 			lancarExcecaoEsperada("numero, (expressão) ou identificador");
+		}
 	}
 
 	private boolean expressaoParentisada() throws AnalisadorSintaticoException {
@@ -364,6 +377,7 @@ public class AnalisadorSintatico {
 		if (simbolo == null || !simbolo.isIdentificador()) {
 			return false;
 		} else {
+			ultimoIdentificador = simbolo;
 			lerProximoSimbolo();
 			return true;
 		}

@@ -13,30 +13,51 @@ public class AnalisadorSemantico {
 	
 	private LinkedList<TipoAS> pilhaControleTipos = new LinkedList<TipoAS>();
 	
-	private boolean declarandoConstantes = false;
-
 	public void asEmpilharTipo(Simbolo tipo, boolean vetor) {
 		pushTipo(new TipoAS(tipo, vetor));
 	}
-	
-	public void asAtivarDeclaracaoConstantes() {
-		declarandoConstantes = true;
-	}
-	
-	public void asDesativarDeclaracaoConstantes() {
-		declarandoConstantes = false;
-	}
 
-	public void asDeclararXpto(Simbolo simbolo) throws AnalisadorSemanticoException {
+	public void asEmpilharTipoBaseadoEmIdentificador(Simbolo identificador) throws AnalisadorSemanticoException {
+		SimboloXptoAS simboloAS = getSimboloXptoAS(identificador.getCadeia());
+		pushTipo(simboloAS.getTipo());
+	}
+	
+	public void asDeclararXptoConstante(Simbolo simbolo) throws AnalisadorSemanticoException {
+		asDeclararXpto(simbolo, true);
+	}
+	
+	public void asDeclararXptoVariavel(Simbolo simbolo) throws AnalisadorSemanticoException {
+		asDeclararXpto(simbolo, false);
+	}
+	
+	private void asDeclararXpto(Simbolo simbolo, boolean declarandoConstantes) throws AnalisadorSemanticoException {
 		try {
 			TipoAS tipo = popTipo();
 			String identificador = simbolo.getCadeia();
 			SimboloAS simboloAS = new SimboloXptoAS(identificador, tipo, declarandoConstantes);
-			System.out.println(simboloAS);
 			inserir(identificador, simboloAS);
 		} catch (NoSuchElementException e) {
 			throw new AnalisadorSemanticoException("Fudeu!");
 		}
+	}
+	
+	private SimboloXptoAS getSimboloXptoAS(String identificador) throws AnalisadorSemanticoException {
+		SimboloAS simboloAS = getSimboloAS(identificador);
+		
+		if (simboloAS.getSimboloASEnum() == SimboloASEnum.CONSTANTE 
+				|| simboloAS.getSimboloASEnum() == SimboloASEnum.VARIAVEL)
+			return (SimboloXptoAS) simboloAS;
+		
+		throw new AnalisadorSemanticoException("Identificador esperado não é " + SimboloASEnum.PROCEDIMENTO + "!");
+	}
+
+	private SimboloAS getSimboloAS(String identificador)
+			throws AnalisadorSemanticoException {
+		if (!contem(identificador))
+			throw new AnalisadorSemanticoException("Identificador '" + identificador + "' não foi declarado!");
+
+		SimboloAS simboloAS = tabelaSimbolos.get(identificador);
+		return simboloAS;
 	}
 
 	private boolean contem(String identificador) {
@@ -54,7 +75,7 @@ public class AnalisadorSemantico {
 	private void inserir(String identificador, SimboloAS simbolo) throws AnalisadorSemanticoException {
 		if (contem(identificador))
 			throw new AnalisadorSemanticoException("Identificador '" + identificador + "' já foi declarado!");
-		
+
 		tabelaSimbolos.put(identificador, simbolo);
 	}
 

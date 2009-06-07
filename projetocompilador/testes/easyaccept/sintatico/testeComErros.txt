@@ -16,7 +16,7 @@ expectError "Linha: 1 - Esperava: 'numero, (expressão) ou identificador'!" analy
 
 expectError "Linha: 1 - Esperava: ']'!" analyse  fileName="testes/files/sintatico/inErro9.txt"
 
-expectError "Linha: 1 - Esperava: ']'!" analyse  fileName="testes/files/sintatico/inErro10.txt"
+expectError "Linha: 2 - Esperava: ']'!" analyse  fileName="testes/files/sintatico/inErro10.txt"
 
 expectError "Linha: 1 - Esperava: 'IDENTIFICADOR'!" analyse  fileName="testes/files/sintatico/inErro11.txt"
 
