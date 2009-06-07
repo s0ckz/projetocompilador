@@ -1,0 +1,4 @@
+int[5] teste;
+int i = 0;
+
+teste = 30;

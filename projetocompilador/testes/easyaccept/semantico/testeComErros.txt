@@ -23,3 +23,11 @@ expectError "Linha: 5 - Identificador 'd' não foi declarado!" analyse fileName="
 expectError "Linha: 1 - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro12.txt"
 
 expectError "Linha: 3 - 'a' é constante!" analyse fileName="testes/files/semantico/inErro13.txt"
+
+expectError "Linha: 3 - 'b' é constante!" analyse fileName="testes/files/semantico/inErro14.txt"
+
+expectError "Linha: 4 - Tipos incompatíveis: int com int[]!" analyse fileName="testes/files/semantico/inErro15.txt"
+
+expectError "Linha: 9 - Tipos incompatíveis: int[] com string[]!" analyse fileName="testes/files/semantico/inErro16.txt"
+
+expectError "Linha: 10 - 'teste2' é constante!" analyse fileName="testes/files/semantico/inErro17.txt"
