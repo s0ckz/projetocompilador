@@ -15,3 +15,7 @@ expectError "Linha: 7 - Identificador 'd' não foi declarado!" analyse fileName="
 expectError "Linha: 8 - Procedimento 'teste' não declarado!" analyse fileName="testes/files/semantico/inErro8.txt"
 
 expectError "Linha: 13 - Procedimento 'blah' não declarado!" analyse fileName="testes/files/semantico/inErro9.txt"
+
+expectError "Linha: 1 - Identificador 'c' não foi declarado!" analyse fileName="testes/files/semantico/inErro10.txt"
+
+expectError "Linha: 5 - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro11.txt"

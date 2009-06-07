@@ -238,12 +238,8 @@ public class AnalisadorSintatico {
 			semantico.asEmpilharTipoNumero();
 		} else if (expressaoParentisada()) {
 			// nao precisa fazer nada.
-		} else if (identificador()) {
-			try {
-				semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
-			} catch (AnalisadorSemanticoException e) {
-				tratarExcecaoSemantico(e);
-			}
+		} else if (escalar()) {
+			// nao precisa fazer nada.
 		} else {
 			lancarExcecaoEsperada("numero, (expressão) ou identificador");
 		}
@@ -260,7 +256,11 @@ public class AnalisadorSintatico {
 	
 	private boolean escalar() throws AnalisadorSintaticoException {
 		if (identificador()) {
-			eh_vetor();
+			try {
+				semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
+			} catch (AnalisadorSemanticoException e) {
+				tratarExcecaoSemantico(e);
+			}
 			return true;
 		}
 		return false;
