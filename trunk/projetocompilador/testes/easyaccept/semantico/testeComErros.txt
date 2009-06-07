@@ -7,3 +7,7 @@ expectError "Linha: 2 - Tipos incompatíveis: int[] com int!" analyse fileName="t
 expectError "Linha: 1 - 'a' não é um vetor!" analyse fileName="testes/files/semantico/inErro4.txt"
 
 expectError "Linha: 5 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro5.txt"
+
+expectError "Linha: 7 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro6.txt"
+
+expectError "Linha: 7 - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro7.txt"

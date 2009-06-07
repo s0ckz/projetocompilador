@@ -294,6 +294,11 @@ public class AnalisadorSintatico {
 			expressao();
 			requiredOperadorRelacional();
 			expressao();
+			try {
+				semantico.asVerificarTipo();
+			} catch (AnalisadorSemanticoException e) {
+				tratarExcecaoSemantico(e);
+			}
 		}
 	}
 

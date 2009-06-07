@@ -1,0 +1,9 @@
+int a;
+string b;
+
+a = 5;
+b = "4";
+
+if (a > b) {
+	a = 10;
+}
