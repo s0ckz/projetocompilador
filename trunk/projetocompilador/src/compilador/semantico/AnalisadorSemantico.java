@@ -106,10 +106,12 @@ public class AnalisadorSemantico {
 	}
 	
 	private void pushTipo(TipoAS tipo) {
+//		System.out.println("empilhando " + tipo);
 		pilhaControleTipos.push(tipo);
 	}
 	
 	private TipoAS popTipo() {
+//		System.out.println("poping " + pilhaControleTipos.getFirst());
 		return pilhaControleTipos.pop();
 	}
 	

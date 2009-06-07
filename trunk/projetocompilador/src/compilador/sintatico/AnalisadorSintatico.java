@@ -195,14 +195,12 @@ public class AnalisadorSintatico {
 	}
 
 	private void expressao() throws AnalisadorSintaticoException {
-		System.out.println("E");
 		termo();
 		expressaoLinha();
 	}
 
 	private void expressaoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("+") || optionalSymbol("-")) {
-			System.out.println("E'");
 			expressao();
 			try {
 				semantico.asVerificarTipo();
@@ -213,14 +211,12 @@ public class AnalisadorSintatico {
 	}
 
 	private void termo() throws AnalisadorSintaticoException {
-		System.out.println("T");
 		fator();
 		termoLinha();
 	}
 
 	private void termoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("*") || optionalSymbol("/")) {
-			System.out.println("T'");
 			termo();
 			try {
 				semantico.asVerificarTipo();
@@ -231,20 +227,17 @@ public class AnalisadorSintatico {
 	}
 
 	private void fator() throws AnalisadorSintaticoException {
-		System.out.println("F");
 		pred();
 		fatorLinha();
 	}
 
 	private void fatorLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("**")) {
-			System.out.println("F'");
 			fator();
 		}
 	}
 
 	private void pred() throws AnalisadorSintaticoException {
-		System.out.println("Pred");
 		if (numero()) {
 			semantico.asEmpilharTipoNumero();
 		} else if (expressaoParentisada()) {
@@ -252,21 +245,26 @@ public class AnalisadorSintatico {
 		} else if (escalar()) {
 			// nao precisa fazer nada.
 		} else {
-			trataErro(TabelaPrimeirosESeguidores.getPrimeiros("pred"), 
+			System.out.println("aqui");
+			if (trataErro(TabelaPrimeirosESeguidores.getPrimeiros("pred"), 
 					  TabelaPrimeirosESeguidores.getSeguidores("pred"),
-					  "Esperava: numero, (expressão) ou identificador");
-			pred();
+					  "Esperava: numero, (expressão) ou identificador"))
+				pred();
 //			lancarExcecaoEsperada("numero, (expressão) ou identificador");
 		}
 	}
 
-	private void trataErro(List<Integer> primeiros, List<Integer> seguidores, String msgErro) throws AnalisadorSintaticoException {
+	// retorna um booleano pq se contiver o primeiro, eu posso ignorar o que veio
+	// antes e tentar de novo a mesma regra: fiz assim, mas achei estranho...
+	private boolean trataErro(List<Integer> primeiros, List<Integer> seguidores, String msgErro) throws AnalisadorSintaticoException {
 		if (!primeiros.contains(simbolo.getCodigo())) {
 			TratadorDeErros.getInstance().addMensagemDeErro(msgErro);
 			while (!primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
 			}
+			return primeiros.contains(simbolo.getCodigo());
 		}
+		return false;
 	}
 
 	private boolean expressaoParentisada() throws AnalisadorSintaticoException {
@@ -499,7 +497,6 @@ public class AnalisadorSintatico {
 	}
 
 	private void lerProximoSimbolo() throws AnalisadorSintaticoException {
-		System.out.println(simbolo);
 		try {
 			simboloAnterior = simbolo;
 			simbolo = lexico.proximoSimbolo();
