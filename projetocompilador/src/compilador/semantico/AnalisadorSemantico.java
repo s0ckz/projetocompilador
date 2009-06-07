@@ -38,6 +38,11 @@ public class AnalisadorSemantico {
 			throw new AnalisadorSemanticoException("'" + identificador.getCadeia() +"' não é um vetor!");
 	}
 	
+	public void asVerificarExistenciaProcedimento(Simbolo identificador) throws AnalisadorSemanticoException {
+		if (!contem(identificador.getCadeia()))
+			throw new AnalisadorSemanticoException("Procedimento '" + identificador.getCadeia() + "' não declarado!");
+	}
+	
 	public void asDeclararXptoConstante(Simbolo simbolo) throws AnalisadorSemanticoException {
 		asDeclararXpto(simbolo, true);
 	}
@@ -53,8 +58,12 @@ public class AnalisadorSemantico {
 			SimboloAS simboloAS = new SimboloXptoAS(identificador, tipo, declarandoConstantes);
 			inserir(identificador, simboloAS);
 		} catch (NoSuchElementException e) {
-			throw new AnalisadorSemanticoException("Fudeu!");
+			throw new AnalisadorSemanticoException("Erro na pilha!");
 		}
+	}
+
+	public void asDeclararProcedimento(Simbolo simbolo) throws AnalisadorSemanticoException {
+		inserir(simbolo.getCadeia(), new SimboloProcedimentoAS(simbolo.getCadeia()));;
 	}
 
 	public void asVerificarTipo() throws AnalisadorSemanticoException {
