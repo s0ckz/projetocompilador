@@ -32,6 +32,7 @@ public class AnalisadorSemantico {
 			TipoAS tipo = popTipo();
 			String identificador = simbolo.getCadeia();
 			SimboloAS simboloAS = new SimboloXptoAS(identificador, tipo, declarandoConstantes);
+			System.out.println(simboloAS);
 			inserir(identificador, simboloAS);
 		} catch (NoSuchElementException e) {
 			throw new AnalisadorSemanticoException("Fudeu!");

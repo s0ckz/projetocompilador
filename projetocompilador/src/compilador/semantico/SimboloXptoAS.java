@@ -34,5 +34,9 @@ public class SimboloXptoAS extends AbstractSimboloAS {
 	public void setValor(Object valor) {
 		this.valor = valor;
 	}
+	
+	public String toString() {
+		return super.toString() + " - " + getSimboloASEnum() + " - Tipo: " + getTipo() + " - Valor: " + valor;  
+	}
 
 }

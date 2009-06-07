@@ -11,5 +11,9 @@ public abstract class AbstractSimboloAS implements SimboloAS {
 	public String getNome() {
 		return nome;
 	}
+	
+	public String toString() {
+		return "Nome: " + getNome();
+	}
 
 }
