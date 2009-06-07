@@ -14,8 +14,7 @@ public class AnalisadorSemantico {
 	private LinkedList<TipoAS> pilhaControleTipos = new LinkedList<TipoAS>();
 	
 	public void asEmpilharTipo(Simbolo tipo, boolean vetor) {
-		TipoAS blah = new TipoAS(tipo, vetor);
-		pushTipo(blah);
+		pushTipo(new TipoAS(tipo, vetor));
 	}
 
 	public void asEmpilharTipoNumero() {
