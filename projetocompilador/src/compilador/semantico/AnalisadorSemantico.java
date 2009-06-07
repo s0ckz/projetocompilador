@@ -18,8 +18,12 @@ public class AnalisadorSemantico {
 		pushTipo(blah);
 	}
 
-	public void asEmpilharTipoNumero(Simbolo simbolo) {
+	public void asEmpilharTipoNumero() {
 		asEmpilharTipo(Simbolo.createTipoNumero(), false);
+	}
+
+	public void asEmpilharTipoCadeia() {
+		asEmpilharTipo(Simbolo.createTipoCadeia(), false);
 	}
 
 	public void asEmpilharTipoBaseadoEmIdentificador(Simbolo identificador, boolean ehVetor) throws AnalisadorSemanticoException {

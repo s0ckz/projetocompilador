@@ -5,3 +5,5 @@ expectError "Linha: 2 - Tipos incompatíveis: string com int!" analyse fileName="
 expectError "Linha: 2 - Tipos incompatíveis: int[] com int!" analyse fileName="testes/files/semantico/inErro3.txt"
 
 expectError "Linha: 1 - 'a' não é um vetor!" analyse fileName="testes/files/semantico/inErro4.txt"
+
+expectError "Linha: 5 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro5.txt"

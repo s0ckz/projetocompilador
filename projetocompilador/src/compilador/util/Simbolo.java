@@ -69,4 +69,8 @@ public class Simbolo {
 		return new Simbolo(ConjuntoCodigos.INTEGER, "int");
 	}
 
+	public static Simbolo createTipoCadeia() {
+		return new Simbolo(ConjuntoCodigos.STRING, "string");
+	}
+
 }
