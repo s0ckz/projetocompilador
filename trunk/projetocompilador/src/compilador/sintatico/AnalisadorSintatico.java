@@ -172,7 +172,7 @@ public class AnalisadorSintatico {
 
 	private void subprogramas() throws AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
-			tipo_retorno();
+			requiredSymbol("void");
 			requiredIdentificador();
 			requiredSymbol("(");
 			requiredSymbol(")");
@@ -183,12 +183,6 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	//TODO: Deve ser somente void.
-	private void tipo_retorno() throws AnalisadorSintaticoException {
-		if (!optionalSymbol("void") && !tipo())
-			lancarExcecaoEsperada("void, int ou string");
-	}
-	
 	private void expressao() throws AnalisadorSintaticoException {
 		termo();
 		expressaoLinha();

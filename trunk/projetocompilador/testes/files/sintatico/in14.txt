@@ -1,5 +1,5 @@
 int c, condicao = 1;
-def int proc() {
+def void proc() {
 	if (condicao == 1) {
 		c = 1;
 	};

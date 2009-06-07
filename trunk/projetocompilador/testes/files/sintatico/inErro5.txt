@@ -1,4 +1,4 @@
 int media;
 string aprovado;
-def int 1proc() {
+def void 1proc() {
 }
