@@ -379,6 +379,7 @@ public class AnalisadorSintatico {
 
 	private void atribuicao() throws AnalisadorSintaticoException {
 		try {
+			semantico.asVerificarSeEhTipoConstante(simboloAnterior);
 			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
 			requiredSymbol("=");
 			if (cadeia()) {

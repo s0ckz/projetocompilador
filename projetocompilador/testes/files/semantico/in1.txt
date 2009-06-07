@@ -1,0 +1,8 @@
+string a = "teste";
+int x;
+
+write a;
+if (5 > 3) {
+	write "blah";
+}
+read x;

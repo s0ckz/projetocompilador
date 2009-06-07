@@ -1,0 +1,7 @@
+analyse fileName="testes/files/semantico/in1.txt"
+
+analyse fileName="testes/files/semantico/in2.txt"
+
+analyse fileName="testes/files/semantico/in3.txt"
+
+analyse fileName="testes/files/semantico/in4.txt"
