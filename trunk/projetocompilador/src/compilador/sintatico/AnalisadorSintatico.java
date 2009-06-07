@@ -199,6 +199,11 @@ public class AnalisadorSintatico {
 	private void expressaoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("+") || optionalSymbol("-")) {
 			expressao();
+			try {
+				semantico.asVerificarTipo();
+			} catch (AnalisadorSemanticoException e) {
+				tratarExcecaoSemantico(e);
+			}
 		}
 	}
 
@@ -210,6 +215,11 @@ public class AnalisadorSintatico {
 	private void termoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("*") || optionalSymbol("/")) {
 			termo();
+			try {
+				semantico.asVerificarTipo();
+			} catch (AnalisadorSemanticoException e) {
+				tratarExcecaoSemantico(e);
+			}
 		}
 	}
 
@@ -226,17 +236,15 @@ public class AnalisadorSintatico {
 
 	private void pred() throws AnalisadorSintaticoException {
 		if (numero()) {
-			semantico.asEmpilharTipo(simboloAnterior, false);
+			semantico.asEmpilharTipoNumero(simboloAnterior);
 		} else if (expressaoParentisada()) {
 			// nao precisa fazer nada.
-		} else if (escalar()) {
-			
+		} else if (identificador()) {
 			try {
-				semantico.asEmpilharTipoBaseadoEmIdentificador(ultimoIdentificador);
+				semantico.asEmpilharTipoBaseadoEmIdentificador(ultimoIdentificador, eh_vetor());
 			} catch (AnalisadorSemanticoException e) {
 				tratarExcecaoSemantico(e);
 			}
-			
 		} else {
 			lancarExcecaoEsperada("numero, (expressão) ou identificador");
 		}

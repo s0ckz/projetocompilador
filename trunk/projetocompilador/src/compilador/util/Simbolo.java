@@ -65,4 +65,8 @@ public class Simbolo {
 				getCadeia().equals(outro.getCadeia());
 	}
 
+	public static Simbolo createTipoNumero() {
+		return new Simbolo(ConjuntoCodigos.INTEGER, "int");
+	}
+
 }

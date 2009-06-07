@@ -14,12 +14,24 @@ public class AnalisadorSemantico {
 	private LinkedList<TipoAS> pilhaControleTipos = new LinkedList<TipoAS>();
 	
 	public void asEmpilharTipo(Simbolo tipo, boolean vetor) {
-		pushTipo(new TipoAS(tipo, vetor));
+		TipoAS blah = new TipoAS(tipo, vetor);
+		pushTipo(blah);
 	}
 
-	public void asEmpilharTipoBaseadoEmIdentificador(Simbolo identificador) throws AnalisadorSemanticoException {
+	public void asEmpilharTipoNumero(Simbolo simbolo) {
+		asEmpilharTipo(Simbolo.createTipoNumero(), false);
+	}
+
+	public void asEmpilharTipoBaseadoEmIdentificador(Simbolo identificador, boolean ehVetor) throws AnalisadorSemanticoException {
 		SimboloXptoAS simboloAS = getSimboloXptoAS(identificador.getCadeia());
-		pushTipo(simboloAS.getTipo());
+		TipoAS tipoAS = simboloAS.getTipo();
+		
+		if (tipoAS.isVetor())
+			asEmpilharTipo(tipoAS.getSimbolo(), !ehVetor);
+		else if (!ehVetor)
+			asEmpilharTipo(tipoAS.getSimbolo(), false);
+		else // tipoAS.isVetor() && ehVetor
+			throw new AnalisadorSemanticoException(identificador.getCadeia() +" não é um vetor!");
 	}
 	
 	public void asDeclararXptoConstante(Simbolo simbolo) throws AnalisadorSemanticoException {
@@ -38,6 +50,17 @@ public class AnalisadorSemantico {
 			inserir(identificador, simboloAS);
 		} catch (NoSuchElementException e) {
 			throw new AnalisadorSemanticoException("Fudeu!");
+		}
+	}
+
+	public void asVerificarTipo() throws AnalisadorSemanticoException {
+		TipoAS tipo1 = popTipo();
+		TipoAS tipo2 = popTipo();
+		
+		if (tipo1.equals(tipo2)) {
+			pushTipo(tipo1);
+		} else {
+			throw new AnalisadorSemanticoException("Tipos incompatíveis: " + tipo1 + " com " + tipo2 + "!");
 		}
 	}
 	
