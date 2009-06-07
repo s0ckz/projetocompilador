@@ -7,8 +7,6 @@ public class SimboloXptoAS extends AbstractSimboloAS {
 	
 	private TipoAS tipo;
 	
-	private Object valor;
-	
 	public SimboloXptoAS(String nome, TipoAS tipo, boolean constante) {
 		super(nome);
 		this.tipo = tipo;
@@ -27,16 +25,8 @@ public class SimboloXptoAS extends AbstractSimboloAS {
 		this.tipo = tipo;
 	}
 
-	public Object getValor() {
-		return valor;
-	}
-
-	public void setValor(Object valor) {
-		this.valor = valor;
-	}
-	
 	public String toString() {
-		return super.toString() + " - " + getSimboloASEnum() + " - Tipo: " + getTipo() + " - Valor: " + valor;  
+		return super.toString() + " - " + getSimboloASEnum() + " - Tipo: " + getTipo();  
 	}
 
 }
