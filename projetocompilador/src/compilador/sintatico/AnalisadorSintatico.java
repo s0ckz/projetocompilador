@@ -250,13 +250,11 @@ public class AnalisadorSintatico {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
 		ListaDeErros.getInstance().addMensagemDeErro(msgErro);
-		if (!primeiros.contains(simbolo.getCodigo())) {
-			while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
-				lerProximoSimbolo();
-			}
-			if (simbolo != null)
-				return primeiros.contains(simbolo.getCodigo());
+		while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
+			lerProximoSimbolo();
 		}
+		if (simbolo != null)
+			return primeiros.contains(simbolo.getCodigo());
 		// acho que aqui lanca excecao de lascou foi tudo, pq nao conseguiu recuperar o erro.
 		return true;
 	}
