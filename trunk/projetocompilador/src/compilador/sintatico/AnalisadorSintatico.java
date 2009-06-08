@@ -38,8 +38,8 @@ public class AnalisadorSintatico {
 
 	private void declaracoes() throws AnalisadorSintaticoException {
 		if (declaracao()) {
-			if (tratarSimboloRequerido(";", "declaracoes-;"))
-				declaracoes();
+			tratarSimboloRequerido(";", "declaracoes-;");
+			declaracoes();
 		}
 	}
 
