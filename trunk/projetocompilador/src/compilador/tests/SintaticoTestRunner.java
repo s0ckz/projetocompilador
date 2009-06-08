@@ -13,7 +13,7 @@ public class SintaticoTestRunner {
 		CompiladorEasyAcceptFacade facade = new CompiladorEasyAcceptFacade();
 		List<String> files = new LinkedList<String>();
 		String folder = "testes"+SEP+"easyaccept"+SEP+"sintatico"+SEP;
-//		files.add(folder + "testeSemErros.txt");
+		files.add(folder + "testeSemErros.txt");
 		files.add(folder + "testeComErros.txt");
 		EasyAcceptFacade eaFacade = new EasyAcceptFacade(facade,files);
 		eaFacade.executeTests();
