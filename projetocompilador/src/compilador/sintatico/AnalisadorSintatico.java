@@ -38,12 +38,8 @@ public class AnalisadorSintatico {
 
 	private void declaracoes() throws AnalisadorSintaticoException {
 		if (declaracao()) {
-			try {
-				requiredSymbol(";");
-			} catch (AnalisadorSintaticoException e) {
-				tratarErro("declaracoes", e.getMessage());
-			}
-			declaracoes();
+			if (tratarSimboloRequerido(";", "declaracoes-;"))
+				declaracoes();
 		}
 	}
 
@@ -93,14 +89,11 @@ public class AnalisadorSintatico {
 		valor();
 	}
 
-	private void valor_inicial() {
-		try {
+	private void valor_inicial() throws AnalisadorSintaticoException {
+		if (tratarErro("valor_inicial", getStringEsperado("IDENTIFICADOR"))) {
 			requiredIdentificador();
 			semantico.asDeclararXptoVariavel(simboloAnterior);
 			valor_aux();
-		} catch (AnalisadorSintaticoException e) {
-			if (tratarErro("valor_inicial", e.getMessage()))
-				valor_inicial();
 		}
 	}
 
@@ -229,18 +222,16 @@ public class AnalisadorSintatico {
 	}
 
 	private void pred() throws AnalisadorSintaticoException {
-		if (numero()) {
-			semantico.asEmpilharTipoNumero();
-		} else if (expressaoParentisada()) {
-			// nao precisa fazer nada.
-		} else if (escalar()) {
-			// nao precisa fazer nada.
-		} else {
-			if (tratarErro("pred", "Esperava: numero, (expressão) ou identificador")) {
-				pred();
-			} else {
-				semantico.asEmpilharNulo(); // para o semantico saber quando deve empilhar um elemento de novo.
+		if (tratarErro("pred", getStringEsperado("numero, (expressão) ou identificador"))) {
+			if (numero()) {
+				semantico.asEmpilharTipoNumero();
+			} else if (expressaoParentisada()) {
+				// nao precisa fazer nada.
+			} else if (escalar()) {
+				// nao precisa fazer nada.
 			}
+		} else {
+			semantico.asEmpilharNulo();
 		}
 	}
 
@@ -249,14 +240,14 @@ public class AnalisadorSintatico {
 	private boolean tratarErro(String regra, String msgErro) {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
-		ListaDeErros.getInstance().addMensagemDeErro(msgErro);
-		while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
-			lerProximoSimbolo();
+		if (!primeiros.contains(simbolo.getCodigo())) {
+			ListaDeErros.getInstance().addMensagemDeErro(msgErro);
+			while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
+				lerProximoSimbolo();
+			}
+			return simbolo != null && primeiros.contains(simbolo.getCodigo());
 		}
-		if (simbolo != null)
-			return primeiros.contains(simbolo.getCodigo());
-		// acho que aqui lanca excecao de lascou foi tudo, pq nao conseguiu recuperar o erro.
-		return true;
+		return simbolo != null;
 	}
 
 	private boolean expressaoParentisada() throws AnalisadorSintaticoException {
@@ -346,10 +337,10 @@ public class AnalisadorSintatico {
 				return procedimentoOuAtribuicao();
 			}
 		} catch (AnalisadorSintaticoException e) {
-			if (tratarErro("comando", e.getMessage()))
-				return comando();
-			else
-				return false;
+//			if (tratarErro("comando", e.getMessage()))
+//				return comando();
+//			else
+//				return false;
 		}
 		
 		return false;
@@ -468,6 +459,15 @@ public class AnalisadorSintatico {
 		if (!operadorRelacional()) lancarExcecaoEsperada("OPERADOR RELACIONAL");
 	}
 
+
+
+	private boolean tratarSimboloRequerido(String symbol, String regra) {
+		if (tratarErro(regra, getStringEsperado(symbol))) {
+			lerProximoSimbolo();
+			return true;
+		}
+		return false;
+	}
 
 	private void requiredSymbol(String required)
 			throws AnalisadorSintaticoException {
