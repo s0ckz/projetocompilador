@@ -30,7 +30,11 @@ public class AnalisadorLexico {
 	
 	private int linhaAtual = 1;
 	
+	private int linhaAnterior = 0;
+	
 	private StringBuilder conteudoLinhaAtual = createStringBuilder();
+	
+	private String conteudoLinhaAnterior = null;
 	
 	public AnalisadorLexico() {
 	}
@@ -48,6 +52,9 @@ public class AnalisadorLexico {
 			throw new AnalisadorLexicoException("Analisador Lexico nao foi inicializado.");
 		}
 
+		linhaAnterior = linhaAtual;
+		conteudoLinhaAnterior = conteudoLinhaAtual.toString();
+		
 		obteveSimbolo = false;
 		while ( !obteveSimbolo ) {
 			
@@ -72,11 +79,11 @@ public class AnalisadorLexico {
 	}
 	
 	public int getLinhaAtual() {
-		return linhaAtual;
+		return linhaAnterior;
 	}
 	
 	public String getConteudoLinhaAtual() {
-		return conteudoLinhaAtual.toString();
+		return conteudoLinhaAnterior;
 	}
 	
 	private void operadorParentisadorOuPontuacao() throws AnalisadorLexicoException {
@@ -183,7 +190,7 @@ public class AnalisadorLexico {
 			if (caractereAtual == '\n') {
 				conteudoLinhaAtual = createStringBuilder();
 				linhaAtual++;
-			} else if (caractereAtual != '\t') {
+			} else if (caractereAtual != '\t' && caractereAtual != '\r') {
 				conteudoLinhaAtual.append((char)caractereAtual);
 			}
 		} catch (IOException e) {
