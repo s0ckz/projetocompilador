@@ -1,13 +1,10 @@
 package compilador.sintatico;
 
-import static compilador.sintatico.AnalisadorSintaticoException.getMensagemErro;
-
 import java.util.List;
 
 import compilador.lexico.AnalisadorLexico;
 import compilador.lexico.AnalisadorLexicoException;
 import compilador.semantico.AnalisadorSemantico;
-import compilador.semantico.AnalisadorSemanticoException;
 import compilador.tratamentoDeErros.ListaDeErros;
 import compilador.tratamentoDeErros.TabelaPrimeirosESeguidores;
 import compilador.util.Simbolo;
@@ -91,13 +88,7 @@ public class AnalisadorSintatico {
 
 	private void valor_inicial_const() throws AnalisadorSintaticoException {
 		requiredIdentificador();
-		
-		try {
-			semantico.asDeclararXptoConstante(simboloAnterior);
-		} catch (AnalisadorSemanticoException e) {
-			tratarExcecaoSemantico(e);
-		}
-		
+		semantico.asDeclararXptoConstante(simboloAnterior);
 		requiredSymbol("=");
 		valor();
 	}
@@ -105,11 +96,7 @@ public class AnalisadorSintatico {
 	private void valor_inicial() throws AnalisadorSintaticoException {
 		try {
 			requiredIdentificador();
-			try {
-				semantico.asDeclararXptoVariavel(simboloAnterior);
-			} catch (AnalisadorSemanticoException e) {
-				tratarExcecaoSemantico(e);
-			}
+			semantico.asDeclararXptoVariavel(simboloAnterior);
 			valor_aux();
 		} catch (AnalisadorSintaticoException e) {
 			if (tratarErro("valor_inicial", e.getMessage()))
@@ -214,11 +201,7 @@ public class AnalisadorSintatico {
 	private void expressaoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("+") || optionalSymbol("-")) {
 			expressao();
-			try {
-				semantico.asVerificarTipo();
-			} catch (AnalisadorSemanticoException e) {
-				tratarExcecaoSemantico(e);
-			}
+			semantico.asVerificarTipo();
 		}
 	}
 
@@ -230,11 +213,7 @@ public class AnalisadorSintatico {
 	private void termoLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("*") || optionalSymbol("/")) {
 			termo();
-			try {
-				semantico.asVerificarTipo();
-			} catch (AnalisadorSemanticoException e) {
-				tratarExcecaoSemantico(e);
-			}
+			semantico.asVerificarTipo();
 		}
 	}
 
@@ -257,10 +236,7 @@ public class AnalisadorSintatico {
 		} else if (escalar()) {
 			// nao precisa fazer nada.
 		} else {
-			String mensagemErro = getMensagemErro(lexico.getLinhaAtual(), 
-					lexico.getConteudoLinhaAtual(), 
-					"Esperava: numero, (expressão) ou identificador");
-			if (tratarErro("pred", mensagemErro)) {
+			if (tratarErro("pred", "Esperava: numero, (expressão) ou identificador")) {
 				pred();
 			} else {
 				semantico.asEmpilharNulo(); // para o semantico saber quando deve empilhar um elemento de novo.
@@ -331,11 +307,7 @@ public class AnalisadorSintatico {
 			expressao();
 			requiredOperadorRelacional();
 			expressao();
-			try {
-				semantico.asVerificarTipo();
-			} catch (AnalisadorSemanticoException e) {
-				tratarExcecaoSemantico(e);
-			}
+			semantico.asVerificarTipo();
 		}
 	}
 
@@ -439,19 +411,15 @@ public class AnalisadorSintatico {
 	}
 
 	private void atribuicao() throws AnalisadorSintaticoException {
-		try {
-			semantico.asVerificarSeEhTipoConstante(simboloAnterior);
-			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
-			requiredSymbol("=");
-			if (cadeia()) {
-				semantico.asEmpilharTipoCadeia();
-			} else {
-				expressao();
-			}
-			semantico.asVerificarTipo();
-		} catch (AnalisadorSemanticoException e) {
-			tratarExcecaoSemantico(e);
+		semantico.asVerificarSeEhTipoConstante(simboloAnterior);
+		semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
+		requiredSymbol("=");
+		if (cadeia()) {
+			semantico.asEmpilharTipoCadeia();
+		} else {
+			expressao();
 		}
+		semantico.asVerificarTipo();
 	}
 
 	private void cmd_decisao_else() throws AnalisadorSintaticoException {
@@ -512,12 +480,8 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void tratarExcecaoSemantico(AnalisadorSemanticoException e) throws AnalisadorSintaticoException {
-//		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), e.getMessage());
-	}
-	
 	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), getStringEsperado(symbol));
+		throw new AnalisadorSintaticoException(getStringEsperado(symbol));
 	}
 
 	private String getStringEsperado(String symbol) {
@@ -550,12 +514,8 @@ public class AnalisadorSintatico {
 
 	private void checarFinal() throws AnalisadorSintaticoException {
 		if (simbolo != null) {
-			int linhaAtual = lexico.getLinhaAtual();
-			String conteudoLinhaAtual = lexico.getConteudoLinhaAtual();
-			String mensagemErro = getMensagemErro(linhaAtual, conteudoLinhaAtual, getStringNaoEsperado(simbolo.getCadeia()));
-			ListaDeErros.getInstance().addMensagemDeErro(mensagemErro);
+			ListaDeErros.getInstance().addMensagemDeErro(getStringNaoEsperado(simbolo.getCadeia()));
 		}
 	}
-
 
 }

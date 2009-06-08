@@ -34,6 +34,12 @@ public class CompiladorEasyAcceptFacade {
 		this.analisadorSintatico.analyse();
 	}
 	
+	// para evitar a mudanca dos testes do semantico por enquanto.
+	public void analyseSematico(String fileName) throws Exception {
+		analyse(fileName);
+		throw new Exception(getProximoErro());
+	}
+	
 	public Simbolo proximoSimbolo() throws AnalisadorLexicoException {
 		return analisadorLexico.proximoSimbolo();	
 	}

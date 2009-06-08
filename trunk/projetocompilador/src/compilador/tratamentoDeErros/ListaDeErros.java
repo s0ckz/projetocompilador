@@ -8,12 +8,16 @@ public class ListaDeErros {
 	
 	private static ListaDeErros instance;
 	
+	private int linhaAtual;
+	
+	private String conteudoLinhaAtual;
+
 	private ListaDeErros() {
 		mensagens = new LinkedList<String>();
 	}
 	
 	public void addMensagemDeErro(String msgErro) {
-		mensagens.push(msgErro);
+		mensagens.push("Erro na linha: " + getLinhaAtual() + " perto de: '" + getConteudoLinhaAtual() +  "' - " + msgErro);
 	}
 
 	public String popErro() {
@@ -29,6 +33,22 @@ public class ListaDeErros {
 
 	public void clear() {
 		mensagens.clear();
+	}
+	
+	public int getLinhaAtual() {
+		return linhaAtual;
+	}
+
+	public void setLinhaAtual(int linhaAtual) {
+		this.linhaAtual = linhaAtual;
+	}
+
+	public String getConteudoLinhaAtual() {
+		return conteudoLinhaAtual;
+	}
+
+	public void setConteudoLinhaAtual(String conteudoLinhaAtual) {
+		this.conteudoLinhaAtual = conteudoLinhaAtual;
 	}
 
 }
