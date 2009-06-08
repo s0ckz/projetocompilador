@@ -31,6 +31,18 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("subprogramas-identificador", makeList(IDENTIFICADOR));
 		seguidores.put("subprogramas-identificador", makeList(PARENTISADOR_ABRE_CHAVES));
 		
+		primeiros.put("subprogramas-(", makeList(PARENTISADOR_ABRE_PARENTESES));
+		seguidores.put("subprogramas-(", makeList(PARENTISADOR_FECHA_PARENTESES));
+		
+		primeiros.put("subprogramas-)", makeList(PARENTISADOR_FECHA_PARENTESES));
+		seguidores.put("subprogramas-)", makeList(PARENTISADOR_ABRE_CHAVES));
+		
+		primeiros.put("subprogramas-{", makeList(PARENTISADOR_ABRE_CHAVES));
+		seguidores.put("subprogramas-{", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
+		
+		primeiros.put("subprogramas-}", makeList(PARENTISADOR_FECHA_CHAVES));
+		seguidores.put("subprogramas-}", makeList(DEF, IF, WHILE, READ, WRITE, IDENTIFICADOR));
+		
 		primeiros.put("comando", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
 		seguidores.put("comando", makeList(PARENTISADOR_FECHA_CHAVES));
 	}
