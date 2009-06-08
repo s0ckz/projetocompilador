@@ -36,6 +36,11 @@ analyse fileName="testes/files/sintatico/inErro6.txt"
 expect "Erro na linha: 9 perto de: 'def void proc4() {' - Esperava: '}'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro7.txt"
+
+expect "Erro na linha: 3 perto de: 'def void proc() {' - Esperava: '}'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
