@@ -1,8 +1,3 @@
-analyse fileName="testes/files/sintatico/inErro1.txt"
-
-expect "Erro na linha: 1 perto de: 'int media' - Esperava: ';'!" getProximoErro
-
-
 analyse fileName="testes/files/sintatico/inErro2.txt"
 
 expect "Erro na linha: 1 perto de: 'int ' - Esperava: 'IDENTIFICADOR'!" getProximoErro
