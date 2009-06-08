@@ -46,8 +46,10 @@ public class AnalisadorSintatico {
 
 	private void declaracoes() throws AnalisadorSintaticoException {
 		if (declaracao()) {
-			if (!optionalSymbol(";")) {
-				tratarErro("declaracoes", getStringEsperado(";"));
+			try {
+				requiredSymbol(";");
+			} catch (AnalisadorSintaticoException e) {
+				tratarErro("declaracoes", e.getMessage());
 			}
 			declaracoes();
 		}
@@ -106,19 +108,18 @@ public class AnalisadorSintatico {
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException {
-		if (!identificador()) {
-			if (tratarErro("valor_inicial", getStringEsperado("IDENTIFICADOR")))
-				valor_inicial();
-			return;
-		}
-		
 		try {
-			semantico.asDeclararXptoVariavel(simboloAnterior);
-		} catch (AnalisadorSemanticoException e) {
-			tratarExcecaoSemantico(e);
+			requiredIdentificador();
+			try {
+				semantico.asDeclararXptoVariavel(simboloAnterior);
+			} catch (AnalisadorSemanticoException e) {
+				tratarExcecaoSemantico(e);
+			}
+			valor_aux();
+		} catch (AnalisadorSintaticoException e) {
+			if (tratarErro("valor_inicial", e.getMessage()))
+				valor_inicial();
 		}
-		
-		valor_aux();
 	}
 
 	private void valor_aux() throws AnalisadorSintaticoException {
@@ -191,37 +192,27 @@ public class AnalisadorSintatico {
 	private void subprogramas() throws AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
 			
-			if (erroSubprogramas("void")) {
-				return;
-			}
-			
-			requiredIdentificador();
-			
 			try {
-				semantico.asDeclararProcedimento(simboloAnterior);
-			} catch (AnalisadorSemanticoException e) {
-				tratarExcecaoSemantico(e);
+				requiredSymbol("void");
+				requiredIdentificador();
+				
+				try {
+					semantico.asDeclararProcedimento(simboloAnterior);
+				} catch (AnalisadorSemanticoException e) {
+					tratarExcecaoSemantico(e);
+				}
+	
+				requiredSymbol("(");
+				requiredSymbol(")");
+				requiredSymbol("{");
+				bloco();
+				requiredSymbol("}");
+			} catch (AnalisadorSintaticoException e) {
+				tratarErro("subprogramas", e.getMessage());
 			}
 			
-			if (erroSubprogramas("(") || erroSubprogramas(")") || erroSubprogramas("{")) {
-				return;
-			}
-			
-			bloco();
-			if (erroSubprogramas("}")) {
-				return;
-			}
 			subprogramas();
 		}
-	}
-
-	private boolean erroSubprogramas(String symbol) throws AnalisadorSintaticoException {
-		if (!optionalSymbol(symbol)) {
-			if (tratarErro("subprogramas", getStringEsperado(symbol)))
-				subprogramas();
-			return true;
-		}
-		return false;
 	}
 
 	private void expressao() throws AnalisadorSintaticoException {
@@ -274,10 +265,15 @@ public class AnalisadorSintatico {
 			// nao precisa fazer nada.
 		} else if (escalar()) {
 			// nao precisa fazer nada.
-		} else if (tratarErro("pred", "Esperava: numero, (expressão) ou identificador")) {
-			pred();
 		} else {
-			semantico.asEmpilharNulo(); // para o semantico saber quando deve empilhar um elemento de novo.
+			String mensagemErro = getMensagemErro(lexico.getLinhaAtual(), 
+					lexico.getConteudoLinhaAtual(), 
+					"Esperava: numero, (expressão) ou identificador");
+			if (tratarErro("pred", mensagemErro)) {
+				pred();
+			} else {
+				semantico.asEmpilharNulo(); // para o semantico saber quando deve empilhar um elemento de novo.
+			}
 		}
 	}
 
@@ -286,7 +282,7 @@ public class AnalisadorSintatico {
 	private boolean tratarErro(String regra, String msgErro) throws AnalisadorSintaticoException {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
-		tratadorDeErros.addMensagemDeErro(getMensagemErro(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), msgErro));
+		tratadorDeErros.addMensagemDeErro(msgErro);
 		if (!primeiros.contains(simbolo.getCodigo())) {
 			while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
@@ -380,50 +376,72 @@ public class AnalisadorSintatico {
 	}
 
 	private boolean comando() throws AnalisadorSintaticoException {
-		if (optionalSymbol("if")) {
-			requiredSymbol("(");
-			expressaoLogica();
-			requiredSymbol(")");
-			requiredSymbol("{");
-			bloco();
-			requiredSymbol("}");
-			cmd_decisao_else();
-			optionalSymbol(";");
-			return true;
-		} else if (optionalSymbol("while")) {
-			requiredSymbol("(");
-			expressaoLogica();
-			requiredSymbol(")");
-			requiredSymbol("{");
-			bloco();
-			requiredSymbol("}");
-			optionalSymbol(";");
-			return true;
-		} else if (optionalSymbol("read")) {
-			escalar();
-			return erroComando(";");
-		} else if (optionalSymbol("write")) {
-			valor();
-			return erroComando(";");
-		} else if (identificador()) {
-			Simbolo identificador = simboloAnterior;
-			if (optionalSymbol("(")) {
-				chamadaProcedimento(identificador);
-			} else {
-				atribuicao();
+		try {
+			if (optionalSymbol("if")) {
+				return comandoIf();
+			} else if (optionalSymbol("while")) {
+				return comandoWhile();
+			} else if (optionalSymbol("read")) {
+				return comandoRead();
+			} else if (optionalSymbol("write")) {
+				return comandoWrite();
+			} else if (identificador()) {
+				return procedimentoOuAtribuicao();
 			}
-			return erroComando(";");
-		}
-		return false;
-	}
-
-	private boolean erroComando(String symbol) throws AnalisadorSintaticoException {
-		if (!optionalSymbol(symbol)) {
-			if (tratarErro("comando", getStringEsperado(symbol)))
+		} catch (AnalisadorSintaticoException e) {
+			if (tratarErro("comando", e.getMessage()))
 				return comando();
 			else
 				return false;
 		}
+		
+		return false;
+	}
+
+	private boolean procedimentoOuAtribuicao()
+			throws AnalisadorSintaticoException {
+		Simbolo identificador = simboloAnterior;
+		if (optionalSymbol("(")) {
+			chamadaProcedimento(identificador);
+		} else {
+			atribuicao();
+		}
+		requiredSymbol(";");
+		return true;
+	}
+
+	private boolean comandoWrite() throws AnalisadorSintaticoException {
+		valor();
+		requiredSymbol(";");
+		return true;
+	}
+
+	private boolean comandoRead() throws AnalisadorSintaticoException {
+		escalar();
+		requiredSymbol(";");
+		return true;
+	}
+
+	private boolean comandoWhile() throws AnalisadorSintaticoException {
+		requiredSymbol("(");
+		expressaoLogica();
+		requiredSymbol(")");
+		requiredSymbol("{");
+		bloco();
+		requiredSymbol("}");
+		optionalSymbol(";");
+		return true;
+	}
+
+	private boolean comandoIf() throws AnalisadorSintaticoException {
+		requiredSymbol("(");
+		expressaoLogica();
+		requiredSymbol(")");
+		requiredSymbol("{");
+		bloco();
+		requiredSymbol("}");
+		cmd_decisao_else();
+		optionalSymbol(";");
 		return true;
 	}
 
@@ -512,7 +530,7 @@ public class AnalisadorSintatico {
 	}
 
 	private void tratarExcecaoSemantico(AnalisadorSemanticoException e) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), e.getMessage());
+//		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), e.getMessage());
 	}
 	
 	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
