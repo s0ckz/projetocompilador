@@ -254,6 +254,8 @@ public class AnalisadorSintatico {
 			// nao precisa fazer nada.
 		} else if (tratarErro("pred", "Esperava: numero, (expressão) ou identificador")) {
 			pred();
+		} else {
+			semantico.asEmpilharNulo(); // para o semantico saber quando deve empilhar um elemento de novo.
 		}
 	}
 

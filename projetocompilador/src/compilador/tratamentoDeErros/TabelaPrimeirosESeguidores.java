@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import compilador.util.ConjuntoCodigos;
+import static compilador.util.ConjuntoCodigos.*;
 
 public class TabelaPrimeirosESeguidores {
 	
@@ -14,8 +14,10 @@ public class TabelaPrimeirosESeguidores {
 	private static Map<String, List<Integer>> seguidores = new HashMap<String, List<Integer>>();
 	
 	static {
-		primeiros.put("pred", makeList(ConjuntoCodigos.PARENTISADOR_ABRE_PARENTESES, ConjuntoCodigos.IDENTIFICADOR, ConjuntoCodigos.NUMERO));
-		seguidores.put("pred", makeList());
+		primeiros.put("pred", makeList(PARENTISADOR_ABRE_PARENTESES, IDENTIFICADOR, NUMERO));
+		seguidores.put("pred", makeList(OP_POTENCIA, OP_MULTIPLICACAO, OP_DIVISAO, OP_SOMA, 
+				OP_SUBTRACAO, DELIMITADOR_COMANDO, DELIMITADOR_VARIAVEL, OP_MAIOR_QUE, OP_MAIOR_OU_IGUAL_A,
+				OP_IGUAL, OP_DIFERENCA, OP_MENOR_QUE, OP_MENOR_OU_IGUAL_A));
 	}
 	
 	private static List<Integer> makeList(Integer... values) {
