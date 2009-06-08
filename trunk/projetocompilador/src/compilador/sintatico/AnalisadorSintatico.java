@@ -190,7 +190,13 @@ public class AnalisadorSintatico {
 
 	private void subprogramas() throws AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
-			requiredSymbol("void");
+			
+			if (!optionalSymbol("void")) {
+				if (tratarErro("subprogramas", getStringEsperado("void")))
+					subprogramas();
+				return;
+			}
+			
 			requiredIdentificador();
 			
 			try {
