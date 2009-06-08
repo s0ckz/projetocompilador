@@ -14,15 +14,7 @@ analyse fileName="testes/files/sintatico/inErro3.txt"
 
 expect "Erro na linha: 3 perto de: 'def ' - Esperava: 'void'!" getProximoErro
 
-expect "Erro na linha: 3 perto de: 'def inta ' - Identificador 'inta' não foi declarado!" getProximoErro
-
-expect "Erro na linha: 3 perto de: 'def inta ' - Identificador 'inta' não foi declarado!" getProximoErro
-
-expect "Erro na linha: 3 perto de: 'def inta ' - Esperava: '='!" getProximoErro
-
-expect "Erro na linha: 3 perto de: 'def inta proc()' - Procedimento 'proc' não declarado!" getProximoErro
-
-expect "Erro na linha: 3 perto de: 'def inta proc()' - Esperava: ';'!" getProximoErro
+expect "Erro na linha: 3 perto de: 'def inta ' - Esperava: '('!" getProximoErro
 
 
 analyse fileName="testes/files/sintatico/inErro4.txt"
