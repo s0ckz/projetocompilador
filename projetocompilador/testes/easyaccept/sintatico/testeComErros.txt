@@ -26,6 +26,16 @@ expect "Erro na linha: 6 perto de: 'write \"oi\"' - Esperava: ';'!" getProximoEr
 expect "Erro na linha: 7 perto de: 'read ' - Esperava: ';'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro5.txt"
+
+expect "Erro na linha: 3 perto de: 'def void ' - Esperava: 'IDENTIFICADOR'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro6.txt"
+
+expect "Erro na linha: 9 perto de: 'def void proc4() {' - Esperava: '}'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
