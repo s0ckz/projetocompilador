@@ -11,3 +11,15 @@ expect "Linha: 2 - Esperava: numero, (expressão) ou identificador" getProximoErr
 analyse fileName="testes/files/sintatico/inErro29.txt"
 
 expect "Linha: 1 - Esperava: numero, (expressão) ou identificador" getProximoErro
+
+analyse fileName="testes/files/sintatico/inErro30.txt"
+
+expect "Linha: 1 - Esperava: numero, (expressão) ou identificador" getProximoErro
+
+expect "Linha: 3 - Esperava: numero, (expressão) ou identificador" getProximoErro
+
+expect "Linha: 5 - Esperava: numero, (expressão) ou identificador" getProximoErro
+
+expect "Linha: 7 - Esperava: numero, (expressão) ou identificador" getProximoErro
+
+expect "Linha: 7 - Esperava: numero, (expressão) ou identificador" getProximoErro
