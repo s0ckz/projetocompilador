@@ -354,13 +354,13 @@ public class AnalisadorSintatico {
 
 	private boolean comandoWrite() throws AnalisadorSintaticoException {
 		valor();
-		requiredSymbol(";");
+		tratarSimboloRequerido(";", "comando-;");
 		return true;
 	}
 
 	private boolean comandoRead() throws AnalisadorSintaticoException {
 		escalar();
-		requiredSymbol(";");
+		tratarSimboloRequerido(";", "comando-;");
 		return true;
 	}
 

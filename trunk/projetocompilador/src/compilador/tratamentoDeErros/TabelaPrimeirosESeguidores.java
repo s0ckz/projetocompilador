@@ -43,8 +43,8 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("subprogramas-}", makeList(PARENTISADOR_FECHA_CHAVES));
 		seguidores.put("subprogramas-}", makeList(DEF, IF, WHILE, READ, WRITE, IDENTIFICADOR));
 		
-		primeiros.put("comando", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
-		seguidores.put("comando", makeList(PARENTISADOR_FECHA_CHAVES));
+		primeiros.put("comando-;", makeList(DELIMITADOR_COMANDO));
+		seguidores.put("comando-;", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
 	}
 	
 	private static List<Integer> makeList(Integer... values) {
