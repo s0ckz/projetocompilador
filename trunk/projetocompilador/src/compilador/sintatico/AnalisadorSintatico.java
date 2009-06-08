@@ -166,18 +166,15 @@ public class AnalisadorSintatico {
 
 	private void subprogramas() throws AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
-			
-			if (tratarSimboloRequerido("void", "subprogramas-void") &&
-					tratarErro("subprogramas-identificador", "IDENTIFICADOR")) {
-				identificador();
-				semantico.asDeclararProcedimento(simboloAnterior);
-				if (tratarSimboloRequerido("(", "subprogramas-(") &&
-						tratarSimboloRequerido(")", "subprogramas-)") &&
-						tratarSimboloRequerido("{", "subprogramas-{")) {
-					bloco();
-					tratarSimboloRequerido("}", "subprogramas-{");
-				}
-			}
+			tratarSimboloRequerido("void", "subprogramas-void");
+			tratarErro("subprogramas-identificador", "IDENTIFICADOR");
+			identificador();
+			semantico.asDeclararProcedimento(simboloAnterior);
+			tratarSimboloRequerido("(", "subprogramas-(");
+			tratarSimboloRequerido(")", "subprogramas-)");
+			tratarSimboloRequerido("{", "subprogramas-{");
+			bloco();
+			tratarSimboloRequerido("}", "subprogramas-}");
 			
 			subprogramas();
 		}
