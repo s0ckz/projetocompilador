@@ -1,25 +1,25 @@
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
-expect "Linha: 2 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 2 perto de: 'a = 10 + + ' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
-expect "Linha: 3 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 3 perto de: 'b = 30 * - ' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
 analyse fileName="testes/files/sintatico/inErro28.txt"
 
-expect "Linha: 2 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 2 perto de: 'a = 10 +;' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
 analyse fileName="testes/files/sintatico/inErro29.txt"
 
-expect "Linha: 1 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 1 perto de: 'int a =  10 + 30, b = a * ,' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
 analyse fileName="testes/files/sintatico/inErro30.txt"
 
-expect "Linha: 1 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 1 perto de: 'int a =  10 + 30, b = a * ,' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
-expect "Linha: 3 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 3 perto de: 'if (a + > ' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
-expect "Linha: 5 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 5 perto de: 'if (a > 5 + 3 / ** ' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
-expect "Linha: 7 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 7 perto de: 'if (a > 5 + 3 / ** ' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
-expect "Linha: 7 - Esperava: numero, (expressão) ou identificador" getProximoErro
+expect "Erro na linha: 7 perto de: 'if (a > 5 + 3 / ** )' - Esperava: numero, (expressão) ou identificador" getProximoErro

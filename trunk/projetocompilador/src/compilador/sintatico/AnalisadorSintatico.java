@@ -265,7 +265,7 @@ public class AnalisadorSintatico {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
 		if (!primeiros.contains(simbolo.getCodigo())) {
-			tratadorDeErros.addMensagemDeErro(getMensagemErro(lexico.getLinhaAtual(), msgErro));
+			tratadorDeErros.addMensagemDeErro(getMensagemErro(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), msgErro));
 			while (!primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
 			}
@@ -482,15 +482,15 @@ public class AnalisadorSintatico {
 	}
 
 	private void tratarExcecaoSemantico(AnalisadorSemanticoException e) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), e.getMessage());
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), e.getMessage());
 	}
 	
 	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), "Esperava: '" + symbol + "'!");
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), "Esperava: '" + symbol + "'!");
 	}
 
 	private void lancarExcecaoNaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), "Não esperava: '" + symbol + "'!");
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), "Não esperava: '" + symbol + "'!");
 	}
 	
 	private boolean optionalSymbol(String optional) throws AnalisadorSintaticoException {
