@@ -237,7 +237,7 @@ public class AnalisadorSintatico {
 	private boolean tratarErro(String regra, String msgErro) {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
-		if (!primeiros.contains(simbolo.getCodigo())) {
+		if (simbolo == null || !primeiros.contains(simbolo.getCodigo())) {
 			ListaDeErros.getInstance().addMensagemDeErro(msgErro);
 			while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
