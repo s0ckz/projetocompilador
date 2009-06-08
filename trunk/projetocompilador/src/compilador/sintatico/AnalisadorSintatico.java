@@ -191,9 +191,7 @@ public class AnalisadorSintatico {
 	private void subprogramas() throws AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
 			
-			if (!optionalSymbol("void")) {
-				if (tratarErro("subprogramas", getStringEsperado("void")))
-					subprogramas();
+			if (erroSubprogramas("void")) {
 				return;
 			}
 			
@@ -205,13 +203,25 @@ public class AnalisadorSintatico {
 				tratarExcecaoSemantico(e);
 			}
 			
-			requiredSymbol("(");
-			requiredSymbol(")");
-			requiredSymbol("{");
+			if (erroSubprogramas("(") || erroSubprogramas(")") || erroSubprogramas("{")) {
+				return;
+			}
+			
 			bloco();
-			requiredSymbol("}");
+			if (erroSubprogramas("}")) {
+				return;
+			}
 			subprogramas();
 		}
+	}
+
+	private boolean erroSubprogramas(String symbol) throws AnalisadorSintaticoException {
+		if (!optionalSymbol(symbol)) {
+			if (tratarErro("subprogramas", getStringEsperado(symbol)))
+				subprogramas();
+			return true;
+		}
+		return false;
 	}
 
 	private void expressao() throws AnalisadorSintaticoException {
@@ -278,13 +288,14 @@ public class AnalisadorSintatico {
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
 		tratadorDeErros.addMensagemDeErro(getMensagemErro(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), msgErro));
 		if (!primeiros.contains(simbolo.getCodigo())) {
-			while (!primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
+			while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
 			}
-			return primeiros.contains(simbolo.getCodigo());
+			if (simbolo != null)
+				return primeiros.contains(simbolo.getCodigo());
 		}
 		// acho que aqui lanca excecao de lascou foi tudo, pq nao conseguiu recuperar o erro.
-		return false;
+		return true;
 	}
 
 	private boolean expressaoParentisada() throws AnalisadorSintaticoException {
@@ -390,12 +401,10 @@ public class AnalisadorSintatico {
 			return true;
 		} else if (optionalSymbol("read")) {
 			escalar();
-			requiredSymbol(";");
-			return true;
+			return erroComando(";");
 		} else if (optionalSymbol("write")) {
 			valor();
-			requiredSymbol(";");
-			return true;
+			return erroComando(";");
 		} else if (identificador()) {
 			Simbolo identificador = simboloAnterior;
 			if (optionalSymbol("(")) {
@@ -403,10 +412,19 @@ public class AnalisadorSintatico {
 			} else {
 				atribuicao();
 			}
-			requiredSymbol(";");
-			return true;
+			return erroComando(";");
 		}
 		return false;
+	}
+
+	private boolean erroComando(String symbol) throws AnalisadorSintaticoException {
+		if (!optionalSymbol(symbol)) {
+			if (tratarErro("comando", getStringEsperado(symbol)))
+				return comando();
+			else
+				return false;
+		}
+		return true;
 	}
 
 	private void chamadaProcedimento(Simbolo identificador)
