@@ -15,6 +15,15 @@ expectError "Erro na linha: 3 perto de: 'def inta proc(' - Identificador 'inta' 
 expect "Erro na linha: 3 perto de: 'def inta ' - Esperava: 'void'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro4.txt"
+
+expect "Erro na linha: 3 perto de: 'def void proc)' - Esperava: '('!" getProximoErro
+
+expect "Erro na linha: 7 perto de: 'read ' - Esperava: ';'!" getProximoErro
+
+expect "Erro na linha: 7 perto de: 'read \"oi\"' - Esperava: ';'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + + ' - Esperava: numero, (expressão) ou identificador" getProximoErro

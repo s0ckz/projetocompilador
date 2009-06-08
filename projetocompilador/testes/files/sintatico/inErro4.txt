@@ -2,3 +2,6 @@ int media;
 string aprovado;
 def void proc) {
 }
+
+write "oi"
+read "oi"
