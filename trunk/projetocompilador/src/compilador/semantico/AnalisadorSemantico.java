@@ -17,6 +17,11 @@ public class AnalisadorSemantico {
 		pushTipo(new TipoAS(tipo, vetor));
 	}
 
+	public void asEmpilharNulo() {
+		pushTipo(null);
+		
+	}
+
 	public void asEmpilharTipoNumero() {
 		asEmpilharTipo(Simbolo.createTipoNumero(), false);
 	}
@@ -73,7 +78,13 @@ public class AnalisadorSemantico {
 
 	public void asVerificarTipo() throws AnalisadorSemanticoException {
 		TipoAS tipo1 = popTipo();
+		if (tipo1 == null)
+			return;
 		TipoAS tipo2 = popTipo();
+		if (tipo2 == null) {
+			pushTipo(tipo1);
+			return;
+		}
 		
 		if (tipo1.equals(tipo2)) {
 			pushTipo(tipo1);
@@ -111,7 +122,7 @@ public class AnalisadorSemantico {
 	}
 	
 	private TipoAS popTipo() {
-//		System.out.println("poping " + pilhaControleTipos.getFirst());
+//		System.out.println("desempilhando " + pilhaControleTipos.peek());
 		return pilhaControleTipos.pop();
 	}
 	
