@@ -8,30 +8,25 @@ import compilador.lexico.AnalisadorLexico;
 import compilador.lexico.AnalisadorLexicoException;
 import compilador.semantico.AnalisadorSemantico;
 import compilador.semantico.AnalisadorSemanticoException;
+import compilador.tratamentoDeErros.ListaDeErros;
 import compilador.tratamentoDeErros.TabelaPrimeirosESeguidores;
-import compilador.tratamentoDeErros.TratadorDeErros;
 import compilador.util.Simbolo;
 
 public class AnalisadorSintatico {
 
 	private AnalisadorLexico lexico;
 	
-	private AnalisadorSemantico semantico = new AnalisadorSemantico();
+	private AnalisadorSemantico semantico;
 	
-	private TratadorDeErros tratadorDeErros = new TratadorDeErros();
-
 	private Simbolo simbolo;
 
 	private Simbolo simboloAnterior;
 
-	public AnalisadorSintatico(AnalisadorLexico lexico) {
+	public AnalisadorSintatico(AnalisadorLexico lexico, AnalisadorSemantico semantico) {
 		this.lexico = lexico;
+		this.semantico = semantico;
 	}
 	
-	public String getProximoErro() {
-		return tratadorDeErros.popErro();
-	}
-
 	public void analyse() throws AnalisadorSintaticoException {
 		lerProximoSimbolo();
 		programa();
@@ -196,11 +191,7 @@ public class AnalisadorSintatico {
 				requiredSymbol("void");
 				requiredIdentificador();
 				
-				try {
-					semantico.asDeclararProcedimento(simboloAnterior);
-				} catch (AnalisadorSemanticoException e) {
-					tratarExcecaoSemantico(e);
-				}
+				semantico.asDeclararProcedimento(simboloAnterior);
 	
 				requiredSymbol("(");
 				requiredSymbol(")");
@@ -282,7 +273,7 @@ public class AnalisadorSintatico {
 	private boolean tratarErro(String regra, String msgErro) throws AnalisadorSintaticoException {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
-		tratadorDeErros.addMensagemDeErro(msgErro);
+		ListaDeErros.getInstance().addMensagemDeErro(msgErro);
 		if (!primeiros.contains(simbolo.getCodigo())) {
 			while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
@@ -305,11 +296,7 @@ public class AnalisadorSintatico {
 	
 	private boolean escalar() throws AnalisadorSintaticoException {
 		if (identificador()) {
-			try {
-				semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
-			} catch (AnalisadorSemanticoException e) {
-				tratarExcecaoSemantico(e);
-			}
+			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
 			return true;
 		}
 		return false;
@@ -448,11 +435,7 @@ public class AnalisadorSintatico {
 	private void chamadaProcedimento(Simbolo identificador)
 			throws AnalisadorSintaticoException {
 		requiredSymbol(")");
-		try {
-			semantico.asVerificarExistenciaProcedimento(identificador);
-		} catch (AnalisadorSemanticoException e) {
-			tratarExcecaoSemantico(e);
-		}
+		semantico.asVerificarExistenciaProcedimento(identificador);
 	}
 
 	private void atribuicao() throws AnalisadorSintaticoException {
@@ -545,10 +528,6 @@ public class AnalisadorSintatico {
 		return "Não esperava: '" + symbol + "'!";
 	}
 
-	private void lancarExcecaoNaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), getStringNaoEsperado(symbol));
-	}
-	
 	private boolean optionalSymbol(String optional) throws AnalisadorSintaticoException {
 		if (simbolo == null)
 			return false;
@@ -570,8 +549,12 @@ public class AnalisadorSintatico {
 	}
 
 	private void checarFinal() throws AnalisadorSintaticoException {
-		if (simbolo != null) 
-			lancarExcecaoNaoEsperada(simbolo.getCadeia());
+		if (simbolo != null) {
+			int linhaAtual = lexico.getLinhaAtual();
+			String conteudoLinhaAtual = lexico.getConteudoLinhaAtual();
+			String mensagemErro = getMensagemErro(linhaAtual, conteudoLinhaAtual, getStringNaoEsperado(simbolo.getCadeia()));
+			ListaDeErros.getInstance().addMensagemDeErro(mensagemErro);
+		}
 	}
 
 

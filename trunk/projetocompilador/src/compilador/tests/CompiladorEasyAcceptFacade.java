@@ -6,8 +6,10 @@ import java.io.FileReader;
 
 import compilador.lexico.AnalisadorLexico;
 import compilador.lexico.AnalisadorLexicoException;
+import compilador.semantico.AnalisadorSemantico;
 import compilador.sintatico.AnalisadorSintatico;
 import compilador.sintatico.AnalisadorSintaticoException;
+import compilador.tratamentoDeErros.ListaDeErros;
 import compilador.util.Simbolo;
 
 public class CompiladorEasyAcceptFacade {
@@ -15,6 +17,8 @@ public class CompiladorEasyAcceptFacade {
 	private AnalisadorLexico analisadorLexico;
 	
 	private AnalisadorSintatico analisadorSintatico;
+
+	private AnalisadorSemantico analisadorSemantico;
 	
 	public CompiladorEasyAcceptFacade() {
 		reset();
@@ -35,11 +39,13 @@ public class CompiladorEasyAcceptFacade {
 	}
 	
 	public String getProximoErro() {
-		return analisadorSintatico.getProximoErro();
+		return ListaDeErros.getInstance().popErro();
 	}
 	
 	public void reset() {
 		this.analisadorLexico  = new AnalisadorLexico();
-		this.analisadorSintatico =  new AnalisadorSintatico(analisadorLexico);
+		this.analisadorSemantico  = new AnalisadorSemantico();
+		this.analisadorSintatico =  new AnalisadorSintatico(analisadorLexico, analisadorSemantico);
+		ListaDeErros.getInstance().clear();
 	}
 }
