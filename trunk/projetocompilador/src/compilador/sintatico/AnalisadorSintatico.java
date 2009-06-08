@@ -171,11 +171,12 @@ public class AnalisadorSintatico {
 					tratarErro("subprogramas-identificador", "IDENTIFICADOR")) {
 				identificador();
 				semantico.asDeclararProcedimento(simboloAnterior);
-				requiredSymbol("(");
-				requiredSymbol(")");
-				requiredSymbol("{");
-				bloco();
-				requiredSymbol("}");
+				if (tratarSimboloRequerido("(", "subprogramas-(") &&
+						tratarSimboloRequerido(")", "subprogramas-)") &&
+						tratarSimboloRequerido("{", "subprogramas-{")) {
+					bloco();
+					tratarSimboloRequerido("}", "subprogramas-{");
+				}
 			}
 			
 			subprogramas();
@@ -236,6 +237,7 @@ public class AnalisadorSintatico {
 	private boolean tratarErro(String regra, String msgErro) {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
+		System.out.println(regra + " " + simbolo);
 		if (!primeiros.contains(simbolo.getCodigo())) {
 			ListaDeErros.getInstance().addMensagemDeErro(msgErro);
 			while (simbolo != null && !primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
