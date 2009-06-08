@@ -2,11 +2,13 @@ package compilador.tratamentoDeErros;
 
 import java.util.LinkedList;
 
-public class TratadorDeErros {
+public class ListaDeErros {
 	
 	private LinkedList<String> mensagens;
 	
-	public TratadorDeErros() {
+	private static ListaDeErros instance;
+	
+	private ListaDeErros() {
 		mensagens = new LinkedList<String>();
 	}
 	
@@ -16,6 +18,17 @@ public class TratadorDeErros {
 
 	public String popErro() {
 		return mensagens.removeLast();
+	}
+
+	public static ListaDeErros getInstance() {
+		if (instance == null) {
+			instance =  new ListaDeErros();
+		}
+		return instance;
+	}
+
+	public void clear() {
+		mensagens.clear();
 	}
 
 }
