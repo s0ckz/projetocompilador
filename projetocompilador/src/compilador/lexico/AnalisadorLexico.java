@@ -30,6 +30,8 @@ public class AnalisadorLexico {
 	
 	private int linhaAtual = 1;
 	
+	private StringBuilder conteudoLinhaAtual = createStringBuilder();
+	
 	public AnalisadorLexico() {
 	}
 
@@ -71,6 +73,10 @@ public class AnalisadorLexico {
 	
 	public int getLinhaAtual() {
 		return linhaAtual;
+	}
+	
+	public String getConteudoLinhaAtual() {
+		return conteudoLinhaAtual.toString();
 	}
 	
 	private void operadorParentisadorOuPontuacao() throws AnalisadorLexicoException {
@@ -174,8 +180,12 @@ public class AnalisadorLexico {
 	private int proximoCaractere() {
 		try {
 			caractereAtual = bufferedReader.read();
-			if (caractereAtual == '\n')
+			if (caractereAtual == '\n') {
+				conteudoLinhaAtual = createStringBuilder();
 				linhaAtual++;
+			} else if (caractereAtual != '\t') {
+				conteudoLinhaAtual.append((char)caractereAtual);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -192,8 +202,8 @@ public class AnalisadorLexico {
 	private void atualizarCaractereAMaisLido() {
 		caractereAMaisLido = caractereAtual != ' ';
 	}
-	
-	public List<String> getAdvertencias() {
-		return advertencias;
+
+	private StringBuilder createStringBuilder() {
+		return new StringBuilder(100);
 	}
 }

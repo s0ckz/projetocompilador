@@ -1,33 +1,33 @@
-expectError "Linha: 1 - Identificador 'a' já foi declarado!" analyse fileName="testes/files/semantico/inErro1.txt"
+expectError "Erro na linha: 1 perto de: 'int a, a;' - Identificador 'a' já foi declarado!" analyse fileName="testes/files/semantico/inErro1.txt"
 
-expectError "Linha: 2 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro2.txt"
+expectError "Erro na linha: 2 perto de: 'int a = 50, b = 30 * c;' - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro2.txt"
 
-expectError "Linha: 2 - Tipos incompatíveis: int[] com int!" analyse fileName="testes/files/semantico/inErro3.txt"
+expectError "Erro na linha: 2 perto de: 'int a = 50, b = 30 * c;' - Tipos incompatíveis: int[] com int!" analyse fileName="testes/files/semantico/inErro3.txt"
 
-expectError "Linha: 1 - 'a' não é um vetor!" analyse fileName="testes/files/semantico/inErro4.txt"
+expectError "Erro na linha: 1 perto de: 'int a = 50, b = 30 * a[30];' - 'a' não é um vetor!" analyse fileName="testes/files/semantico/inErro4.txt"
 
-expectError "Linha: 5 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro5.txt"
+expectError "Erro na linha: 5 perto de: 'b = \"teste\";' - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro5.txt"
 
-expectError "Linha: 7 - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro6.txt"
+expectError "Erro na linha: 7 perto de: 'if (a > b)' - Tipos incompatíveis: string com int!" analyse fileName="testes/files/semantico/inErro6.txt"
 
-expectError "Linha: 7 - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro7.txt"
+expectError "Erro na linha: 7 perto de: 'if (a > b && d > ' - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro7.txt"
 
-expectError "Linha: 8 - Procedimento 'teste' não declarado!" analyse fileName="testes/files/semantico/inErro8.txt"
+expectError "Erro na linha: 8 perto de: 'teste();' - Procedimento 'teste' não declarado!" analyse fileName="testes/files/semantico/inErro8.txt"
 
-expectError "Linha: 13 - Procedimento 'blah' não declarado!" analyse fileName="testes/files/semantico/inErro9.txt"
+expectError "Erro na linha: 13 perto de: 'blah();' - Procedimento 'blah' não declarado!" analyse fileName="testes/files/semantico/inErro9.txt"
 
-expectError "Linha: 1 - Identificador 'c' não foi declarado!" analyse fileName="testes/files/semantico/inErro10.txt"
+expectError "Erro na linha: 1 perto de: 'read c;' - Identificador 'c' não foi declarado!" analyse fileName="testes/files/semantico/inErro10.txt"
 
-expectError "Linha: 5 - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro11.txt"
+expectError "Erro na linha: 5 perto de: 'write d;' - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro11.txt"
 
-expectError "Linha: 1 - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro12.txt"
+expectError "Erro na linha: 1 perto de: 'while (d)' - Identificador 'd' não foi declarado!" analyse fileName="testes/files/semantico/inErro12.txt"
 
-expectError "Linha: 3 - 'a' é constante!" analyse fileName="testes/files/semantico/inErro13.txt"
+expectError "Erro na linha: 3 perto de: 'a = ' - 'a' é constante!" analyse fileName="testes/files/semantico/inErro13.txt"
 
-expectError "Linha: 3 - 'b' é constante!" analyse fileName="testes/files/semantico/inErro14.txt"
+expectError "Erro na linha: 3 perto de: 'b = ' - 'b' é constante!" analyse fileName="testes/files/semantico/inErro14.txt"
 
-expectError "Linha: 4 - Tipos incompatíveis: int com int[]!" analyse fileName="testes/files/semantico/inErro15.txt"
+expectError "Erro na linha: 4 perto de: 'teste = 30;' - Tipos incompatíveis: int com int[]!" analyse fileName="testes/files/semantico/inErro15.txt"
 
-expectError "Linha: 9 - Tipos incompatíveis: int[] com string[]!" analyse fileName="testes/files/semantico/inErro16.txt"
+expectError "Erro na linha: 9 perto de: 'teste2 = teste;' - Tipos incompatíveis: int[] com string[]!" analyse fileName="testes/files/semantico/inErro16.txt"
 
-expectError "Linha: 10 - 'teste2' é constante!" analyse fileName="testes/files/semantico/inErro17.txt"
+expectError "Erro na linha: 10 perto de: 'teste2 = ' - 'teste2' é constante!" analyse fileName="testes/files/semantico/inErro17.txt"
