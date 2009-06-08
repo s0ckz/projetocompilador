@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import compilador.tratamentoDeErros.ListaDeErros;
 import compilador.util.ConjuntoCodigos;
 import compilador.util.Simbolo;
 
@@ -30,11 +31,7 @@ public class AnalisadorLexico {
 	
 	private int linhaAtual = 1;
 	
-	private int linhaAnterior = 0;
-	
 	private StringBuilder conteudoLinhaAtual = createStringBuilder();
-	
-	private String conteudoLinhaAnterior = null;
 	
 	public AnalisadorLexico() {
 	}
@@ -52,8 +49,8 @@ public class AnalisadorLexico {
 			throw new AnalisadorLexicoException("Analisador Lexico nao foi inicializado.");
 		}
 
-		linhaAnterior = linhaAtual;
-		conteudoLinhaAnterior = conteudoLinhaAtual.toString();
+		ListaDeErros.getInstance().setLinhaAtual(linhaAtual);
+		ListaDeErros.getInstance().setConteudoLinhaAtual(conteudoLinhaAtual.toString());
 		
 		obteveSimbolo = false;
 		while ( !obteveSimbolo ) {
@@ -76,14 +73,6 @@ public class AnalisadorLexico {
 		}
 		
 		return simboloAtual;
-	}
-	
-	public int getLinhaAtual() {
-		return linhaAnterior;
-	}
-	
-	public String getConteudoLinhaAtual() {
-		return conteudoLinhaAnterior;
 	}
 	
 	private void operadorParentisadorOuPontuacao() throws AnalisadorLexicoException {

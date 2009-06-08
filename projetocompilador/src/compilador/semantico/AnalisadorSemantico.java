@@ -60,11 +60,11 @@ public class AnalisadorSemantico {
 			ListaDeErros.getInstance().addMensagemDeErro("Procedimento '" + identificador.getCadeia() + "' não declarado!");
 	}
 	
-	public void asDeclararXptoConstante(Simbolo simbolo) throws AnalisadorSemanticoException {
+	public void asDeclararXptoConstante(Simbolo simbolo) {
 		asDeclararXpto(simbolo, true);
 	}
 	
-	public void asDeclararXptoVariavel(Simbolo simbolo) throws AnalisadorSemanticoException {
+	public void asDeclararXptoVariavel(Simbolo simbolo) {
 		asDeclararXpto(simbolo, false);
 	}
 	
@@ -83,7 +83,7 @@ public class AnalisadorSemantico {
 		inserir(simbolo.getCadeia(), new SimboloProcedimentoAS(simbolo.getCadeia()));;
 	}
 
-	public void asVerificarTipo() throws AnalisadorSemanticoException {
+	public void asVerificarTipo()  {
 		TipoAS tipo1 = popTipo();
 		if (tipo1 == null)
 			return;
@@ -96,7 +96,7 @@ public class AnalisadorSemantico {
 		if (tipo1.equals(tipo2)) {
 			pushTipo(tipo1);
 		} else {
-			throw new AnalisadorSemanticoException("Tipos incompatíveis: " + tipo1 + " com " + tipo2 + "!");
+			ListaDeErros.getInstance().addMensagemDeErro("Tipos incompatíveis: " + tipo1 + " com " + tipo2 + "!");
 		}
 	}
 	
