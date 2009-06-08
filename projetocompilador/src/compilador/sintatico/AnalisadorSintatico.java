@@ -93,7 +93,7 @@ public class AnalisadorSintatico {
 		valor();
 	}
 
-	private void valor_inicial() throws AnalisadorSintaticoException {
+	private void valor_inicial() {
 		try {
 			requiredIdentificador();
 			semantico.asDeclararXptoVariavel(simboloAnterior);
@@ -171,7 +171,7 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void subprogramas() throws AnalisadorSintaticoException {
+	private void subprogramas() {
 		if (optionalSymbol("def")) {
 			
 			try {
@@ -246,7 +246,7 @@ public class AnalisadorSintatico {
 
 	// retorna um booleano pq se contiver o primeiro, eu posso ignorar o que veio
 	// antes e tentar de novo a mesma regra: fiz assim, mas achei estranho...
-	private boolean tratarErro(String regra, String msgErro) throws AnalisadorSintaticoException {
+	private boolean tratarErro(String regra, String msgErro) {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
 		ListaDeErros.getInstance().addMensagemDeErro(msgErro);
@@ -332,7 +332,7 @@ public class AnalisadorSintatico {
 			bloco();
 	}
 
-	private boolean comando() throws AnalisadorSintaticoException {
+	private boolean comando() {
 		try {
 			if (optionalSymbol("if")) {
 				return comandoIf();
@@ -490,7 +490,7 @@ public class AnalisadorSintatico {
 		return "Não esperava: '" + symbol + "'!";
 	}
 
-	private boolean optionalSymbol(String optional) throws AnalisadorSintaticoException {
+	private boolean optionalSymbol(String optional) {
 		if (simbolo == null)
 			return false;
 		
@@ -501,12 +501,12 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void lerProximoSimbolo() throws AnalisadorSintaticoException {
+	private void lerProximoSimbolo() {
 		try {
 			simboloAnterior = simbolo;
 			simbolo = lexico.proximoSimbolo();
 		} catch (AnalisadorLexicoException e) {
-			lancarExcecaoEsperada(e.getMessage());
+			ListaDeErros.getInstance().addMensagemDeErro(e.getMessage());
 		}
 	}
 
