@@ -164,22 +164,18 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void subprogramas() {
+	private void subprogramas() throws AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
 			
-			try {
-				requiredSymbol("void");
-				requiredIdentificador();
-				
+			if (tratarSimboloRequerido("void", "subprogramas-void") &&
+					tratarErro("subprogramas-identificador", "IDENTIFICADOR")) {
+				identificador();
 				semantico.asDeclararProcedimento(simboloAnterior);
-	
 				requiredSymbol("(");
 				requiredSymbol(")");
 				requiredSymbol("{");
 				bloco();
 				requiredSymbol("}");
-			} catch (AnalisadorSintaticoException e) {
-				tratarErro("subprogramas", e.getMessage());
 			}
 			
 			subprogramas();
