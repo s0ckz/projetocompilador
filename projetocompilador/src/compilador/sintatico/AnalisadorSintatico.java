@@ -90,11 +90,9 @@ public class AnalisadorSintatico {
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException {
-		if (tratarErro("valor_inicial", getStringEsperado("IDENTIFICADOR"))) {
-			requiredIdentificador();
-			semantico.asDeclararXptoVariavel(simboloAnterior);
-			valor_aux();
-		}
+		tratarIdentificadorRequerido("subprogramas-identificador");
+		semantico.asDeclararXptoVariavel(simboloAnterior);
+		valor_aux();
 	}
 
 	private void valor_aux() throws AnalisadorSintaticoException {
@@ -167,8 +165,7 @@ public class AnalisadorSintatico {
 	private void subprogramas() throws AnalisadorSintaticoException {
 		if (optionalSymbol("def")) {
 			tratarSimboloRequerido("void", "subprogramas-void");
-			tratarErro("subprogramas-identificador", "IDENTIFICADOR");
-			identificador();
+			tratarIdentificadorRequerido("subprogramas-identificador");
 			semantico.asDeclararProcedimento(simboloAnterior);
 			tratarSimboloRequerido("(", "subprogramas-(");
 			tratarSimboloRequerido(")", "subprogramas-)");
@@ -178,6 +175,12 @@ public class AnalisadorSintatico {
 			
 			subprogramas();
 		}
+	}
+
+	private void tratarIdentificadorRequerido(String regra)
+			throws AnalisadorSintaticoException {
+		tratarErro(regra, getStringEsperado("IDENTIFICADOR"));
+		identificador();
 	}
 
 	private void expressao() throws AnalisadorSintaticoException {
