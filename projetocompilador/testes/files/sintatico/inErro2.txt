@@ -1,1 +1,3 @@
 int 1media;
+string teste;
+string 3alfa;
