@@ -25,8 +25,11 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("valor_inicial", makeList(IDENTIFICADOR));
 		seguidores.put("valor_inicial", makeList(DELIMITADOR_VARIAVEL, DELIMITADOR_COMANDO));
 		
-		primeiros.put("subprogramas", makeList(DEF));
-		seguidores.put("subprogramas", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
+		primeiros.put("subprogramas-void", makeList(VOID));
+		seguidores.put("subprogramas-void", makeList(IDENTIFICADOR));
+		
+		primeiros.put("subprogramas-identificador", makeList(IDENTIFICADOR));
+		seguidores.put("subprogramas-identificador", makeList(PARENTISADOR_ABRE_CHAVES));
 		
 		primeiros.put("comando", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
 		seguidores.put("comando", makeList(PARENTISADOR_FECHA_CHAVES));
