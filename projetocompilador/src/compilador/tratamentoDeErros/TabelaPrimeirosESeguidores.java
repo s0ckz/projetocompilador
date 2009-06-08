@@ -24,6 +24,9 @@ public class TabelaPrimeirosESeguidores {
 		
 		primeiros.put("valor_inicial", makeList(IDENTIFICADOR));
 		seguidores.put("valor_inicial", makeList(DELIMITADOR_VARIAVEL, DELIMITADOR_COMANDO));
+		
+		primeiros.put("subprogramas", makeList(DEF));
+		seguidores.put("subprogramas", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
 	}
 	
 	private static List<Integer> makeList(Integer... values) {

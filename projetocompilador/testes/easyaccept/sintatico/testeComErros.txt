@@ -2,11 +2,18 @@ analyse fileName="testes/files/sintatico/inErro1.txt"
 
 expect "Erro na linha: 2 perto de: 'string ' - Esperava: ';'!" getProximoErro
 
+
 analyse fileName="testes/files/sintatico/inErro2.txt"
 
 expect "Erro na linha: 1 perto de: 'int 1m' - Esperava: 'IDENTIFICADOR'!" getProximoErro
 
 expect "Erro na linha: 3 perto de: 'string 3a' - Esperava: 'IDENTIFICADOR'!" getProximoErro
+
+
+expectError "Erro na linha: 3 perto de: 'def inta proc(' - Identificador 'inta' não foi declarado!" analyse fileName="testes/files/sintatico/inErro3.txt"
+
+expect "Erro na linha: 3 perto de: 'def inta ' - Esperava: 'void'!" getProximoErro
+
 
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
@@ -14,13 +21,16 @@ expect "Erro na linha: 2 perto de: 'a = 10 + + ' - Esperava: numero, (expressão)
 
 expect "Erro na linha: 3 perto de: 'b = 30 * - ' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
+
 analyse fileName="testes/files/sintatico/inErro28.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 +;' - Esperava: numero, (expressão) ou identificador" getProximoErro
 
+
 analyse fileName="testes/files/sintatico/inErro29.txt"
 
 expect "Erro na linha: 1 perto de: 'int a =  10 + 30, b = a * ,' - Esperava: numero, (expressão) ou identificador" getProximoErro
+
 
 analyse fileName="testes/files/sintatico/inErro30.txt"
 
