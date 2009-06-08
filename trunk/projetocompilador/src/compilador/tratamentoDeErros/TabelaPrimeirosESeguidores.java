@@ -18,6 +18,12 @@ public class TabelaPrimeirosESeguidores {
 		seguidores.put("pred", makeList(OP_POTENCIA, OP_MULTIPLICACAO, OP_DIVISAO, OP_SOMA, 
 				OP_SUBTRACAO, DELIMITADOR_COMANDO, DELIMITADOR_VARIAVEL, OP_MAIOR_QUE, OP_MAIOR_OU_IGUAL_A,
 				OP_IGUAL, OP_DIFERENCA, OP_MENOR_QUE, OP_MENOR_OU_IGUAL_A, PARENTISADOR_FECHA_PARENTESES));
+		
+		primeiros.put("declaracoes", makeList(CONST, STRING, INTEGER));
+		seguidores.put("declaracoes", makeList(DEF, IF, WHILE, READ, WRITE, IDENTIFICADOR));
+		
+		primeiros.put("valor_inicial", makeList(IDENTIFICADOR));
+		seguidores.put("valor_inicial", makeList(DELIMITADOR_VARIAVEL, DELIMITADOR_COMANDO));
 	}
 	
 	private static List<Integer> makeList(Integer... values) {

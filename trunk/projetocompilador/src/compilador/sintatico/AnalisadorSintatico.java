@@ -46,7 +46,9 @@ public class AnalisadorSintatico {
 
 	private void declaracoes() throws AnalisadorSintaticoException {
 		if (declaracao()) {
-			requiredSymbol(";");
+			if (!optionalSymbol(";")) {
+				tratarErro("declaracoes", getStringEsperado(";"));
+			}
 			declaracoes();
 		}
 	}
@@ -104,7 +106,11 @@ public class AnalisadorSintatico {
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException {
-		requiredIdentificador();
+		if (!identificador()) {
+			if (tratarErro("valor_inicial", getStringEsperado("IDENTIFICADOR")))
+				valor_inicial();
+			return;
+		}
 		
 		try {
 			semantico.asDeclararXptoVariavel(simboloAnterior);
@@ -264,8 +270,8 @@ public class AnalisadorSintatico {
 	private boolean tratarErro(String regra, String msgErro) throws AnalisadorSintaticoException {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
+		tratadorDeErros.addMensagemDeErro(getMensagemErro(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), msgErro));
 		if (!primeiros.contains(simbolo.getCodigo())) {
-			tratadorDeErros.addMensagemDeErro(getMensagemErro(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), msgErro));
 			while (!primeiros.contains(simbolo.getCodigo()) && !seguidores.contains(simbolo.getCodigo())) {
 				lerProximoSimbolo();
 			}
@@ -486,11 +492,19 @@ public class AnalisadorSintatico {
 	}
 	
 	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), "Esperava: '" + symbol + "'!");
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), getStringEsperado(symbol));
+	}
+
+	private String getStringEsperado(String symbol) {
+		return "Esperava: '" + symbol + "'!";
+	}
+
+	private String getStringNaoEsperado(String symbol) {
+		return "Não esperava: '" + symbol + "'!";
 	}
 
 	private void lancarExcecaoNaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), "Não esperava: '" + symbol + "'!");
+		throw new AnalisadorSintaticoException(lexico.getLinhaAtual(), lexico.getConteudoLinhaAtual(), getStringNaoEsperado(symbol));
 	}
 	
 	private boolean optionalSymbol(String optional) throws AnalisadorSintaticoException {
