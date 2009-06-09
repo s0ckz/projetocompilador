@@ -196,3 +196,10 @@ expect "Erro na linha: 5 perto de: 'if (a > 5 + 3 / ' - Esperava: 'numero, (expr
 expect "Erro na linha: 7 perto de: 'if (a > 5 + 3 / ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
 
 expect "Erro na linha: 7 perto de: 'if (a > 5 + 3 / ** ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro31.txt"
+
+expect "Erro na linha: 3 perto de: 'a;' - Esperava: '='!" getProximoErro
+
+expect "Erro na linha: 3 perto de: 'a;' - Esperava: 'cadeia ou expressão'!" getProximoErro

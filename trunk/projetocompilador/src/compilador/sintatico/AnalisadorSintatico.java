@@ -425,7 +425,8 @@ public class AnalisadorSintatico {
 	private void atribuicao() throws AnalisadorSintaticoException {
 		semantico.asVerificarSeEhTipoConstante(simboloAnterior);
 		semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
-		requiredSymbol("=");
+		tratarSimboloRequerido("=", "atribuicao-=");
+		tratarErro("atribuicao", getStringEsperado("cadeia ou expressão"));
 		if (cadeia()) {
 			semantico.asEmpilharTipoCadeia();
 		} else {

@@ -87,6 +87,12 @@ public class TabelaPrimeirosESeguidores {
 		seguidores.put("eh_vetor-]", makeList(IDENTIFICADOR, OP_ATRIBUICAO, DELIMITADOR_COMANDO, OP_POTENCIA, OP_MULTIPLICACAO, OP_DIVISAO, OP_SOMA, 
 				OP_SUBTRACAO, DELIMITADOR_VARIAVEL, OP_MAIOR_QUE, OP_MAIOR_OU_IGUAL_A,
 				OP_IGUAL, OP_DIFERENCA, OP_MENOR_QUE, OP_MENOR_OU_IGUAL_A, PARENTISADOR_FECHA_PARENTESES));
+		
+		primeiros.put("atribuicao-=", makeList(OP_ATRIBUICAO));
+		seguidores.put("atribuicao-=", makeList(IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_PARENTESES, CADEIA));
+		
+		primeiros.put("atribuicao", makeList(CADEIA, IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_PARENTESES));
+		seguidores.put("atribuicao", makeList(DELIMITADOR_COMANDO));
 	}
 	
 	private static List<Integer> makeList(Integer... values) {
