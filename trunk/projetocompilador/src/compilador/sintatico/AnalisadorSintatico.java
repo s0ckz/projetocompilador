@@ -418,7 +418,7 @@ public class AnalisadorSintatico {
 
 	private void chamadaProcedimento(Simbolo identificador)
 			throws AnalisadorSintaticoException {
-		requiredSymbol(")");
+		tratarSimboloRequerido(")", "procedimento");
 		semantico.asVerificarExistenciaProcedimento(identificador);
 	}
 
