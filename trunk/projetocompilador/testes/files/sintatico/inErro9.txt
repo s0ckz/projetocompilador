@@ -1,3 +1,3 @@
 int[50 media;
 string alfa;
-int 1media;
+int 1media2;
