@@ -40,6 +40,8 @@ public class AnalisadorSemantico {
 	}
 
 	public void asEmpilharTipoBaseadoEmIdentificador(Simbolo identificador, boolean ehVetor) {
+		if (identificador.getCadeia().equals("read"))
+			Thread.dumpStack();
 		SimboloXptoAS simboloAS = getSimboloXptoAS(identificador.getCadeia());
 		
 		if (simboloAS == null)

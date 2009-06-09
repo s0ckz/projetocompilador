@@ -25,7 +25,7 @@ expect "Erro na linha: 6 perto de: 'write \"oi\"' - Esperava: ';'!" getProximoEr
 
 expect "Erro na linha: 7 perto de: 'read ' - Esperava: 'IDENTIFICADOR'!" getProximoErro
 
-# expect "Erro na linha: 7 perto de: 'read ' - Esperava: ';'!" getProximoErro
+expect "Erro na linha: 7 perto de: 'read ' - Esperava: ';'!" getProximoErro
 
 
 analyse fileName="testes/files/sintatico/inErro5.txt"
