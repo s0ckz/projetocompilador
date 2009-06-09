@@ -323,7 +323,7 @@ public class AnalisadorSintatico {
 	private boolean expressaoLogicaParentisada() throws AnalisadorSintaticoException {
 		if (optionalSymbol("[")) {
 			expressaoLogica();
-			requiredSymbol("]");
+			tratarSimboloRequerido("]", "expressaoLogicaParentisada");
 			return true;
 		}
 		return false;
@@ -467,15 +467,6 @@ public class AnalisadorSintatico {
 		} else {
 			lerProximoSimbolo();
 			return true;
-		}
-	}
-
-	private void requiredSymbol(String required)
-			throws AnalisadorSintaticoException {
-		if (simbolo != null && simbolo.getCadeia().equals(required)) {
-			lerProximoSimbolo();
-		} else {
-			lancarExcecaoEsperada(required);
 		}
 	}
 
