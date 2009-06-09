@@ -76,6 +76,11 @@ expect "Erro na linha: 1 perto de: 'const int a;' - Esperava: 'cadeia, vetor ou 
 expect "Erro na linha: 1 perto de: 'const int a;' - Esperava: ';'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro13.txt"
+
+expect "Erro na linha: 1 perto de: 'const string s = ' - Esperava: 'cadeia, vetor ou expressão'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
