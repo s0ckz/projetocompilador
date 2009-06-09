@@ -177,10 +177,11 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void tratarIdentificadorRequerido(String regra)
+	private boolean tratarIdentificadorRequerido(String regra)
 			throws AnalisadorSintaticoException {
-		tratarErro(regra, getStringEsperado("IDENTIFICADOR"));
+		boolean tratou = tratarErro(regra, getStringEsperado("IDENTIFICADOR"));
 		identificador();
+		return tratou;
 	}
 	
 	private void optionalExpressao() throws AnalisadorSintaticoException {
@@ -371,8 +372,10 @@ public class AnalisadorSintatico {
 	}
 
 	private boolean comandoRead() throws AnalisadorSintaticoException {
-		tratarIdentificadorRequerido("comandoRead");
-		semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
+		// soh fala com o semantico se conseguiu tratar belamente.
+		if (tratarIdentificadorRequerido("comandoRead")) {
+			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
+		}
 		tratarSimboloRequerido(";", "comando-;");
 		return true;
 	}
