@@ -47,6 +47,10 @@ public class Simbolo {
 		return getCodigo() == ConjuntoCodigos.CADEIA;
 	}
 
+	public boolean isAbreParenteses() {
+		return getCodigo() == ConjuntoCodigos.PARENTISADOR_ABRE_PARENTESES;
+	}
+
 	public boolean isOperadorRelacional() {
 		return 	getCodigo() == ConjuntoCodigos.OP_MAIOR_OU_IGUAL_A || 
 				getCodigo() == ConjuntoCodigos.OP_MAIOR_QUE ||
