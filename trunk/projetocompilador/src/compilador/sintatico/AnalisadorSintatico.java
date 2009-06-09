@@ -374,7 +374,7 @@ public class AnalisadorSintatico {
 		} else {
 			atribuicao();
 		}
-		requiredSymbol(";");
+		tratarSimboloRequerido(";", "comando-;");
 		return true;
 	}
 

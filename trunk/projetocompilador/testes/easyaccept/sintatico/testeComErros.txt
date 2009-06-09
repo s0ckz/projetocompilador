@@ -203,3 +203,10 @@ analyse fileName="testes/files/sintatico/inErro31.txt"
 expect "Erro na linha: 3 perto de: 'a;' - Esperava: '='!" getProximoErro
 
 expect "Erro na linha: 3 perto de: 'a;' - Esperava: 'cadeia ou expressão'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro32.txt"
+
+expect "Erro na linha: 5 perto de: 'proc()' - Esperava: ';'!" getProximoErro
+
+expect "Erro na linha: 6 perto de: 'write \"blah\"' - Esperava: ';'!" getProximoErro
