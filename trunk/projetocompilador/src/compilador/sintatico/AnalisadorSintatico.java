@@ -104,7 +104,7 @@ public class AnalisadorSintatico {
 	private void valor() throws AnalisadorSintaticoException {
 		if (tratarErro("valor", getStringEsperado("cadeia, vetor ou expressão"))); {
 			if (!cadeia() && !vetor()) {
-				expressao();
+				optionalExpressao();
 			}
 		}
 	}
@@ -132,7 +132,7 @@ public class AnalisadorSintatico {
 
 	private void var_exp() throws AnalisadorSintaticoException {
 		if (!cadeia()) 
-			expressao();
+			optionalExpressao();
 		
 	}
 
@@ -181,6 +181,15 @@ public class AnalisadorSintatico {
 			throws AnalisadorSintaticoException {
 		tratarErro(regra, getStringEsperado("IDENTIFICADOR"));
 		identificador();
+	}
+	
+	private void optionalExpressao() throws AnalisadorSintaticoException {
+		if (simbolo != null && 
+				(simbolo.isIdentificador() || 
+						simbolo.isNumero() || 
+						simbolo.isAbreParenteses())) {
+			expressao();
+		}
 	}
 
 	private void expressao() throws AnalisadorSintaticoException {
@@ -403,7 +412,7 @@ public class AnalisadorSintatico {
 		if (cadeia()) {
 			semantico.asEmpilharTipoCadeia();
 		} else {
-			expressao();
+			optionalExpressao();
 		}
 		semantico.asVerificarTipo();
 	}

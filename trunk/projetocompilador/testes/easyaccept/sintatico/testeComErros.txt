@@ -67,6 +67,15 @@ analyse fileName="testes/files/sintatico/inErro11.txt"
 expect "Erro na linha: 1 perto de: 'const int;' - Esperava: 'IDENTIFICADOR'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro12.txt"
+
+expect "Erro na linha: 1 perto de: 'const int a;' - Esperava: '='!" getProximoErro
+
+expect "Erro na linha: 1 perto de: 'const int a;' - Esperava: 'cadeia, vetor ou expressão'!" getProximoErro
+
+expect "Erro na linha: 1 perto de: 'const int a;' - Esperava: ';'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
