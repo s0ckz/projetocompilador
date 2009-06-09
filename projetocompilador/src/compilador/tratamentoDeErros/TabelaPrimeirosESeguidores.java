@@ -35,6 +35,9 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("valor", makeList(CADEIA, PARENTISADOR_ABRE_PARENTESES, IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_CHAVES));
 		seguidores.put("valor", makeList(DELIMITADOR_COMANDO, DELIMITADOR_VARIAVEL));
 		
+		primeiros.put("vetor-}", makeList(PARENTISADOR_FECHA_CHAVES));
+		seguidores.put("vetor-}", makeList(DELIMITADOR_COMANDO, DELIMITADOR_VARIAVEL));
+		
 		primeiros.put("subprogramas-void", makeList(VOID));
 		seguidores.put("subprogramas-void", makeList(IDENTIFICADOR));
 		

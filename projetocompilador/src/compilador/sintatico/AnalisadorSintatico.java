@@ -112,7 +112,7 @@ public class AnalisadorSintatico {
 	private boolean vetor() throws AnalisadorSintaticoException {
 		if (optionalSymbol("{")) {
 			valores();
-			requiredSymbol("}");
+			tratarSimboloRequerido("}", "vetor-}");
 			return true;
 		}
 		return false;
