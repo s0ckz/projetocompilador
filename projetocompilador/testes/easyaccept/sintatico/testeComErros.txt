@@ -141,6 +141,16 @@ expect "Erro na linha: 1 perto de: 'int exp = (2 * 4 + (3 ** 2) + 2 * (3 + ) + 5
 expect "Erro na linha: 2 perto de: 'write \"oi\"' - Esperava: ';'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro22.txt"
+
+expect "Erro na linha: 1 perto de: 'int exp = (2 * 4)' - Esperava: ';'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro23.txt"
+
+expect "Erro na linha: 2 perto de: 'while (i < (37 + 2 / 5)' - Esperava: ')'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro25.txt"
 
 expect "Erro na linha: 18 perto de: 'proc(' - Esperava: '}'!" getProximoErro
