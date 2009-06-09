@@ -1,0 +1,5 @@
+string ident = "e agora, o que vai acontecer";
+
+def void ident() {
+
+}

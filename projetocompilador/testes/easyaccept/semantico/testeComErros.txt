@@ -31,3 +31,11 @@ expectError "Erro na linha: 4 perto de: 'teste = 30;' - Tipos incompatíveis: int
 expectError "Erro na linha: 9 perto de: 'teste2 = teste;' - Tipos incompatíveis: int[] com string[]!" analyseSematico fileName="testes/files/semantico/inErro16.txt"
 
 expectError "Erro na linha: 10 perto de: 'teste2 ' - 'teste2' é constante!" analyseSematico fileName="testes/files/semantico/inErro17.txt"
+
+expectError "Erro na linha: 1 perto de: 'string s, s;' - Identificador 's' já foi declarado!" analyseSematico fileName="testes/files/semantico/inErro18.txt"
+
+expectError "Erro na linha: 5 perto de: 'def void proc(' - Identificador 'proc' já foi declarado!" analyseSematico fileName="testes/files/semantico/inErro19.txt"
+
+expectError "Erro na linha: 3 perto de: 'def void ident(' - Identificador 'ident' já foi declarado!" analyseSematico fileName="testes/files/semantico/inErro20.txt"
+
+expectError "Erro na linha: 4 perto de: 'while (a < c)' - Tipos incompatíveis: int[] com int!" analyseSematico fileName="testes/files/semantico/inErro21.txt"

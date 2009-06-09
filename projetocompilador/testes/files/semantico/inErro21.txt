@@ -1,0 +1,6 @@
+int a;
+int[10] c;
+
+while (a < c) {
+
+}
