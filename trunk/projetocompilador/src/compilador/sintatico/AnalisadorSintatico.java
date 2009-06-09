@@ -394,7 +394,7 @@ public class AnalisadorSintatico {
 	private boolean comandoIf() throws AnalisadorSintaticoException {
 		tratarSimboloRequerido("(", "comandoIf-(");
 		expressaoLogica();
-		requiredSymbol(")");
+		tratarSimboloRequerido(")", "comandoIf-)");
 		requiredSymbol("{");
 		bloco();
 		requiredSymbol("}");

@@ -62,6 +62,9 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("comandoIf-(", makeList(PARENTISADOR_ABRE_PARENTESES));
 		seguidores.put("comandoIf-(", makeList(IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_PARENTESES, PARENTISADOR_ABRE_COLCHETE));
 		
+		primeiros.put("comandoIf-)", makeList(PARENTISADOR_FECHA_PARENTESES));
+		seguidores.put("comandoIf-)", makeList(PARENTISADOR_ABRE_CHAVES));
+		
 		primeiros.put("comandoRead", makeList(IDENTIFICADOR));
 		seguidores.put("comandoRead", makeList(PARENTISADOR_ABRE_COLCHETE, DELIMITADOR_COMANDO));
 		

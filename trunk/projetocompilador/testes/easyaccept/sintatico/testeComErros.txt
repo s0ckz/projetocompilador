@@ -104,6 +104,13 @@ expect "Erro na linha: 4 perto de: 'read a' - Identificador 'a' não foi declarad
 expect "Erro na linha: 4 perto de: 'read a' - Esperava: ';'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro17.txt"
+
+expect "Erro na linha: 2 perto de: 'if (condicao == 1 ' - Esperava: ')'!" getProximoErro
+
+expect "Erro na linha: 3 perto de: 'write \"oi\"' - Esperava: ';'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro

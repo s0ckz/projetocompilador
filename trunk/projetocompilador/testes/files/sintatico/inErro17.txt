@@ -1,3 +1,4 @@
 int condicao = 0;
 if (condicao == 1 {
+	write "oi"
 }
