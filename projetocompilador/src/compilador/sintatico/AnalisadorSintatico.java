@@ -83,9 +83,9 @@ public class AnalisadorSintatico {
 	}
 
 	private void valor_inicial_const() throws AnalisadorSintaticoException {
-		requiredIdentificador();
+		tratarIdentificadorRequerido("valor_inicial_const");
 		semantico.asDeclararXptoConstante(simboloAnterior);
-		requiredSymbol("=");
+		tratarSimboloRequerido("=", "valor_inicial_const-=");
 		valor();
 	}
 
@@ -442,15 +442,6 @@ public class AnalisadorSintatico {
 			return true;
 		}
 	}
-
-	private void requiredIdentificador() throws AnalisadorSintaticoException {
-		if (!identificador()) 
-			lancarExcecaoEsperada("IDENTIFICADOR");
-	}
-
-//	private void requiredNumero() throws AnalisadorSintaticoException, AnalisadorLexicoException {
-//		if (!numero()) lancarExcecaoEsperada("NUMERO");
-//	}
 
 	private void requiredOperadorRelacional() throws AnalisadorSintaticoException {
 		if (!operadorRelacional()) lancarExcecaoEsperada("OPERADOR RELACIONAL");

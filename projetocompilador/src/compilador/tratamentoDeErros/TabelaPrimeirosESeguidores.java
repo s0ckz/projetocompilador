@@ -26,6 +26,12 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("valor_inicial", makeList(IDENTIFICADOR));
 		seguidores.put("valor_inicial", makeList(OP_ATRIBUICAO, DELIMITADOR_VARIAVEL, DELIMITADOR_COMANDO));
 		
+		primeiros.put("valor_inicial_const", makeList(IDENTIFICADOR));
+		seguidores.put("valor_inicial_const", makeList(OP_ATRIBUICAO));
+		
+		primeiros.put("valor_inicial_const-=", makeList(OP_ATRIBUICAO));
+		seguidores.put("valor_inicial_const-=", makeList(CADEIA, PARENTISADOR_ABRE_PARENTESES, IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_CHAVES));
+		
 		primeiros.put("valor", makeList(CADEIA, PARENTISADOR_ABRE_PARENTESES, IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_CHAVES));
 		seguidores.put("valor", makeList(DELIMITADOR_COMANDO, DELIMITADOR_VARIAVEL));
 		
