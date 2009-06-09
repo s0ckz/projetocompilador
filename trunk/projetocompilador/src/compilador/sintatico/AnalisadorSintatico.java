@@ -273,7 +273,7 @@ public class AnalisadorSintatico {
 	private boolean expressaoParentisada() throws AnalisadorSintaticoException {
 		if (optionalSymbol("(")) {
 			expressao();
-			requiredSymbol(")");
+			tratarSimboloRequerido(")", "expressaoParentisada-)");
 			return true;
 		}
 		return false;

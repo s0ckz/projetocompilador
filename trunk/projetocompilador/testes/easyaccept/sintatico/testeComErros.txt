@@ -120,6 +120,11 @@ expect "Erro na linha: 3 perto de: '}' - Esperava: 'numero, (expressão) ou ident
 expect "Erro na linha: 3 perto de: '}' - Esperava: ')'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro19.txt"
+
+expect "Erro na linha: 1 perto de: 'int exp = (2 ' - Esperava: ')'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro25.txt"
 
 expect "Erro na linha: 18 perto de: 'proc(' - Esperava: '}'!" getProximoErro
