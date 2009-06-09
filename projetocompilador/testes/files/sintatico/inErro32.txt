@@ -1,0 +1,6 @@
+def void proc() {
+	write "OI";
+}
+
+proc()
+write "blah"
