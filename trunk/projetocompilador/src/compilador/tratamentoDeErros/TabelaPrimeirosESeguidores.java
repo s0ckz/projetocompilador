@@ -17,13 +17,17 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("pred", makeList(PARENTISADOR_ABRE_PARENTESES, IDENTIFICADOR, NUMERO));
 		seguidores.put("pred", makeList(OP_POTENCIA, OP_MULTIPLICACAO, OP_DIVISAO, OP_SOMA, 
 				OP_SUBTRACAO, DELIMITADOR_COMANDO, DELIMITADOR_VARIAVEL, OP_MAIOR_QUE, OP_MAIOR_OU_IGUAL_A,
-				OP_IGUAL, OP_DIFERENCA, OP_MENOR_QUE, OP_MENOR_OU_IGUAL_A, PARENTISADOR_FECHA_PARENTESES));
+				OP_IGUAL, OP_DIFERENCA, OP_MENOR_QUE, OP_MENOR_OU_IGUAL_A, PARENTISADOR_FECHA_PARENTESES, 
+				PARENTISADOR_FECHA_COLCHETE));
 		
 		primeiros.put("declaracoes-;", makeList(DELIMITADOR_COMANDO));
 		seguidores.put("declaracoes-;", makeList(CONST, STRING, INTEGER, DEF, IF, WHILE, READ, WRITE, IDENTIFICADOR));
 		
 		primeiros.put("valor_inicial", makeList(IDENTIFICADOR));
-		seguidores.put("valor_inicial", makeList(DELIMITADOR_VARIAVEL, DELIMITADOR_COMANDO));
+		seguidores.put("valor_inicial", makeList(OP_ATRIBUICAO, DELIMITADOR_VARIAVEL, DELIMITADOR_COMANDO));
+		
+		primeiros.put("valor", makeList(CADEIA, PARENTISADOR_ABRE_PARENTESES, IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_CHAVES));
+		seguidores.put("valor", makeList(DELIMITADOR_COMANDO, DELIMITADOR_VARIAVEL));
 		
 		primeiros.put("subprogramas-void", makeList(VOID));
 		seguidores.put("subprogramas-void", makeList(IDENTIFICADOR));
@@ -45,6 +49,11 @@ public class TabelaPrimeirosESeguidores {
 		
 		primeiros.put("comando-;", makeList(DELIMITADOR_COMANDO));
 		seguidores.put("comando-;", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
+		
+		primeiros.put("eh_vetor-]", makeList(PARENTISADOR_FECHA_COLCHETE));
+		seguidores.put("eh_vetor-]", makeList(IDENTIFICADOR, OP_ATRIBUICAO, DELIMITADOR_COMANDO, OP_POTENCIA, OP_MULTIPLICACAO, OP_DIVISAO, OP_SOMA, 
+				OP_SUBTRACAO, DELIMITADOR_VARIAVEL, OP_MAIOR_QUE, OP_MAIOR_OU_IGUAL_A,
+				OP_IGUAL, OP_DIFERENCA, OP_MENOR_QUE, OP_MENOR_OU_IGUAL_A, PARENTISADOR_FECHA_PARENTESES));
 	}
 	
 	private static List<Integer> makeList(Integer... values) {

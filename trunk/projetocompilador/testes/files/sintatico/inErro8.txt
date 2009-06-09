@@ -1,1 +1,3 @@
 int[] media;
+int b = 1;
+string c = "oi"
