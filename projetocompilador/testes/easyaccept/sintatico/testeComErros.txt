@@ -160,7 +160,7 @@ expect "Erro na linha: 3 perto de: '} else' - Esperava: '}'!" getProximoErro
 
 analyse fileName="testes/files/sintatico/inErro25.txt"
 
-expect "Erro na linha: 18 perto de: 'proc(' - Esperava: '}'!" getProximoErro
+expect "Erro na linha: 18 perto de: 'proc(' - Esperava: ')'!" getProximoErro
 
 
 analyse fileName="testes/files/sintatico/inErro26.txt"
