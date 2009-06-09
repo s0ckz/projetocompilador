@@ -179,7 +179,7 @@ public class AnalisadorLexico {
 			if (caractereAtual == '\n') {
 				conteudoLinhaAtual = createStringBuilder();
 				linhaAtual++;
-			} else if (caractereAtual != '\t' && caractereAtual != '\r') {
+			} else if (caractereAtual != '\t' && caractereAtual != '\r' && caractereAtual != -1) {
 				conteudoLinhaAtual.append((char)caractereAtual);
 			}
 		} catch (IOException e) {

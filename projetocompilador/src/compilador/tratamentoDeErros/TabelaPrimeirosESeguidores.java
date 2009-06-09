@@ -65,11 +65,17 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("comando-;", makeList(DELIMITADOR_COMANDO));
 		seguidores.put("comando-;", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
 		
-		primeiros.put("comandoIf-(", makeList(PARENTISADOR_ABRE_PARENTESES));
-		seguidores.put("comandoIf-(", makeList(IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_PARENTESES, PARENTISADOR_ABRE_COLCHETE));
+		primeiros.put("comandoCondicional-(", makeList(PARENTISADOR_ABRE_PARENTESES));
+		seguidores.put("comandoCondicional-(", makeList(IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_PARENTESES, PARENTISADOR_ABRE_COLCHETE));
 		
-		primeiros.put("comandoIf-)", makeList(PARENTISADOR_FECHA_PARENTESES));
-		seguidores.put("comandoIf-)", makeList(PARENTISADOR_ABRE_CHAVES));
+		primeiros.put("comandoCondicional-)", makeList(PARENTISADOR_FECHA_PARENTESES));
+		seguidores.put("comandoCondicional-)", makeList(PARENTISADOR_ABRE_CHAVES));
+		
+		primeiros.put("comandoCondicional-{", makeList(PARENTISADOR_ABRE_CHAVES));
+		seguidores.put("comandoCondicional-{", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
+		
+		primeiros.put("comandoCondicional-}", makeList(PARENTISADOR_FECHA_CHAVES));
+		seguidores.put("comandoCondicional-}", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
 		
 		primeiros.put("comandoRead", makeList(IDENTIFICADOR));
 		seguidores.put("comandoRead", makeList(PARENTISADOR_ABRE_COLCHETE, DELIMITADOR_COMANDO));

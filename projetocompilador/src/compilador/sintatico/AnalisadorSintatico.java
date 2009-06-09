@@ -394,23 +394,23 @@ public class AnalisadorSintatico {
 	}
 
 	private boolean comandoWhile() throws AnalisadorSintaticoException {
-		tratarSimboloRequerido("(", "comandoIf-(");
+		tratarSimboloRequerido("(", "comandoCondicional-(");
 		expressaoLogica();
-		tratarSimboloRequerido(")", "comandoIf-)");
-		requiredSymbol("{");
+		tratarSimboloRequerido(")", "comandoCondicional-)");
+		tratarSimboloRequerido("{", "comandoCondicional-{");
 		bloco();
-		requiredSymbol("}");
+		tratarSimboloRequerido("}", "comandoCondicional-}");
 		optionalSymbol(";");
 		return true;
 	}
 
 	private boolean comandoIf() throws AnalisadorSintaticoException {
-		tratarSimboloRequerido("(", "comandoIf-(");
+		tratarSimboloRequerido("(", "comandoCondicional-(");
 		expressaoLogica();
-		tratarSimboloRequerido(")", "comandoIf-)");
-		requiredSymbol("{");
+		tratarSimboloRequerido(")", "comandoCondicional-)");
+		tratarSimboloRequerido("{", "comandoCondicional-{");
 		bloco();
-		requiredSymbol("}");
+		tratarSimboloRequerido("}", "comandoCondicional-}");
 		cmd_decisao_else();
 		optionalSymbol(";");
 		return true;
@@ -436,9 +436,9 @@ public class AnalisadorSintatico {
 
 	private void cmd_decisao_else() throws AnalisadorSintaticoException {
 		if (optionalSymbol("else")) {
-			requiredSymbol("{");
+			tratarSimboloRequerido("{", "comandoCondicional-{");
 			bloco();
-			requiredSymbol("}");
+			tratarSimboloRequerido("}", "comandoCondicional-}");
 		}
 	}
 
