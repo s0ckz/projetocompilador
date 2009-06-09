@@ -125,6 +125,22 @@ analyse fileName="testes/files/sintatico/inErro19.txt"
 expect "Erro na linha: 1 perto de: 'int exp = (2 ' - Esperava: ')'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro20.txt"
+
+expect "Erro na linha: 1 perto de: 'int exp = 2 * 4)' - Esperava: ';'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro21.txt"
+
+expect "Erro na linha: 1 perto de: 'int exp = (2 * 4 + (3 ** 2) + 2 * (3 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
+
+expect "Erro na linha: 1 perto de: 'int exp = (2 * 4 + (3 ** 2) + 2 * (3 + ) + 5 * ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
+
+expect "Erro na linha: 1 perto de: 'int exp = (2 * 4 + (3 ** 2) + 2 * (3 + ) + 5 * ' - Esperava: ')'!" getProximoErro
+
+expect "Erro na linha: 2 perto de: 'write \"oi\"' - Esperava: ';'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro25.txt"
 
 expect "Erro na linha: 18 perto de: 'proc(' - Esperava: '}'!" getProximoErro
