@@ -111,6 +111,15 @@ expect "Erro na linha: 2 perto de: 'if (condicao == 1 ' - Esperava: ')'!" getPro
 expect "Erro na linha: 3 perto de: 'write \"oi\"' - Esperava: ';'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro18.txt"
+
+expect "Erro na linha: 2 perto de: 'if (condicao)' - Esperava: 'OPERADOR RELACIONAL'!" getProximoErro
+
+expect "Erro na linha: 3 perto de: '}' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
+
+expect "Erro na linha: 3 perto de: '}' - Esperava: ')'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
