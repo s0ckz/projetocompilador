@@ -23,7 +23,9 @@ expect "Erro na linha: 3 perto de: 'def void proc)' - Esperava: '('!" getProximo
 
 expect "Erro na linha: 6 perto de: 'write \"oi\"' - Esperava: ';'!" getProximoErro
 
-expect "Erro na linha: 7 perto de: 'read ' - Esperava: ';'!" getProximoErro
+expect "Erro na linha: 7 perto de: 'read ' - Esperava: 'IDENTIFICADOR'!" getProximoErro
+
+# expect "Erro na linha: 7 perto de: 'read ' - Esperava: ';'!" getProximoErro
 
 
 analyse fileName="testes/files/sintatico/inErro5.txt"
@@ -91,6 +93,15 @@ analyse fileName="testes/files/sintatico/inErro15.txt"
 expect "Erro na linha: 1 perto de: 'int[5] vetor = {1,2,3,4,5 ' - Esperava: '}'!" getProximoErro
 
 expect "Erro na linha: 2 perto de: 'string[vetor[3]] a = {1,2,' - Esperava: '}'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro16.txt"
+
+expect "Erro na linha: 2 perto de: 'if ' - Esperava: '('!" getProximoErro
+
+expect "Erro na linha: 4 perto de: 'read a' - Identificador 'a' não foi declarado!" getProximoErro
+
+expect "Erro na linha: 4 perto de: 'read a' - Esperava: ';'!" getProximoErro
 
 
 analyse fileName="testes/files/sintatico/inErro27.txt"

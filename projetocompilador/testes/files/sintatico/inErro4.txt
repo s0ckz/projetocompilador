@@ -4,4 +4,4 @@ def void proc) {
 }
 
 write "oi"
-read "oi"
+read ;

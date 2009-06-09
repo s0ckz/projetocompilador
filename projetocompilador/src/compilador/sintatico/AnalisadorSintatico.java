@@ -371,7 +371,8 @@ public class AnalisadorSintatico {
 	}
 
 	private boolean comandoRead() throws AnalisadorSintaticoException {
-		escalar();
+		tratarIdentificadorRequerido("comandoRead");
+		semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
 		tratarSimboloRequerido(";", "comando-;");
 		return true;
 	}
@@ -388,7 +389,7 @@ public class AnalisadorSintatico {
 	}
 
 	private boolean comandoIf() throws AnalisadorSintaticoException {
-		requiredSymbol("(");
+		tratarSimboloRequerido("(", "comandoIf-(");
 		expressaoLogica();
 		requiredSymbol(")");
 		requiredSymbol("{");

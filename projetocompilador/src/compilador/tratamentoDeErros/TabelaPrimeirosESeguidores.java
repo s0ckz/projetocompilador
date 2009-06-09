@@ -59,6 +59,12 @@ public class TabelaPrimeirosESeguidores {
 		primeiros.put("comando-;", makeList(DELIMITADOR_COMANDO));
 		seguidores.put("comando-;", makeList(IF, WHILE, READ, WRITE, IDENTIFICADOR));
 		
+		primeiros.put("comandoIf-(", makeList(PARENTISADOR_ABRE_PARENTESES));
+		seguidores.put("comandoIf-(", makeList(IDENTIFICADOR, NUMERO, PARENTISADOR_ABRE_PARENTESES, PARENTISADOR_ABRE_COLCHETE));
+		
+		primeiros.put("comandoRead", makeList(IDENTIFICADOR));
+		seguidores.put("comandoRead", makeList(PARENTISADOR_ABRE_COLCHETE, DELIMITADOR_COMANDO));
+		
 		primeiros.put("eh_vetor-]", makeList(PARENTISADOR_FECHA_COLCHETE));
 		seguidores.put("eh_vetor-]", makeList(IDENTIFICADOR, OP_ATRIBUICAO, DELIMITADOR_COMANDO, OP_POTENCIA, OP_MULTIPLICACAO, OP_DIVISAO, OP_SOMA, 
 				OP_SUBTRACAO, DELIMITADOR_VARIAVEL, OP_MAIOR_QUE, OP_MAIOR_OU_IGUAL_A,
