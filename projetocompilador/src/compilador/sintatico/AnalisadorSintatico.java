@@ -176,13 +176,6 @@ public class AnalisadorSintatico {
 			subprogramas();
 		}
 	}
-
-	private boolean tratarIdentificadorRequerido(String regra)
-			throws AnalisadorSintaticoException {
-		boolean tratou = tratarErro(regra, getStringEsperado("IDENTIFICADOR"));
-		identificador();
-		return tratou;
-	}
 	
 	private void optionalExpressao() throws AnalisadorSintaticoException {
 		if (simbolo != null && 
@@ -242,8 +235,28 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	// retorna um booleano pq se contiver o primeiro, eu posso ignorar o que veio
-	// antes e tentar de novo a mesma regra: fiz assim, mas achei estranho...
+	private boolean tratarOperadorRelacionalRequerido(String regra)
+			throws AnalisadorSintaticoException {
+		boolean tratou = tratarErro(regra, getStringEsperado("OPERADOR RELACIONAL"));
+		operadorRelacional();
+		return tratou;
+	}
+
+	private boolean tratarIdentificadorRequerido(String regra)
+			throws AnalisadorSintaticoException {
+		boolean tratou = tratarErro(regra, getStringEsperado("IDENTIFICADOR"));
+		identificador();
+		return tratou;
+	}
+
+	private boolean tratarSimboloRequerido(String symbol, String regra) {
+		if (tratarErro(regra, getStringEsperado(symbol))) {
+			lerProximoSimbolo();
+			return true;
+		}
+		return false;
+	}
+
 	private boolean tratarErro(String regra, String msgErro) {
 		List<Integer> primeiros = TabelaPrimeirosESeguidores.getPrimeiros(regra);
 		List<Integer> seguidores = TabelaPrimeirosESeguidores.getSeguidores(regra);
@@ -301,7 +314,7 @@ public class AnalisadorSintatico {
 	private void fatorRelacional() throws AnalisadorSintaticoException {
 		if (!expressaoLogicaParentisada()) {
 			expressao();
-			requiredOperadorRelacional();
+			tratarOperadorRelacionalRequerido("fatorRelacional");
 			expressao();
 			semantico.asVerificarTipo();
 		}
@@ -454,20 +467,6 @@ public class AnalisadorSintatico {
 			lerProximoSimbolo();
 			return true;
 		}
-	}
-
-	private void requiredOperadorRelacional() throws AnalisadorSintaticoException {
-		if (!operadorRelacional()) lancarExcecaoEsperada("OPERADOR RELACIONAL");
-	}
-
-
-
-	private boolean tratarSimboloRequerido(String symbol, String regra) {
-		if (tratarErro(regra, getStringEsperado(symbol))) {
-			lerProximoSimbolo();
-			return true;
-		}
-		return false;
 	}
 
 	private void requiredSymbol(String required)
