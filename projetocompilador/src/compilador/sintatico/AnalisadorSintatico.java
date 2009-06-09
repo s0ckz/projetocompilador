@@ -90,7 +90,7 @@ public class AnalisadorSintatico {
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException {
-		tratarIdentificadorRequerido("subprogramas-identificador");
+		tratarIdentificadorRequerido("valor_inicial");
 		semantico.asDeclararXptoVariavel(simboloAnterior);
 		valor_aux();
 	}
@@ -102,10 +102,10 @@ public class AnalisadorSintatico {
 	}
 
 	private void valor() throws AnalisadorSintaticoException {
-		if (cadeia()) {
-		} else if (vetor()) {
-		} else {
-			expressao();
+		if (tratarErro("valor", getStringEsperado("cadeia, vetor ou expressão"))); {
+			if (!cadeia() && !vetor()) {
+				expressao();
+			}
 		}
 	}
 
@@ -156,7 +156,7 @@ public class AnalisadorSintatico {
 	private boolean eh_vetor() throws AnalisadorSintaticoException {
 		if (optionalSymbol("[")) {
 			expressao();
-			requiredSymbol("]");
+			tratarSimboloRequerido("]", "eh_vetor-]");
 			return true;
 		}
 		return false;

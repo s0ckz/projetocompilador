@@ -41,6 +41,13 @@ analyse fileName="testes/files/sintatico/inErro7.txt"
 expect "Erro na linha: 3 perto de: 'def void proc() {' - Esperava: '}'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro8.txt"
+
+expect "Erro na linha: 1 perto de: 'int[' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
+
+expect "Erro na linha: 3 perto de: 'string c = \"oi\"' - Esperava: ';'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
