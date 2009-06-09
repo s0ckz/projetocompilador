@@ -217,3 +217,12 @@ analyse fileName="testes/files/sintatico/inErro33.txt"
 expect "Erro na linha: 4 perto de: 'while ([i < (37 + 2 / 5) && [(50 + 2) > (30)]' - Esperava: ']'!" getProximoErro
 
 expect "Erro na linha: 6 perto de: 'if ([a == a)' - Esperava: ']'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro34.txt"
+
+expect "Erro na linha: 1 perto de: 'const ' - Esperava: 'Tipo STRING ou INT'!" getProximoErro
+
+expect "Erro na linha: 2 perto de: 'const ' - Esperava: 'Tipo STRING ou INT'!" getProximoErro
+
+expect "Erro na linha: 2 perto de: 'const blah = ' - Esperava: 'cadeia, vetor ou expressão'!" getProximoErro

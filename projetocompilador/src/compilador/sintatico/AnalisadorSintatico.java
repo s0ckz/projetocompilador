@@ -64,7 +64,7 @@ public class AnalisadorSintatico {
 	}
 
 	private void dec_const() throws AnalisadorSintaticoException {
-		requiredTipo();
+		tratarTipoRequerido("dec_const");
 		Simbolo tipo = simboloAnterior;
 		boolean ehVetor = eh_vetor();
 		semantico.asEmpilharTipo(tipo, ehVetor);
@@ -142,11 +142,6 @@ public class AnalisadorSintatico {
 			valor_inicial();
 			dec_resto(tipo, ehVetor);
 		}
-	}
-
-	private void requiredTipo() throws AnalisadorSintaticoException {
-		if (!tipo())
-			lancarExcecaoEsperada("TIPO");
 	}
 
 	private boolean tipo() throws AnalisadorSintaticoException {
@@ -239,6 +234,13 @@ public class AnalisadorSintatico {
 			throws AnalisadorSintaticoException {
 		boolean tratou = tratarErro(regra, getStringEsperado("OPERADOR RELACIONAL"));
 		operadorRelacional();
+		return tratou;
+	}
+
+	private boolean tratarTipoRequerido(String regra)
+			throws AnalisadorSintaticoException {
+		boolean tratou = tratarErro(regra, getStringEsperado("Tipo STRING ou INT"));
+		tipo();
 		return tratou;
 	}
 
@@ -468,10 +470,6 @@ public class AnalisadorSintatico {
 			lerProximoSimbolo();
 			return true;
 		}
-	}
-
-	private void lancarExcecaoEsperada(String symbol) throws AnalisadorSintaticoException {
-		throw new AnalisadorSintaticoException(getStringEsperado(symbol));
 	}
 
 	private String getStringEsperado(String symbol) {
