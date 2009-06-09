@@ -81,6 +81,18 @@ analyse fileName="testes/files/sintatico/inErro13.txt"
 expect "Erro na linha: 1 perto de: 'const string s = ' - Esperava: 'cadeia, vetor ou expressão'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro14.txt"
+
+expect "Erro na linha: 1 perto de: 'int[5] vetor = ' - Esperava: 'cadeia, vetor ou expressão'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro15.txt"
+
+expect "Erro na linha: 1 perto de: 'int[5] vetor = {1,2,3,4,5 ' - Esperava: '}'!" getProximoErro
+
+expect "Erro na linha: 2 perto de: 'string[vetor[3]] a = {1,2,' - Esperava: '}'!" getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
