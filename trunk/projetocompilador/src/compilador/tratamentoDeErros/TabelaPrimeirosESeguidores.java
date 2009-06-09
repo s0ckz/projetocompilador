@@ -96,6 +96,10 @@ public class TabelaPrimeirosESeguidores {
 		
 		primeiros.put("procedimento", makeList(PARENTISADOR_FECHA_PARENTESES));
 		seguidores.put("procedimento", makeList(DELIMITADOR_COMANDO));
+		
+		primeiros.put("expressaoLogicaParentisada", makeList(PARENTISADOR_FECHA_COLCHETE));
+		seguidores.put("expressaoLogicaParentisada", makeList(OP_AND, OP_OR, OP_MAIOR_QUE, OP_MAIOR_OU_IGUAL_A,
+				OP_IGUAL, OP_DIFERENCA, OP_MENOR_QUE, OP_MENOR_OU_IGUAL_A, PARENTISADOR_FECHA_PARENTESES));
 	}
 	
 	private static List<Integer> makeList(Integer... values) {

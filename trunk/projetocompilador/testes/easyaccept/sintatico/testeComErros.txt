@@ -210,3 +210,10 @@ analyse fileName="testes/files/sintatico/inErro32.txt"
 expect "Erro na linha: 5 perto de: 'proc()' - Esperava: ';'!" getProximoErro
 
 expect "Erro na linha: 6 perto de: 'write \"blah\"' - Esperava: ';'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro33.txt"
+
+expect "Erro na linha: 4 perto de: 'while ([i < (37 + 2 / 5) && [(50 + 2) > (30)]' - Esperava: ']'!" getProximoErro
+
+expect "Erro na linha: 6 perto de: 'if ([a == a)' - Esperava: ']'!" getProximoErro
