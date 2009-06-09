@@ -120,6 +120,16 @@ expect "Erro na linha: 3 perto de: '}' - Esperava: 'numero, (expressão) ou ident
 expect "Erro na linha: 3 perto de: '}' - Esperava: ')'!" getProximoErro
 
 
+analyse fileName="testes/files/sintatico/inErro25.txt"
+
+expect "Erro na linha: 18 perto de: 'proc(' - Esperava: '}'!" getProximoErro
+
+
+analyse fileName="testes/files/sintatico/inErro26.txt"
+
+expect "Erro na linha: 3 perto de: 'b = ' - Cadeias de caracteres devem conter aspas no final delas." getProximoErro
+
+
 analyse fileName="testes/files/sintatico/inErro27.txt"
 
 expect "Erro na linha: 2 perto de: 'a = 10 + ' - Esperava: 'numero, (expressão) ou identificador'!" getProximoErro
