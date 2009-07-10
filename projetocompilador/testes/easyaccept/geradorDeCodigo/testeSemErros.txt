@@ -1,0 +1,18 @@
+
+analyse fileName="testes/files/geradorDeCodigo/in1.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp1.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in2.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp2.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in3.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp3.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in4.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp4.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in5.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp5.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in6.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp6.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
