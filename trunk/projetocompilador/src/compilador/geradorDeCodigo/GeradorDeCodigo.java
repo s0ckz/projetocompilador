@@ -31,20 +31,18 @@ public class GeradorDeCodigo {
 
 	private int tripla_atual;
 	
-	private List<String> buffer;
 	
 	public GeradorDeCodigo() {
 		pilhaControleOperandos = new LinkedList<String>();
 		pilhaRotulos = new LinkedList<String>();
 		tabelaRotulos = new HashMap<String, Integer>();
-		buffer = new LinkedList<String>();
 		proxRotulo = 1;
 		tripla_atual = 1;
 	}
 	
 	public void initialize(BufferedWriter out) {
 		this.verbose = out == null ? false : true;
-		if (verbose) this.out = out;
+		this.out = out;
 	}
 
 	public void resetAtribuicao(String ladoEsq) {
@@ -102,28 +100,16 @@ public class GeradorDeCodigo {
 	public void geraFimIf() {
 		String label = pop(pilhaRotulos);
 		insere(tabelaRotulos,label,tripla_atual);
-		resolveRotulos();
 	}
 	
-
-	private void resolveRotulos() {
-		
-		
-	}
 
 	private void insere(Map<String, Integer> tabela, String key,
 			int value) {
 		tabela.put(key, value);
-		try {
-			out.write(key + " => " + value +NEW_LINE);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	private String makeRotulo() {
-		String rotulo = "L";
+		String rotulo = ":L";
 		rotulo += proxRotulo < 100 ? "0" : "";
 		rotulo += proxRotulo < 10 ? "0" : "";
 		return rotulo + proxRotulo++;
@@ -137,34 +123,28 @@ public class GeradorDeCodigo {
 		pilha.add(0, simbolo);
 	}
 	
-	private void emitir(String var, String operacao, String param) {
-		emitir(var,operacao,param,"");
+	private void emitir(String resultado, String operacao, String param) {
+		emitir(resultado,operacao,param,"");
 	}
-	
-	private void emitir(String var, String operacao, String param1, String param2) {
+
+	private void emitir(String cmd) {
 		if (!verbose) return;
-		String cmd = var + " " + operacao + " " + param1 + " " + param2+NEW_LINE; 
+		tripla_atual++;
 		try {
-			out.write(cmd);
-			tripla_atual++;
+			out.write(cmd+NEW_LINE);				
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private String makeCmd(String resultado, String operacao, String param1, String param2) {
-		StringBuilder cmd = new StringBuilder();
-		return "";
+	private void emitir(String resultado, String operacao, String param1, String param2) {
+		emitir(makeCmd(resultado, operacao, param1, param2));
 	}
 	
-	private boolean addStr(StringBuilder str,String value, boolean deixaEspaco) {
-		if (value != null && !value.equals("")) {
-			str.append((deixaEspaco ? " " : "") + value);
-			return true;
-		}
-		return false;
+	private String makeCmd(String resultado, String operacao, String param1, String param2) {
+		return resultado + " " + operacao + " " + param1 + " " + param2;
 	}
-
+	
 	private String makeTemp() {
 		return "t" + proxTemp++;
 	}
