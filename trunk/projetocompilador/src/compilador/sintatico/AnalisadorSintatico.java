@@ -2,6 +2,7 @@ package compilador.sintatico;
 
 import java.util.List;
 
+import compilador.geradorDeCodigo.GeradorDeCodigo;
 import compilador.lexico.AnalisadorLexico;
 import compilador.lexico.AnalisadorLexicoException;
 import compilador.semantico.AnalisadorSemantico;
@@ -19,14 +20,18 @@ public class AnalisadorSintatico {
 
 	private Simbolo simboloAnterior;
 
-	public AnalisadorSintatico(AnalisadorLexico lexico, AnalisadorSemantico semantico) {
+	private GeradorDeCodigo geradorDeCodigo;
+	
+	public AnalisadorSintatico(AnalisadorLexico lexico, AnalisadorSemantico semantico, GeradorDeCodigo geradorDeCodigo) {
 		this.lexico = lexico;
 		this.semantico = semantico;
+		this.geradorDeCodigo = geradorDeCodigo;
 	}
 	
 	public void analyse() throws AnalisadorSintaticoException {
 		lerProximoSimbolo();
 		programa();
+		this.geradorDeCodigo.finalize();
 	}
 
 	private void programa() throws AnalisadorSintaticoException {
@@ -85,19 +90,23 @@ public class AnalisadorSintatico {
 	private void valor_inicial_const() throws AnalisadorSintaticoException {
 		tratarIdentificadorRequerido("valor_inicial_const");
 		semantico.asDeclararXptoConstante(simboloAnterior);
+		geradorDeCodigo.resetAtribuicao(simboloAnterior.getCadeia());
 		tratarSimboloRequerido("=", "valor_inicial_const-=");
 		valor();
+		geradorDeCodigo.geraAtribuicao();
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException {
 		tratarIdentificadorRequerido("valor_inicial");
 		semantico.asDeclararXptoVariavel(simboloAnterior);
+		geradorDeCodigo.resetAtribuicao(simboloAnterior.getCadeia());
 		valor_aux();
 	}
 
 	private void valor_aux() throws AnalisadorSintaticoException {
 		if (optionalSymbol("=")) {
 			valor();
+			geradorDeCodigo.geraAtribuicao();
 		}
 	}
 
@@ -185,11 +194,13 @@ public class AnalisadorSintatico {
 		termo();
 		expressaoLinha();
 	}
-
+	
 	private void expressaoLinha() throws AnalisadorSintaticoException {
-		if (optionalSymbol("+") || optionalSymbol("-")) {
-			expressao();
+		boolean adicao = true;
+		if (optionalSymbol("+") || (adicao = false) || optionalSymbol("-")) { // GAMBI LINDA
+			expressao();			
 			semantico.asVerificarTipo();
+			geradorDeCodigo.gerarOperacaoAritmetica(adicao ? "+" : "-");
 		}
 	}
 
@@ -199,9 +210,11 @@ public class AnalisadorSintatico {
 	}
 
 	private void termoLinha() throws AnalisadorSintaticoException {
-		if (optionalSymbol("*") || optionalSymbol("/")) {
+		boolean produto = true;
+		if (optionalSymbol("*") || (produto = false) || optionalSymbol("/")) {
 			termo();
 			semantico.asVerificarTipo();
+			geradorDeCodigo.gerarOperacaoAritmetica(produto ? "*" : "/");
 		}
 	}
 
@@ -213,6 +226,7 @@ public class AnalisadorSintatico {
 	private void fatorLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("**")) {
 			fator();
+			geradorDeCodigo.gerarOperacaoAritmetica("**");
 		}
 	}
 
@@ -220,9 +234,11 @@ public class AnalisadorSintatico {
 		if (tratarErro("pred", getStringEsperado("numero, (expressão) ou identificador"))) {
 			if (numero()) {
 				semantico.asEmpilharTipoNumero();
+				geradorDeCodigo.empilharOperando(simboloAnterior.getCadeia());
 			} else if (expressaoParentisada()) {
 				// nao precisa fazer nada.
 			} else if (escalar()) {
+				geradorDeCodigo.empilharOperando(simboloAnterior.getCadeia());
 				// nao precisa fazer nada.
 			}
 		} else {
@@ -315,10 +331,14 @@ public class AnalisadorSintatico {
 
 	private void fatorRelacional() throws AnalisadorSintaticoException {
 		if (!expressaoLogicaParentisada()) {
+			geradorDeCodigo.resetTemp();
 			expressao();
+			geradorDeCodigo.iniciaExprRelacional();
 			tratarOperadorRelacionalRequerido("fatorRelacional");
+			geradorDeCodigo.salvaOperadorRelacional(simboloAnterior.getCadeia());
 			expressao();
 			semantico.asVerificarTipo();
+			geradorDeCodigo.gerarDesvioCondicional();
 		}
 	}
 
@@ -374,7 +394,9 @@ public class AnalisadorSintatico {
 		if (optionalSymbol("(")) {
 			chamadaProcedimento(identificador);
 		} else {
+			geradorDeCodigo.resetAtribuicao(identificador.getCadeia());
 			atribuicao();
+			geradorDeCodigo.geraAtribuicao();
 		}
 		tratarSimboloRequerido(";", "comando-;");
 		return true;
@@ -412,8 +434,10 @@ public class AnalisadorSintatico {
 		tratarSimboloRequerido(")", "comandoCondicional-)");
 		tratarSimboloRequerido("{", "comandoCondicional-{");
 		bloco();
+		geradorDeCodigo.geraInicioIf();
 		tratarSimboloRequerido("}", "comandoCondicional-}");
 		cmd_decisao_else();
+		geradorDeCodigo.geraFimIf();
 		optionalSymbol(";");
 		return true;
 	}

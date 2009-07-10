@@ -1,9 +1,14 @@
 package compilador.tests;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
+import compilador.geradorDeCodigo.GeradorDeCodigo;
 import compilador.lexico.AnalisadorLexico;
 import compilador.lexico.AnalisadorLexicoException;
 import compilador.semantico.AnalisadorSemantico;
@@ -19,6 +24,8 @@ public class CompiladorEasyAcceptFacade {
 	private AnalisadorSintatico analisadorSintatico;
 
 	private AnalisadorSemantico analisadorSemantico;
+
+	private GeradorDeCodigo geradorDeCodigo;
 	
 	public CompiladorEasyAcceptFacade() {
 		reset();
@@ -27,10 +34,19 @@ public class CompiladorEasyAcceptFacade {
 	public void initialize(String fileName) throws FileNotFoundException {
 		this.analisadorLexico.initialize(new BufferedReader(new FileReader(fileName)));
 	}
-	
+
+	public void analyse(String fileName, String targetFile) throws AnalisadorSintaticoException, AnalisadorLexicoException, IOException {
+		defaultAnalyse(new BufferedReader(new FileReader(fileName)), new BufferedWriter(new FileWriter(new File(targetFile))));
+	}
+
 	public void analyse(String fileName) throws AnalisadorSintaticoException, AnalisadorLexicoException, FileNotFoundException {
+		defaultAnalyse(new BufferedReader(new FileReader(fileName)), null);
+	}
+	
+	private void defaultAnalyse(BufferedReader reader, BufferedWriter writer) throws AnalisadorSintaticoException {
 		reset();
-		this.analisadorLexico.initialize(new BufferedReader(new FileReader(fileName)));
+		this.analisadorLexico.initialize(reader);
+		this.geradorDeCodigo.initialize(writer);
 		this.analisadorSintatico.analyse();
 	}
 	
@@ -51,7 +67,8 @@ public class CompiladorEasyAcceptFacade {
 	public void reset() {
 		this.analisadorLexico  = new AnalisadorLexico();
 		this.analisadorSemantico  = new AnalisadorSemantico();
-		this.analisadorSintatico =  new AnalisadorSintatico(analisadorLexico, analisadorSemantico);
+		this.geradorDeCodigo = new GeradorDeCodigo();
+		this.analisadorSintatico =  new AnalisadorSintatico(analisadorLexico, analisadorSemantico, geradorDeCodigo);
 		ListaDeErros.getInstance().clear();
 	}
 }
