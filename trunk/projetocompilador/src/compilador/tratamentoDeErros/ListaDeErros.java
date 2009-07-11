@@ -30,6 +30,10 @@ public class ListaDeErros {
 		}
 		return instance;
 	}
+	
+	public boolean temErros() {
+		return !mensagens.isEmpty();
+	}
 
 	public void clear() {
 		mensagens.clear();
