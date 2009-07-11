@@ -16,3 +16,9 @@ equalFiles "testes/files/geradorDeCodigo/expected/inExp5.txt" "testes/files/gera
 
 analyse fileName="testes/files/geradorDeCodigo/in6.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
 equalFiles "testes/files/geradorDeCodigo/expected/inExp6.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in7.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp7.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in8.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp8.txt" "testes/files/geradorDeCodigo/temp/temp.txt"

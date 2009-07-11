@@ -423,11 +423,14 @@ public class AnalisadorSintatico {
 
 	private boolean comandoWhile() throws AnalisadorSintaticoException {
 		tratarSimboloRequerido("(", "comandoCondicional-(");
+		//Modificado 11/07
+		geradorDeCodigo.geraInicioWhile();
 		expressaoLogica();
 		tratarSimboloRequerido(")", "comandoCondicional-)");
 		tratarSimboloRequerido("{", "comandoCondicional-{");
 		bloco();
 		tratarSimboloRequerido("}", "comandoCondicional-}");
+		geradorDeCodigo.geraFimWhile();
 		optionalSymbol(";");
 		return true;
 	}

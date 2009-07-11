@@ -141,6 +141,25 @@ public class GeradorDeCodigo {
 		insere(tabelaRotulos, label, tripla_atual);
 	}
 
+	public void geraInicioWhile() {
+		if(temErros())
+			return;
+		String label = makeRotulo();
+		insere(tabelaRotulos, label, tripla_atual);
+		push(pilhaRotulos, label);
+
+	}
+
+	public void geraFimWhile() {
+		if(temErros())
+			return;
+		String label_fim = pop(pilhaRotulos);
+		String label_inicio = pop(pilhaRotulos);
+		emitir(label_inicio, "jmp", "", "");
+		insere(tabelaRotulos, label_fim, tripla_atual);
+
+	}
+
 	private void insere(Map<String, Integer> tabela, String key, int value) {
 		tabela.put(key, value);
 	}
