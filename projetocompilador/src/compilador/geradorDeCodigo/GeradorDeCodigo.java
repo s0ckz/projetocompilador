@@ -64,9 +64,9 @@ public class GeradorDeCodigo {
 	public void finalizar() {
 		if (verbose) {
 			try {
-				triplas = substituirRotulos(triplas, tabelaRotulos, 1);
+				triplas = substituirRotulos(triplas, tabelaRotulos, 0);
 				triplasSubPrograma = substituirRotulos(triplasSubPrograma, 
-						tabelaRotulosSubPrograma, triplas.size() + 1);
+						tabelaRotulosSubPrograma, triplas.size());
 				imprimirTriplas(triplas);
 				imprimirTriplas(triplasSubPrograma);
 				out.close();
@@ -267,7 +267,7 @@ public class GeradorDeCodigo {
 			for (Entry<String, Integer> entry : tabelaRotulos.entrySet()) {
 				String rotulo = entry.getKey();
 				int linha = entry.getValue();
-				novaTripla = novaTripla.replace(rotulo, linha + "");
+				novaTripla = novaTripla.replace(rotulo, (inicio + linha) + "");
 			}
 			novasTriplas.add(novaTripla);
 		}
