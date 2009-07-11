@@ -52,7 +52,7 @@ public class GeradorDeCodigo {
 		tabelaRotulos = new HashMap<String, Integer>();
 		tabelaRotulosSubPrograma = new HashMap<String, Integer>();
 		proxRotulo = 1;
-		triplaAtual = 1;
+		triplaAtual = triplaAtualSubPrograma = 1;
 		modoSubPrograma = false;
 	}
 
