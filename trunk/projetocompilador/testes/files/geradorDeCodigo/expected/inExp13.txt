@@ -1,0 +1,21 @@
+b := 0 
+t1 < b 10
+t2 > a 30
+t3 || t1 t2
+10 jif  
+12 jsb  
+t1 + b 1
+b := t1 
+2 jmp  
+15 jsb  
+ hlt  
+t1 + a 1
+a := t1 
+ ret  
+t1 < b 5
+19 jif  
+b := 10 
+21 jmp  
+t1 ** b 3
+b := t1 
+ ret  

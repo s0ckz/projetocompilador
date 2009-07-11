@@ -1,0 +1,21 @@
+int a, b;
+
+def void teste() {
+	a := a + 1;
+}
+
+def void teste2() {
+	if (b < 5) {
+		b := 10;	
+	} else {
+		b := b ** 3;
+	}
+}
+
+b := 0;
+while (b < 10 || a > 30) {
+	teste();
+	b := b + 1;
+}
+
+teste2();
