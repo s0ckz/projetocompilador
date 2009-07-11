@@ -90,13 +90,6 @@ public class GeradorDeCodigo {
 		emitir(result, operacao, oper_1, oper_2);
 	}
 
-	public void iniciaExprRelacional() {
-		if (temErros())
-			return;
-		
-		ladoEsquerdo = pop(pilhaControleOperandos);
-	}
-
 	public void empilharOperando(String operando) {
 		if (temErros())
 			return;
@@ -111,12 +104,22 @@ public class GeradorDeCodigo {
 		this.operadorRelacional = op_rel;
 	}
 
+	public void empilharExpressaoLogica() {
+		if (temErros())
+			return;
+
+		String result = makeTemp();
+		String t2 = pop(pilhaControleOperandos);
+		String t1 = pop(pilhaControleOperandos);
+		emitir(result, operadorRelacional, t1, t2);
+		push(pilhaControleOperandos, result);
+	}
+
 	public void gerarDesvioCondicional() {
 		if (temErros())
 			return;
 		
-		emitir("", operadorRelacional, ladoEsquerdo,
-				pop(pilhaControleOperandos));
+		pop(pilhaControleOperandos);
 		String label = makeRotulo();
 		push(pilhaRotulos, label);
 		emitir(label, "jif", "", "");
