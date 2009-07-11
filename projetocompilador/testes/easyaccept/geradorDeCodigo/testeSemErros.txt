@@ -28,3 +28,6 @@ equalFiles "testes/files/geradorDeCodigo/expected/inExp9.txt" "testes/files/gera
 
 analyse fileName="testes/files/geradorDeCodigo/in10.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
 equalFiles "testes/files/geradorDeCodigo/expected/inExp10.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in11.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp11.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
