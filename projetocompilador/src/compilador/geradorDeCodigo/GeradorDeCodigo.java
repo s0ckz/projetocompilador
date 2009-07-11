@@ -67,12 +67,8 @@ public class GeradorDeCodigo {
 	public void finalizar() {
 		if (verbose) {
 			try {
-				emitir("", "hlt", "", "");
-				triplas = substituirRotulos(triplas, tabelaRotulos, 0);
-				triplas = substituirRotulos(triplas, tabelaRotulosSubPrograma, triplas.size());
-				triplasSubPrograma = substituirRotulos(triplasSubPrograma, tabelaRotulosSubPrograma, triplas.size());
-				imprimirTriplas(triplas);
-				imprimirTriplas(triplasSubPrograma);
+				resolverRotulos();
+				imprimirTriplas();
 				out.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -284,6 +280,18 @@ public class GeradorDeCodigo {
 			novasTriplas.add(novaTripla);
 		}
 		return novasTriplas;
+	}
+
+	private void imprimirTriplas() throws IOException {
+		imprimirTriplas(triplas);
+		imprimirTriplas(triplasSubPrograma);
+	}
+
+	private void resolverRotulos() {
+		emitir("", "hlt", "", "");
+		triplas = substituirRotulos(triplas, tabelaRotulos, 0);
+		triplas = substituirRotulos(triplas, tabelaRotulosSubPrograma, triplas.size());
+		triplasSubPrograma = substituirRotulos(triplasSubPrograma, tabelaRotulosSubPrograma, triplas.size());
 	}
 
 }
