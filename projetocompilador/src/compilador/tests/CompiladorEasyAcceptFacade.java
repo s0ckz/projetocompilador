@@ -46,7 +46,7 @@ public class CompiladorEasyAcceptFacade {
 	private void defaultAnalyse(BufferedReader reader, BufferedWriter writer) throws AnalisadorSintaticoException {
 		reset();
 		this.analisadorLexico.initialize(reader);
-		this.geradorDeCodigo.initialize(writer);
+		this.geradorDeCodigo.inicializar(writer);
 		this.analisadorSintatico.analyse();
 	}
 	

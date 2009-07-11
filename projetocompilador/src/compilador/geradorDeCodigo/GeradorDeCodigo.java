@@ -41,12 +41,12 @@ public class GeradorDeCodigo {
 		tripla_atual = 1;
 	}
 
-	public void initialize(BufferedWriter out) {
+	public void inicializar(BufferedWriter out) {
 		this.verbose = out == null ? false : true;
 		this.out = out;
 	}
 
-	public void finalize() {
+	public void finalizar() {
 		if (verbose) {
 			try {
 				out.close();
@@ -56,7 +56,7 @@ public class GeradorDeCodigo {
 		}
 	}
 
-	public void resetAtribuicao(String ladoEsq) {
+	public void resetarAtribuicao(String ladoEsq) {
 		if (temErros())
 			return;
 		
@@ -97,7 +97,7 @@ public class GeradorDeCodigo {
 		push(pilhaControleOperandos, operando);
 	}
 
-	public void salvaOperadorRelacional(String op_rel) {
+	public void salvarOperadorRelacional(String op_rel) {
 		if (temErros())
 			return;
 		
@@ -125,7 +125,7 @@ public class GeradorDeCodigo {
 		emitir(label, "jif", "", "");
 	}
 
-	public void geraInicioIf() {
+	public void gerarInicioIf() {
 		if (temErros())
 			return;
 		
@@ -136,7 +136,7 @@ public class GeradorDeCodigo {
 		insere(tabelaRotulos, label_aux, tripla_atual);
 	}
 
-	public void geraFimIf() {
+	public void gerarFimIf() {
 		if (temErros())
 			return;
 		
@@ -144,13 +144,12 @@ public class GeradorDeCodigo {
 		insere(tabelaRotulos, label, tripla_atual);
 	}
 
-	public void geraInicioWhile() {
+	public void gerarInicioWhile() {
 		if(temErros())
 			return;
 		String label = makeRotulo();
 		insere(tabelaRotulos, label, tripla_atual);
 		push(pilhaRotulos, label);
-
 	}
 
 	public void geraFimWhile() {
@@ -160,7 +159,12 @@ public class GeradorDeCodigo {
 		String label_inicio = pop(pilhaRotulos);
 		emitir(label_inicio, "jmp", "", "");
 		insere(tabelaRotulos, label_fim, tripla_atual);
+	}
 
+	public void gerarInicioSubPrograma() {
+	}
+
+	public void gerarFimSubPrograma() {
 	}
 
 	private void insere(Map<String, Integer> tabela, String key, int value) {
