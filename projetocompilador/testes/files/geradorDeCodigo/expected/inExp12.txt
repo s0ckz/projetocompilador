@@ -1,0 +1,17 @@
+8 jsb  
+t1 < a b
+6 jif  
+8 jsb  
+7 jmp  
+b := 5 
+ hlt  
+t1 > 1 0
+12 jif  
+a := 0 
+13 jmp  
+a := 2 
+a := 1 
+t1 + a 3
+b := t1 
+8 jsb  
+ ret  

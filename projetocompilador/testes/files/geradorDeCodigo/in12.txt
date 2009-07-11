@@ -1,0 +1,19 @@
+int a, b;
+
+def void teste() {
+	if (1 > 0) {
+		a := 0;
+	} else {
+		a := 2;
+	}
+	a := 1;
+	b := a + 3;
+	teste();
+}
+
+teste();
+if (a < b) {
+	teste();
+} else {
+	b := 5;
+}
