@@ -31,7 +31,7 @@ public class AnalisadorSintatico {
 	public void analyse() {
 		lerProximoSimbolo();
 		programa();
-		this.geradorDeCodigo.finalize();
+		this.geradorDeCodigo.finalizar();
 	}
 
 	private void programa() {
@@ -90,7 +90,7 @@ public class AnalisadorSintatico {
 	private void valor_inicial_const() {
 		tratarIdentificadorRequerido("valor_inicial_const");
 		semantico.asDeclararXptoConstante(simboloAnterior);
-		geradorDeCodigo.resetAtribuicao(simboloAnterior.getCadeia());
+		geradorDeCodigo.resetarAtribuicao(simboloAnterior.getCadeia());
 		tratarSimboloRequerido("=", "valor_inicial_const-=");
 		valor();
 		geradorDeCodigo.gerarAtribuicao();
@@ -99,7 +99,7 @@ public class AnalisadorSintatico {
 	private void valor_inicial() {
 		tratarIdentificadorRequerido("valor_inicial");
 		semantico.asDeclararXptoVariavel(simboloAnterior);
-		geradorDeCodigo.resetAtribuicao(simboloAnterior.getCadeia());
+		geradorDeCodigo.resetarAtribuicao(simboloAnterior.getCadeia());
 		valor_aux();
 	}
 
@@ -175,11 +175,16 @@ public class AnalisadorSintatico {
 			tratarSimboloRequerido("void", "subprogramas-void");
 			tratarIdentificadorRequerido("subprogramas-identificador");
 			semantico.asDeclararProcedimento(simboloAnterior);
+			
+			geradorDeCodigo.gerarInicioSubPrograma();
+			
 			tratarSimboloRequerido("(", "subprogramas-(");
 			tratarSimboloRequerido(")", "subprogramas-)");
 			tratarSimboloRequerido("{", "subprogramas-{");
 			bloco();
 			tratarSimboloRequerido("}", "subprogramas-}");
+			
+			geradorDeCodigo.gerarFimSubPrograma();
 			
 			subprogramas();
 		}
@@ -316,7 +321,7 @@ public class AnalisadorSintatico {
 	private void expressaoLogicaLinha() {
 		if (optionalSymbol("||")) {
 			expressaoLogica();
-			geradorDeCodigo.salvaOperadorRelacional("||");
+			geradorDeCodigo.salvarOperadorRelacional("||");
 			geradorDeCodigo.empilharExpressaoLogica();
 		}
 	}
@@ -330,7 +335,7 @@ public class AnalisadorSintatico {
 		if (optionalSymbol("&&")) {
 			fatorRelacional();
 			termoRelacionalLinha();
-			geradorDeCodigo.salvaOperadorRelacional("&&");
+			geradorDeCodigo.salvarOperadorRelacional("&&");
 			geradorDeCodigo.empilharExpressaoLogica();
 		}
 	}
@@ -339,7 +344,7 @@ public class AnalisadorSintatico {
 		if (!expressaoLogicaParentisada()) {
 			expressao();
 			tratarOperadorRelacionalRequerido("fatorRelacional");
-			geradorDeCodigo.salvaOperadorRelacional(simboloAnterior.getCadeia());
+			geradorDeCodigo.salvarOperadorRelacional(simboloAnterior.getCadeia());
 			expressao();
 			semantico.asVerificarTipo();
 			geradorDeCodigo.empilharExpressaoLogica();
@@ -390,7 +395,7 @@ public class AnalisadorSintatico {
 		if (optionalSymbol("(")) {
 			chamadaProcedimento(identificador);
 		} else {
-			geradorDeCodigo.resetAtribuicao(identificador.getCadeia());
+			geradorDeCodigo.resetarAtribuicao(identificador.getCadeia());
 			atribuicao();
 			geradorDeCodigo.gerarAtribuicao();
 		}
@@ -417,7 +422,7 @@ public class AnalisadorSintatico {
 		tratarSimboloRequerido("(", "comandoCondicional-(");
 		//Modificado 11/07
 		geradorDeCodigo.resetTemp();
-		geradorDeCodigo.geraInicioWhile();
+		geradorDeCodigo.gerarInicioWhile();
 		expressaoLogica();
 		geradorDeCodigo.gerarDesvioCondicional();
 		tratarSimboloRequerido(")", "comandoCondicional-)");
@@ -437,10 +442,10 @@ public class AnalisadorSintatico {
 		tratarSimboloRequerido(")", "comandoCondicional-)");
 		tratarSimboloRequerido("{", "comandoCondicional-{");
 		bloco();
-		geradorDeCodigo.geraInicioIf();
+		geradorDeCodigo.gerarInicioIf();
 		tratarSimboloRequerido("}", "comandoCondicional-}");
 		cmd_decisao_else();
-		geradorDeCodigo.geraFimIf();
+		geradorDeCodigo.gerarFimIf();
 		optionalSymbol(";");
 		return true;
 	}
