@@ -168,10 +168,7 @@ public class GeradorDeCodigo {
 	}
 
 	private String makeRotulo() {
-		String rotulo = ":L";
-		rotulo += proxRotulo < 100 ? "0" : "";
-		rotulo += proxRotulo < 10 ? "0" : "";
-		return rotulo + proxRotulo++;
+		return String.format(":L%03d", proxRotulo++);
 	}
 
 	private String pop(List<String> pilha) {
