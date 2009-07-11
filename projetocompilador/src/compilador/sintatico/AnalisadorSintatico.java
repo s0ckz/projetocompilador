@@ -196,11 +196,11 @@ public class AnalisadorSintatico {
 	}
 	
 	private void expressaoLinha() throws AnalisadorSintaticoException {
-		boolean adicao = true;
-		if (optionalSymbol("+") || (adicao = false) || optionalSymbol("-")) { // GAMBI LINDA
+		if (optionalSymbol("+") || optionalSymbol("-")) {
+			String operador = simboloAnterior.getCadeia();
 			expressao();			
 			semantico.asVerificarTipo();
-			geradorDeCodigo.gerarOperacaoAritmetica(adicao ? "+" : "-");
+			geradorDeCodigo.gerarOperacaoAritmetica(operador);
 		}
 	}
 
@@ -210,11 +210,11 @@ public class AnalisadorSintatico {
 	}
 
 	private void termoLinha() throws AnalisadorSintaticoException {
-		boolean produto = true;
-		if (optionalSymbol("*") || (produto = false) || optionalSymbol("/")) {
+		if (optionalSymbol("*") || optionalSymbol("/")) {
+			String operador = simboloAnterior.getCadeia();
 			termo();
 			semantico.asVerificarTipo();
-			geradorDeCodigo.gerarOperacaoAritmetica(produto ? "*" : "/");
+			geradorDeCodigo.gerarOperacaoAritmetica(operador);
 		}
 	}
 
