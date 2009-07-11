@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import compilador.tratamentoDeErros.ListaDeErros;
+
 public class GeradorDeCodigo {
 
 	private static final String NEW_LINE = System.getProperty("line.separator");
@@ -44,41 +46,75 @@ public class GeradorDeCodigo {
 		this.out = out;
 	}
 
+	public void finalize() {
+		if (verbose) {
+			try {
+				out.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void resetAtribuicao(String ladoEsq) {
+		if (temErros())
+			return;
+		
 		this.ladoEsquerdo = ladoEsq;
 		resetTemp();
 	}
 
 	public void resetTemp() {
+		if (temErros())
+			return;
+		
 		proxTemp = 1;
 	}
 
-	public void geraAtribuicao() {
+	public void gerarAtribuicao() {
+		if (temErros())
+			return;
+		
 		String oper_1 = pop(pilhaControleOperandos);
-		emitir(ladoEsquerdo, ":=", oper_1); // TODO: mudar para codigo
+		emitir(ladoEsquerdo, ":=", oper_1);
 	}
 
 	public void gerarOperacaoAritmetica(String operacao) {
+		if (temErros())
+			return;
+		
 		String oper_2 = pop(pilhaControleOperandos);
 		String oper_1 = pop(pilhaControleOperandos);
 		String result = makeTemp();
 		push(pilhaControleOperandos, result);
-		emitir(result, operacao, oper_1, oper_2); // TODO: mudar para codigo
+		emitir(result, operacao, oper_1, oper_2);
 	}
 
 	public void iniciaExprRelacional() {
+		if (temErros())
+			return;
+		
 		ladoEsquerdo = pop(pilhaControleOperandos);
 	}
 
 	public void empilharOperando(String operando) {
+		if (temErros())
+			return;
+		
 		push(pilhaControleOperandos, operando);
 	}
 
 	public void salvaOperadorRelacional(String op_rel) {
+		if (temErros())
+			return;
+		
 		this.operadorRelacional = op_rel;
 	}
 
 	public void gerarDesvioCondicional() {
+		if (temErros())
+			return;
+		
 		emitir("", operadorRelacional, ladoEsquerdo,
 				pop(pilhaControleOperandos));
 		String label = makeRotulo();
@@ -87,6 +123,9 @@ public class GeradorDeCodigo {
 	}
 
 	public void geraInicioIf() {
+		if (temErros())
+			return;
+		
 		String label_aux = pop(pilhaRotulos);
 		String label = makeRotulo();
 		push(pilhaRotulos, label);
@@ -95,6 +134,9 @@ public class GeradorDeCodigo {
 	}
 
 	public void geraFimIf() {
+		if (temErros())
+			return;
+		
 		String label = pop(pilhaRotulos);
 		insere(tabelaRotulos, label, tripla_atual);
 	}
@@ -147,13 +189,8 @@ public class GeradorDeCodigo {
 		return "t" + proxTemp++;
 	}
 
-	public void finalize() {
-		if (verbose)
-			try {
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	private boolean temErros() {
+		return ListaDeErros.getInstance().temErros();
 	}
 
 }

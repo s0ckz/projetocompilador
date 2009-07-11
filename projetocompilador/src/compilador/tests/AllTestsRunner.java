@@ -7,6 +7,7 @@ public class AllTestsRunner {
 		LexicoTestRunner.main(null);
 		SintaticoTestRunner.main(null);
 		SemanticoTestRunner.main(null);
+		GeradorDeCodigoTestRunner.main(null);
 	}
 
 }

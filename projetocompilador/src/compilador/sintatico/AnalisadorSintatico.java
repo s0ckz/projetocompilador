@@ -93,7 +93,7 @@ public class AnalisadorSintatico {
 		geradorDeCodigo.resetAtribuicao(simboloAnterior.getCadeia());
 		tratarSimboloRequerido("=", "valor_inicial_const-=");
 		valor();
-		geradorDeCodigo.geraAtribuicao();
+		geradorDeCodigo.gerarAtribuicao();
 	}
 
 	private void valor_inicial() throws AnalisadorSintaticoException {
@@ -106,13 +106,17 @@ public class AnalisadorSintatico {
 	private void valor_aux() throws AnalisadorSintaticoException {
 		if (optionalSymbol("=")) {
 			valor();
-			geradorDeCodigo.geraAtribuicao();
+			geradorDeCodigo.gerarAtribuicao();
 		}
 	}
 
 	private void valor() throws AnalisadorSintaticoException {
 		if (tratarErro("valor", getStringEsperado("cadeia, vetor ou expressão"))); {
-			if (!cadeia() && !vetor()) {
+			if (cadeia()) {
+				geradorDeCodigo.empilharOperando(""); //TODO Danilo
+			} else if (vetor()) {
+				geradorDeCodigo.empilharOperando(""); //TODO Danilo
+			} else {
 				optionalExpressao();
 			}
 		}
@@ -396,7 +400,7 @@ public class AnalisadorSintatico {
 		} else {
 			geradorDeCodigo.resetAtribuicao(identificador.getCadeia());
 			atribuicao();
-			geradorDeCodigo.geraAtribuicao();
+			geradorDeCodigo.gerarAtribuicao();
 		}
 		tratarSimboloRequerido(";", "comando-;");
 		return true;
@@ -455,6 +459,7 @@ public class AnalisadorSintatico {
 		tratarErro("atribuicao", getStringEsperado("cadeia ou expressão"));
 		if (cadeia()) {
 			semantico.asEmpilharTipoCadeia();
+			geradorDeCodigo.empilharOperando(""); //TODO Danilo
 		} else {
 			optionalExpressao();
 		}
