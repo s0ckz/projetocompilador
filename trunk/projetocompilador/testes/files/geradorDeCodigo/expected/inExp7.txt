@@ -1,6 +1,6 @@
 a := 0 
 b := 4 
- < a b
+t1 < a b
 :L002 jif  
 t1 + a 1
 a := t1 
