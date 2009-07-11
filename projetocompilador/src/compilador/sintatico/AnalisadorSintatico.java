@@ -316,8 +316,9 @@ public class AnalisadorSintatico {
 
 	private void expressaoLogicaLinha() throws AnalisadorSintaticoException {
 		if (optionalSymbol("||")) {
-			termoRelacional();
 			expressaoLogica();
+			geradorDeCodigo.salvaOperadorRelacional("||");
+			geradorDeCodigo.empilharExpressaoLogica();
 		}
 	}
 
@@ -335,14 +336,12 @@ public class AnalisadorSintatico {
 
 	private void fatorRelacional() throws AnalisadorSintaticoException {
 		if (!expressaoLogicaParentisada()) {
-			geradorDeCodigo.resetTemp();
 			expressao();
-			geradorDeCodigo.iniciaExprRelacional();
 			tratarOperadorRelacionalRequerido("fatorRelacional");
 			geradorDeCodigo.salvaOperadorRelacional(simboloAnterior.getCadeia());
 			expressao();
 			semantico.asVerificarTipo();
-			geradorDeCodigo.gerarDesvioCondicional();
+			geradorDeCodigo.empilharExpressaoLogica();
 		}
 	}
 
@@ -424,8 +423,10 @@ public class AnalisadorSintatico {
 	private boolean comandoWhile() throws AnalisadorSintaticoException {
 		tratarSimboloRequerido("(", "comandoCondicional-(");
 		//Modificado 11/07
+		geradorDeCodigo.resetTemp();
 		geradorDeCodigo.geraInicioWhile();
 		expressaoLogica();
+		geradorDeCodigo.gerarDesvioCondicional();
 		tratarSimboloRequerido(")", "comandoCondicional-)");
 		tratarSimboloRequerido("{", "comandoCondicional-{");
 		bloco();
@@ -437,7 +438,9 @@ public class AnalisadorSintatico {
 
 	private boolean comandoIf() throws AnalisadorSintaticoException {
 		tratarSimboloRequerido("(", "comandoCondicional-(");
+		geradorDeCodigo.resetTemp();
 		expressaoLogica();
+		geradorDeCodigo.gerarDesvioCondicional();
 		tratarSimboloRequerido(")", "comandoCondicional-)");
 		tratarSimboloRequerido("{", "comandoCondicional-{");
 		bloco();
