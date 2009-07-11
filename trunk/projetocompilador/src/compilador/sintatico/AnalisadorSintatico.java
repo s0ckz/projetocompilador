@@ -28,27 +28,27 @@ public class AnalisadorSintatico {
 		this.geradorDeCodigo = geradorDeCodigo;
 	}
 	
-	public void analyse() throws AnalisadorSintaticoException {
+	public void analyse() {
 		lerProximoSimbolo();
 		programa();
 		this.geradorDeCodigo.finalize();
 	}
 
-	private void programa() throws AnalisadorSintaticoException {
+	private void programa() {
 		declaracoes();
 		subprogramas();
 		bloco();
 		checarFinal();
 	}
 
-	private void declaracoes() throws AnalisadorSintaticoException {
+	private void declaracoes() {
 		if (declaracao()) {
 			tratarSimboloRequerido(";", "declaracoes-;");
 			declaracoes();
 		}
 	}
 
-	private boolean declaracao() throws AnalisadorSintaticoException {
+	private boolean declaracao() {
 		if (optionalSymbol("const")) {
 			dec_const();
 			return true;
@@ -56,7 +56,7 @@ public class AnalisadorSintatico {
 		return dec_normal();
 	}
 
-	private boolean dec_normal() throws AnalisadorSintaticoException {
+	private boolean dec_normal() {
 		if (tipo()) {
 			Simbolo tipo = simboloAnterior;
 			boolean ehVetor = eh_vetor();
@@ -68,7 +68,7 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void dec_const() throws AnalisadorSintaticoException {
+	private void dec_const() {
 		tratarTipoRequerido("dec_const");
 		Simbolo tipo = simboloAnterior;
 		boolean ehVetor = eh_vetor();
@@ -77,7 +77,7 @@ public class AnalisadorSintatico {
 		dec_resto_const(tipo, ehVetor);
 	}
 
-	private boolean dec_resto_const(Simbolo tipo, boolean ehVetor) throws AnalisadorSintaticoException {
+	private boolean dec_resto_const(Simbolo tipo, boolean ehVetor) {
 		if (optionalSymbol(",")) {
 			semantico.asEmpilharTipo(tipo, ehVetor);
 			valor_inicial_const();
@@ -87,7 +87,7 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void valor_inicial_const() throws AnalisadorSintaticoException {
+	private void valor_inicial_const() {
 		tratarIdentificadorRequerido("valor_inicial_const");
 		semantico.asDeclararXptoConstante(simboloAnterior);
 		geradorDeCodigo.resetAtribuicao(simboloAnterior.getCadeia());
@@ -96,21 +96,21 @@ public class AnalisadorSintatico {
 		geradorDeCodigo.gerarAtribuicao();
 	}
 
-	private void valor_inicial() throws AnalisadorSintaticoException {
+	private void valor_inicial() {
 		tratarIdentificadorRequerido("valor_inicial");
 		semantico.asDeclararXptoVariavel(simboloAnterior);
 		geradorDeCodigo.resetAtribuicao(simboloAnterior.getCadeia());
 		valor_aux();
 	}
 
-	private void valor_aux() throws AnalisadorSintaticoException {
+	private void valor_aux() {
 		if (optionalSymbol("=")) {
 			valor();
 			geradorDeCodigo.gerarAtribuicao();
 		}
 	}
 
-	private void valor() throws AnalisadorSintaticoException {
+	private void valor() {
 		if (tratarErro("valor", getStringEsperado("cadeia, vetor ou expressão"))); {
 			if (cadeia()) {
 				geradorDeCodigo.empilharOperando(""); //TODO Danilo
@@ -122,7 +122,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private boolean vetor() throws AnalisadorSintaticoException {
+	private boolean vetor() {
 		if (optionalSymbol("{")) {
 			valores();
 			tratarSimboloRequerido("}", "vetor-}");
@@ -131,25 +131,25 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void valores() throws AnalisadorSintaticoException {
+	private void valores() {
 		var_exp();
 		mais_valores();
 	}
 
-	private void mais_valores() throws AnalisadorSintaticoException {
+	private void mais_valores() {
 		if (optionalSymbol(",")) {
 			var_exp();
 			mais_valores();
 		}
 	}
 
-	private void var_exp() throws AnalisadorSintaticoException {
+	private void var_exp() {
 		if (!cadeia()) 
 			optionalExpressao();
 		
 	}
 
-	private void dec_resto(Simbolo tipo, boolean ehVetor) throws AnalisadorSintaticoException {
+	private void dec_resto(Simbolo tipo, boolean ehVetor) {
 		if (optionalSymbol(",")) {
 			semantico.asEmpilharTipo(tipo, ehVetor);
 			valor_inicial();
@@ -157,11 +157,11 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private boolean tipo() throws AnalisadorSintaticoException {
+	private boolean tipo() {
 		return optionalSymbol("int") || optionalSymbol("string");
 	}
 
-	private boolean eh_vetor() throws AnalisadorSintaticoException {
+	private boolean eh_vetor() {
 		if (optionalSymbol("[")) {
 			expressao();
 			tratarSimboloRequerido("]", "eh_vetor-]");
@@ -170,7 +170,7 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private void subprogramas() throws AnalisadorSintaticoException {
+	private void subprogramas() {
 		if (optionalSymbol("def")) {
 			tratarSimboloRequerido("void", "subprogramas-void");
 			tratarIdentificadorRequerido("subprogramas-identificador");
@@ -185,7 +185,7 @@ public class AnalisadorSintatico {
 		}
 	}
 	
-	private void optionalExpressao() throws AnalisadorSintaticoException {
+	private void optionalExpressao() {
 		if (simbolo != null && 
 				(simbolo.isIdentificador() || 
 						simbolo.isNumero() || 
@@ -194,12 +194,12 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void expressao() throws AnalisadorSintaticoException {
+	private void expressao() {
 		termo();
 		expressaoLinha();
 	}
 	
-	private void expressaoLinha() throws AnalisadorSintaticoException {
+	private void expressaoLinha() {
 		if (optionalSymbol("+") || optionalSymbol("-")) {
 			String operador = simboloAnterior.getCadeia();
 			expressao();			
@@ -208,12 +208,12 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void termo() throws AnalisadorSintaticoException {
+	private void termo() {
 		fator();
 		termoLinha();
 	}
 
-	private void termoLinha() throws AnalisadorSintaticoException {
+	private void termoLinha() {
 		if (optionalSymbol("*") || optionalSymbol("/")) {
 			String operador = simboloAnterior.getCadeia();
 			termo();
@@ -222,19 +222,19 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void fator() throws AnalisadorSintaticoException {
+	private void fator() {
 		pred();
 		fatorLinha();
 	}
 
-	private void fatorLinha() throws AnalisadorSintaticoException {
+	private void fatorLinha() {
 		if (optionalSymbol("**")) {
 			fator();
 			geradorDeCodigo.gerarOperacaoAritmetica("**");
 		}
 	}
 
-	private void pred() throws AnalisadorSintaticoException {
+	private void pred() {
 		if (tratarErro("pred", getStringEsperado("numero, (expressão) ou identificador"))) {
 			if (numero()) {
 				semantico.asEmpilharTipoNumero();
@@ -251,21 +251,20 @@ public class AnalisadorSintatico {
 	}
 
 	private boolean tratarOperadorRelacionalRequerido(String regra)
-			throws AnalisadorSintaticoException {
+			 {
 		boolean tratou = tratarErro(regra, getStringEsperado("OPERADOR RELACIONAL"));
 		operadorRelacional();
 		return tratou;
 	}
 
 	private boolean tratarTipoRequerido(String regra)
-			throws AnalisadorSintaticoException {
+			 {
 		boolean tratou = tratarErro(regra, getStringEsperado("Tipo STRING ou INT"));
 		tipo();
 		return tratou;
 	}
 
-	private boolean tratarIdentificadorRequerido(String regra)
-			throws AnalisadorSintaticoException {
+	private boolean tratarIdentificadorRequerido(String regra) {
 		boolean tratou = tratarErro(regra, getStringEsperado("IDENTIFICADOR"));
 		identificador();
 		return tratou;
@@ -292,7 +291,7 @@ public class AnalisadorSintatico {
 		return simbolo != null;
 	}
 
-	private boolean expressaoParentisada() throws AnalisadorSintaticoException {
+	private boolean expressaoParentisada() {
 		if (optionalSymbol("(")) {
 			expressao();
 			tratarSimboloRequerido(")", "expressaoParentisada-)");
@@ -301,7 +300,7 @@ public class AnalisadorSintatico {
 		return false;
 	}
 	
-	private boolean escalar() throws AnalisadorSintaticoException {
+	private boolean escalar() {
 		if (identificador()) {
 			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
 			return true;
@@ -309,12 +308,12 @@ public class AnalisadorSintatico {
 		return false;
 	}
 	
-	private void expressaoLogica() throws AnalisadorSintaticoException {
+	private void expressaoLogica() {
 		termoRelacional();
 		expressaoLogicaLinha();
 	}
 
-	private void expressaoLogicaLinha() throws AnalisadorSintaticoException {
+	private void expressaoLogicaLinha() {
 		if (optionalSymbol("||")) {
 			expressaoLogica();
 			geradorDeCodigo.salvaOperadorRelacional("||");
@@ -322,12 +321,12 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void termoRelacional() throws AnalisadorSintaticoException {
+	private void termoRelacional() {
 		fatorRelacional();
 		termoRelacionalLinha();
 	}
 
-	private void termoRelacionalLinha() throws AnalisadorSintaticoException {
+	private void termoRelacionalLinha() {
 		if (optionalSymbol("&&")) {
 			fatorRelacional();
 			termoRelacionalLinha();
@@ -336,7 +335,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void fatorRelacional() throws AnalisadorSintaticoException {
+	private void fatorRelacional() {
 		if (!expressaoLogicaParentisada()) {
 			expressao();
 			tratarOperadorRelacionalRequerido("fatorRelacional");
@@ -347,7 +346,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private boolean expressaoLogicaParentisada() throws AnalisadorSintaticoException {
+	private boolean expressaoLogicaParentisada() {
 		if (optionalSymbol("[")) {
 			expressaoLogica();
 			tratarSimboloRequerido("]", "expressaoLogicaParentisada");
@@ -356,7 +355,7 @@ public class AnalisadorSintatico {
 		return false;
 	}
 
-	private boolean operadorRelacional() throws AnalisadorSintaticoException {
+	private boolean operadorRelacional() {
 		if (simbolo == null || !simbolo.isOperadorRelacional()) {
 			return false;
 		} else {
@@ -365,36 +364,28 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void bloco() throws AnalisadorSintaticoException {
+	private void bloco() {
 		if (comando())
 			bloco();
 	}
 
 	private boolean comando() {
-		try {
-			if (optionalSymbol("if")) {
-				return comandoIf();
-			} else if (optionalSymbol("while")) {
-				return comandoWhile();
-			} else if (optionalSymbol("read")) {
-				return comandoRead();
-			} else if (optionalSymbol("write")) {
-				return comandoWrite();
-			} else if (identificador()) {
-				return procedimentoOuAtribuicao();
-			}
-		} catch (AnalisadorSintaticoException e) {
-//			if (tratarErro("comando", e.getMessage()))
-//				return comando();
-//			else
-//				return false;
+		if (optionalSymbol("if")) {
+			return comandoIf();
+		} else if (optionalSymbol("while")) {
+			return comandoWhile();
+		} else if (optionalSymbol("read")) {
+			return comandoRead();
+		} else if (optionalSymbol("write")) {
+			return comandoWrite();
+		} else if (identificador()) {
+			return procedimentoOuAtribuicao();
 		}
-		
 		return false;
 	}
 
 	private boolean procedimentoOuAtribuicao()
-			throws AnalisadorSintaticoException {
+			 {
 		Simbolo identificador = simboloAnterior;
 		if (optionalSymbol("(")) {
 			chamadaProcedimento(identificador);
@@ -407,13 +398,13 @@ public class AnalisadorSintatico {
 		return true;
 	}
 
-	private boolean comandoWrite() throws AnalisadorSintaticoException {
+	private boolean comandoWrite() {
 		valor();
 		tratarSimboloRequerido(";", "comando-;");
 		return true;
 	}
 
-	private boolean comandoRead() throws AnalisadorSintaticoException {
+	private boolean comandoRead() {
 		// soh fala com o semantico se conseguiu tratar belamente.
 		if (tratarIdentificadorRequerido("comandoRead")) {
 			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
@@ -422,7 +413,7 @@ public class AnalisadorSintatico {
 		return true;
 	}
 
-	private boolean comandoWhile() throws AnalisadorSintaticoException {
+	private boolean comandoWhile() {
 		tratarSimboloRequerido("(", "comandoCondicional-(");
 		//Modificado 11/07
 		geradorDeCodigo.resetTemp();
@@ -438,7 +429,7 @@ public class AnalisadorSintatico {
 		return true;
 	}
 
-	private boolean comandoIf() throws AnalisadorSintaticoException {
+	private boolean comandoIf() {
 		tratarSimboloRequerido("(", "comandoCondicional-(");
 		geradorDeCodigo.resetTemp();
 		expressaoLogica();
@@ -455,12 +446,12 @@ public class AnalisadorSintatico {
 	}
 
 	private void chamadaProcedimento(Simbolo identificador)
-			throws AnalisadorSintaticoException {
+			 {
 		tratarSimboloRequerido(")", "procedimento");
 		semantico.asVerificarExistenciaProcedimento(identificador);
 	}
 
-	private void atribuicao() throws AnalisadorSintaticoException {
+	private void atribuicao() {
 		semantico.asVerificarSeEhTipoConstante(simboloAnterior);
 		semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
 		tratarSimboloRequerido("=", "atribuicao-=");
@@ -474,7 +465,7 @@ public class AnalisadorSintatico {
 		semantico.asVerificarTipo();
 	}
 
-	private void cmd_decisao_else() throws AnalisadorSintaticoException {
+	private void cmd_decisao_else() {
 		if (optionalSymbol("else")) {
 			tratarSimboloRequerido("{", "comandoCondicional-{");
 			bloco();
@@ -482,7 +473,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private boolean cadeia() throws AnalisadorSintaticoException {
+	private boolean cadeia() {
 		if (simbolo == null || !simbolo.isCadeia()) {
 			return false;
 		} else {
@@ -491,7 +482,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private boolean identificador() throws AnalisadorSintaticoException {
+	private boolean identificador() {
 		if (simbolo == null || !simbolo.isIdentificador()) {
 			return false;
 		} else {
@@ -500,7 +491,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private boolean numero() throws AnalisadorSintaticoException {
+	private boolean numero() {
 		if (simbolo == null || !simbolo.isNumero()) {
 			return false;
 		} else {
@@ -537,7 +528,7 @@ public class AnalisadorSintatico {
 		}
 	}
 
-	private void checarFinal() throws AnalisadorSintaticoException {
+	private void checarFinal() {
 		if (simbolo != null) {
 			ListaDeErros.getInstance().addMensagemDeErro(getStringNaoEsperado(simbolo.getCadeia()));
 		}
