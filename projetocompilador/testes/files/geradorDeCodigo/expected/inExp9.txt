@@ -3,7 +3,7 @@ b := 12
 t1 > a b
 t2 < a b
 t3 || t1 t2
-:L001 jif  
+9 jif  
 x := 10 
-:L002 jmp  
+10 jmp  
 x := 100 

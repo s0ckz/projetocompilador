@@ -1,7 +1,7 @@
 i := 0 
 t1 < i 5
-:L002 jif  
+8 jif  
 vetor := i 
 t1 + i 1
 i := t1 
-:L001 jmp  
+2 jmp  
