@@ -6,7 +6,7 @@ t3 < t2 2
 t4 && t1 t3
 t5 < 5 2
 t6 || t4 t5
-:L001 jif  
+12 jif  
 x := 10 
-:L002 jmp  
+13 jmp  
 x := 100 

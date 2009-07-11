@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import compilador.tratamentoDeErros.ListaDeErros;
 
@@ -27,18 +28,32 @@ public class GeradorDeCodigo {
 
 	private Map<String, Integer> tabelaRotulos;
 
-	private boolean verbose;
+	private Map<String, Integer> tabelaRotulosSubPrograma;
+	
+	private List<String> triplas;
+	
+	private List<String> triplasSubPrograma;
 
+	private boolean verbose;
+	
+	private boolean modoSubPrograma;
+	
 	private String operadorRelacional;
 
-	private int tripla_atual;
+	private int triplaAtual;
+
+	private int triplaAtualSubPrograma;
 
 	public GeradorDeCodigo() {
 		pilhaControleOperandos = new LinkedList<String>();
+		triplas = new LinkedList<String>();
+		triplasSubPrograma = new LinkedList<String>();
 		pilhaRotulos = new LinkedList<String>();
 		tabelaRotulos = new HashMap<String, Integer>();
+		tabelaRotulosSubPrograma = new HashMap<String, Integer>();
 		proxRotulo = 1;
-		tripla_atual = 1;
+		triplaAtual = 1;
+		modoSubPrograma = false;
 	}
 
 	public void inicializar(BufferedWriter out) {
@@ -49,6 +64,11 @@ public class GeradorDeCodigo {
 	public void finalizar() {
 		if (verbose) {
 			try {
+				triplas = substituirRotulos(triplas, tabelaRotulos, 1);
+				triplasSubPrograma = substituirRotulos(triplasSubPrograma, 
+						tabelaRotulosSubPrograma, triplas.size() + 1);
+				imprimirTriplas(triplas);
+				imprimirTriplas(triplasSubPrograma);
 				out.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -133,7 +153,7 @@ public class GeradorDeCodigo {
 		String label = makeRotulo();
 		push(pilhaRotulos, label);
 		emitir(label, "jmp", "", "");
-		insere(tabelaRotulos, label_aux, tripla_atual);
+		insere(label_aux);
 	}
 
 	public void gerarFimIf() {
@@ -141,14 +161,14 @@ public class GeradorDeCodigo {
 			return;
 		
 		String label = pop(pilhaRotulos);
-		insere(tabelaRotulos, label, tripla_atual);
+		insere(label);
 	}
 
 	public void gerarInicioWhile() {
 		if(temErros())
 			return;
 		String label = makeRotulo();
-		insere(tabelaRotulos, label, tripla_atual);
+		insere(label);
 		push(pilhaRotulos, label);
 	}
 
@@ -158,17 +178,27 @@ public class GeradorDeCodigo {
 		String label_fim = pop(pilhaRotulos);
 		String label_inicio = pop(pilhaRotulos);
 		emitir(label_inicio, "jmp", "", "");
-		insere(tabelaRotulos, label_fim, tripla_atual);
+		insere(label_fim);
 	}
 
 	public void gerarInicioSubPrograma() {
+		modoSubPrograma = true;
 	}
 
 	public void gerarFimSubPrograma() {
+		modoSubPrograma = false;
 	}
 
-	private void insere(Map<String, Integer> tabela, String key, int value) {
-		tabela.put(key, value);
+	private void insere(String key) {
+		getTabelaRotulos().put(key, getTriplaAtual());
+	}
+
+	private Integer getTriplaAtual() {
+		return modoSubPrograma ? triplaAtualSubPrograma : triplaAtual;
+	}
+
+	private Map<String, Integer> getTabelaRotulos() {
+		return modoSubPrograma ? tabelaRotulosSubPrograma : tabelaRotulos;
 	}
 
 	private String makeRotulo() {
@@ -190,12 +220,19 @@ public class GeradorDeCodigo {
 	private void emitir(String cmd) {
 		if (!verbose)
 			return;
-		tripla_atual++;
-		try {
-			out.write(cmd + NEW_LINE);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		incrementarTriplaAtual();
+		getListaTriplas().add(cmd);
+	}
+
+	private void incrementarTriplaAtual() {
+		if (modoSubPrograma)
+			triplaAtualSubPrograma++;
+		else
+			triplaAtual++;
+	}
+
+	private List<String> getListaTriplas() {
+		return modoSubPrograma ? triplasSubPrograma : triplas;
 	}
 
 	private void emitir(String resultado, String operacao, String param1,
@@ -214,6 +251,27 @@ public class GeradorDeCodigo {
 
 	private boolean temErros() {
 		return ListaDeErros.getInstance().temErros();
+	}
+
+	private void imprimirTriplas(List<String> triplas) throws IOException {
+		for (String tripla : triplas) {
+			out.write(tripla + NEW_LINE);
+		}
+	}
+
+	private List<String> substituirRotulos(List<String> triplas,
+			Map<String, Integer> tabelaRotulos, int inicio) {
+		List<String> novasTriplas = new LinkedList<String>();
+		for (String triplaAntiga : triplas) {
+			String novaTripla = triplaAntiga;
+			for (Entry<String, Integer> entry : tabelaRotulos.entrySet()) {
+				String rotulo = entry.getKey();
+				int linha = entry.getValue();
+				novaTripla = novaTripla.replace(rotulo, linha + "");
+			}
+			novasTriplas.add(novaTripla);
+		}
+		return novasTriplas;
 	}
 
 }
