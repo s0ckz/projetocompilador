@@ -176,7 +176,7 @@ public class AnalisadorSintatico {
 			tratarIdentificadorRequerido("subprogramas-identificador");
 			semantico.asDeclararProcedimento(simboloAnterior);
 			
-			geradorDeCodigo.gerarInicioSubPrograma();
+			geradorDeCodigo.gerarInicioSubPrograma(simboloAnterior.getCadeia());
 			
 			tratarSimboloRequerido("(", "subprogramas-(");
 			tratarSimboloRequerido(")", "subprogramas-)");
@@ -454,6 +454,7 @@ public class AnalisadorSintatico {
 			 {
 		tratarSimboloRequerido(")", "procedimento");
 		semantico.asVerificarExistenciaProcedimento(identificador);
+		geradorDeCodigo.gerarChamadaSubPrograma(identificador.getCadeia());
 	}
 
 	private void atribuicao() {

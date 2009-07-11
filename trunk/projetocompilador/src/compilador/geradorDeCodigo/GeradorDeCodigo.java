@@ -30,6 +30,8 @@ public class GeradorDeCodigo {
 
 	private Map<String, Integer> tabelaRotulosSubPrograma;
 	
+	private Map<String, String> tabelaSubProgramas;
+	
 	private List<String> triplas;
 	
 	private List<String> triplasSubPrograma;
@@ -51,6 +53,7 @@ public class GeradorDeCodigo {
 		pilhaRotulos = new LinkedList<String>();
 		tabelaRotulos = new HashMap<String, Integer>();
 		tabelaRotulosSubPrograma = new HashMap<String, Integer>();
+		tabelaSubProgramas = new HashMap<String, String>();
 		proxRotulo = 1;
 		triplaAtual = triplaAtualSubPrograma = 1;
 		modoSubPrograma = false;
@@ -64,9 +67,10 @@ public class GeradorDeCodigo {
 	public void finalizar() {
 		if (verbose) {
 			try {
+				emitir("", "hlt", "", "");
 				triplas = substituirRotulos(triplas, tabelaRotulos, 0);
-				triplasSubPrograma = substituirRotulos(triplasSubPrograma, 
-						tabelaRotulosSubPrograma, triplas.size());
+				triplas = substituirRotulos(triplas, tabelaRotulosSubPrograma, triplas.size());
+				triplasSubPrograma = substituirRotulos(triplasSubPrograma, tabelaRotulosSubPrograma, triplas.size());
 				imprimirTriplas(triplas);
 				imprimirTriplas(triplasSubPrograma);
 				out.close();
@@ -180,12 +184,20 @@ public class GeradorDeCodigo {
 		emitir(label_inicio, "jmp", "", "");
 		insere(label_fim);
 	}
+	
+	public void gerarChamadaSubPrograma(String subPrograma) {
+		emitir(tabelaSubProgramas.get(subPrograma), "jsb", "", "");
+	}
 
-	public void gerarInicioSubPrograma() {
+	public void gerarInicioSubPrograma(String subPrograma) {
 		modoSubPrograma = true;
+		String rotulo = makeRotulo();
+		tabelaSubProgramas.put(subPrograma, rotulo);
+		insere(rotulo);
 	}
 
 	public void gerarFimSubPrograma() {
+		emitir("", "ret", "", "");
 		modoSubPrograma = false;
 	}
 

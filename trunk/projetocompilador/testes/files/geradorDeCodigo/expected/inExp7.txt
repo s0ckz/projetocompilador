@@ -5,3 +5,4 @@ t1 < a b
 t1 + a 1
 a := t1 
 3 jmp  
+ hlt  
