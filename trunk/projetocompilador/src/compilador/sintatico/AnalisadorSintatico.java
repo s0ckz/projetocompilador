@@ -331,6 +331,8 @@ public class AnalisadorSintatico {
 		if (optionalSymbol("&&")) {
 			fatorRelacional();
 			termoRelacionalLinha();
+			geradorDeCodigo.salvaOperadorRelacional("&&");
+			geradorDeCodigo.empilharExpressaoLogica();
 		}
 	}
 
