@@ -420,7 +420,6 @@ public class AnalisadorSintatico {
 
 	private boolean comandoWhile() {
 		tratarSimboloRequerido("(", "comandoCondicional-(");
-		//Modificado 11/07
 		geradorDeCodigo.resetTemp();
 		geradorDeCodigo.gerarInicioWhile();
 		expressaoLogica();
