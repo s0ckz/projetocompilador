@@ -37,3 +37,18 @@ equalFiles "testes/files/geradorDeCodigo/expected/inExp12.txt" "testes/files/ger
 
 analyse fileName="testes/files/geradorDeCodigo/in13.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
 equalFiles "testes/files/geradorDeCodigo/expected/inExp13.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in14.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp14.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in15.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp15.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in16.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp16.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in17.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp17.txt" "testes/files/geradorDeCodigo/temp/temp.txt"
+
+analyse fileName="testes/files/geradorDeCodigo/in18.txt" targetFile="testes/files/geradorDeCodigo/temp/temp.txt"
+equalFiles "testes/files/geradorDeCodigo/expected/inExp18.txt" "testes/files/geradorDeCodigo/temp/temp.txt"

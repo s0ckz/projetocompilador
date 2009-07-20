@@ -1,7 +1,7 @@
 i := 0 
 t1 < i 5
 8 jif  
-vetor := i 
+vetor[i] := i 
 t1 + i 1
 i := t1 
 2 jmp  

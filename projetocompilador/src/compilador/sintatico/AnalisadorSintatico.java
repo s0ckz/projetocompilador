@@ -113,9 +113,9 @@ public class AnalisadorSintatico {
 	private void valor() {
 		if (tratarErro("valor", getStringEsperado("cadeia, vetor ou expressão"))); {
 			if (cadeia()) {
-				geradorDeCodigo.empilharOperando(""); //TODO Danilo
+				geradorDeCodigo.empilharOperando(simboloAnterior.getCadeia());
 			} else if (vetor()) {
-				geradorDeCodigo.empilharOperando(""); //TODO Danilo
+				geradorDeCodigo.empilharVetorOperando();
 			} else {
 				optionalExpressao();
 			}
@@ -124,8 +124,11 @@ public class AnalisadorSintatico {
 
 	private boolean vetor() {
 		if (optionalSymbol("{")) {
+			geradorDeCodigo.resetarOperandoVetor();
+			geradorDeCodigo.addOperandoVetor(simboloAnterior.getCadeia());
 			valores();
 			tratarSimboloRequerido("}", "vetor-}");
+			geradorDeCodigo.addOperandoVetor(simboloAnterior.getCadeia());
 			return true;
 		}
 		return false;
@@ -133,12 +136,15 @@ public class AnalisadorSintatico {
 
 	private void valores() {
 		var_exp();
+		geradorDeCodigo.addOperandoVetor(simboloAnterior.getCadeia());
 		mais_valores();
 	}
 
 	private void mais_valores() {
 		if (optionalSymbol(",")) {
+			geradorDeCodigo.addOperandoVetor(simboloAnterior.getCadeia());
 			var_exp();
+			geradorDeCodigo.addOperandoVetor(simboloAnterior.getCadeia());
 			mais_valores();
 		}
 	}
@@ -162,9 +168,15 @@ public class AnalisadorSintatico {
 	}
 
 	private boolean eh_vetor() {
+		String ident = simboloAnterior.getCadeia();
 		if (optionalSymbol("[")) {
+			geradorDeCodigo.resetarOperandoVetor();
+			geradorDeCodigo.addOperandoVetor(ident);
+			geradorDeCodigo.addOperandoVetor(simboloAnterior.getCadeia());
 			expressao();
+			geradorDeCodigo.addOperandoVetor();
 			tratarSimboloRequerido("]", "eh_vetor-]");
+			geradorDeCodigo.addOperandoVetor(simboloAnterior.getCadeia());
 			return true;
 		}
 		return false;
@@ -247,7 +259,6 @@ public class AnalisadorSintatico {
 			} else if (expressaoParentisada()) {
 				// nao precisa fazer nada.
 			} else if (escalar()) {
-				geradorDeCodigo.empilharOperando(simboloAnterior.getCadeia());
 				// nao precisa fazer nada.
 			}
 		} else {
@@ -307,7 +318,11 @@ public class AnalisadorSintatico {
 	
 	private boolean escalar() {
 		if (identificador()) {
-			semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
+			Simbolo ant = simboloAnterior;
+			boolean ehVetor = eh_vetor();
+			semantico.asEmpilharTipoBaseadoEmIdentificador(ant, ehVetor);
+			if (ehVetor) geradorDeCodigo.empilharVetorOperando();
+			else geradorDeCodigo.empilharOperando(ant.getCadeia());
 			return true;
 		}
 		return false;
@@ -458,12 +473,17 @@ public class AnalisadorSintatico {
 
 	private void atribuicao() {
 		semantico.asVerificarSeEhTipoConstante(simboloAnterior);
-		semantico.asEmpilharTipoBaseadoEmIdentificador(simboloAnterior, eh_vetor());
+		Simbolo ant = simboloAnterior;
+		boolean ehVetor = eh_vetor();
+		semantico.asEmpilharTipoBaseadoEmIdentificador(ant, ehVetor);
+		if (ehVetor) {
+			geradorDeCodigo.setLadoEsqVetor();
+		}
 		tratarSimboloRequerido("=", "atribuicao-=");
 		tratarErro("atribuicao", getStringEsperado("cadeia ou expressão"));
 		if (cadeia()) {
 			semantico.asEmpilharTipoCadeia();
-			geradorDeCodigo.empilharOperando(""); //TODO Danilo
+			geradorDeCodigo.empilharOperando(simboloAnterior.getCadeia());
 		} else {
 			optionalExpressao();
 		}

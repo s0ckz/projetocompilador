@@ -46,6 +46,8 @@ public class GeradorDeCodigo {
 
 	private int triplaAtualSubPrograma;
 
+	private StringBuilder operandos;
+
 	public GeradorDeCodigo() {
 		pilhaControleOperandos = new LinkedList<String>();
 		triplas = new LinkedList<String>();
@@ -293,5 +295,26 @@ public class GeradorDeCodigo {
 		triplas = substituirRotulos(triplas, tabelaRotulosSubPrograma, triplas.size());
 		triplasSubPrograma = substituirRotulos(triplasSubPrograma, tabelaRotulosSubPrograma, triplas.size());
 	}
+
+	public void resetarOperandoVetor() {
+		operandos = new StringBuilder();
+	}
+
+	public void addOperandoVetor(String cadeia) {
+		operandos.append(cadeia);
+	}
+
+	public void empilharVetorOperando() {
+		if (operandos != null) push(pilhaControleOperandos, operandos.toString());
+	}
+
+	public void addOperandoVetor() {
+		if (!pilhaControleOperandos.isEmpty()) operandos.append(pilhaControleOperandos.get(0));
+	}
+
+	public void setLadoEsqVetor() {
+		ladoEsquerdo = operandos.toString();
+	}
+	
 
 }

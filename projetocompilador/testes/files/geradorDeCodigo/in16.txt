@@ -1,0 +1,5 @@
+int[50] array;
+int result;
+
+array[0] = 100;
+result = array[0];
